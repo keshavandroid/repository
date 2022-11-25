@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.AddressInformationFragment">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="false"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        tools:ignore="UselessLeaf,UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:orientation="vertical">
+
+            <com.reloop.reloop.customviews.CustomEditText
+                android:id="@+id/organization_name"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:background="@drawable/edittextbackgroundsimple"
+                android:drawableStart="@drawable/icon_name_person_un"
+                android:drawablePadding="@dimen/_10sdp"
+                android:elevation="@dimen/_3sdp"
+                android:gravity="center|start"
+                android:hint="@string/organization"
+                android:inputType="text"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:textColor="@color/text_color_heading"
+                android:textColorHint="@color/text_color_heading"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/_10sdp"
+                android:visibility="gone"
+                app:focusedBackground="@drawable/edittextbackgroundselected"
+                app:focusedDrawable="@drawable/icon_name_person_en"
+                app:unFocusedBackground="@drawable/edittextbackgroundsimple"
+                app:unFocusedDrawable="@drawable/icon_name_person_un"
+                tools:ignore="Autofill,LabelFor" />
+
+            <com.reloop.reloop.customviews.CustomEditText
+                android:id="@+id/first_name"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:background="@drawable/edittextbackgroundsimple"
+                android:drawableStart="@drawable/icon_name_person_un"
+                android:drawablePadding="@dimen/_10sdp"
+                android:elevation="@dimen/_3sdp"
+                android:gravity="center|start"
+                android:hint="@string/first_name"
+                android:inputType="text"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:textColor="@color/text_color_heading"
+                android:textColorHint="@color/text_color_heading"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/_10sdp"
+                app:focusedBackground="@drawable/edittextbackgroundselected"
+                app:focusedDrawable="@drawable/icon_name_person_en"
+                app:unFocusedBackground="@drawable/edittextbackgroundsimple"
+                app:unFocusedDrawable="@drawable/icon_name_person_un"
+                tools:ignore="Autofill,LabelFor" />
+
+            <com.reloop.reloop.customviews.CustomEditText
+                android:id="@+id/last_name"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:background="@drawable/edittextbackgroundsimple"
+                android:drawableStart="@drawable/icon_name_person_un"
+                android:drawablePadding="@dimen/_10sdp"
+                android:elevation="@dimen/_3sdp"
+                android:gravity="center|start"
+                android:hint="@string/last_name"
+                android:inputType="text"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:textColor="@color/text_color_heading"
+                android:textColorHint="@color/text_color_heading"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/_10sdp"
+                app:focusedBackground="@drawable/edittextbackgroundselected"
+                app:focusedDrawable="@drawable/icon_name_person_en"
+                app:unFocusedBackground="@drawable/edittextbackgroundsimple"
+                app:unFocusedDrawable="@drawable/icon_name_person_un"
+                tools:ignore="Autofill,LabelFor" />
+
+            <com.reloop.reloop.customviews.CustomEditText
+                android:id="@+id/email"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:background="@drawable/edittextbackgroundsimple"
+                android:drawableStart="@drawable/icon_email_un"
+                android:drawablePadding="@dimen/_10sdp"
+                android:elevation="@dimen/_3sdp"
+                android:gravity="center|start"
+                android:hint="@string/email_address"
+                android:inputType="textEmailAddress"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:textColor="@color/text_color_heading"
+                android:textColorHint="@color/text_color_heading"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/_10sdp"
+                app:focusedBackground="@drawable/edittextbackgroundselected"
+                app:focusedDrawable="@drawable/icon_email_en"
+                app:unFocusedBackground="@drawable/edittextbackgroundsimple"
+                app:unFocusedDrawable="@drawable/icon_email_un"
+                tools:ignore="Autofill,LabelFor" />
+
+            <com.reloop.reloop.customviews.CustomEditText
+                android:id="@+id/phone_number"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:background="@drawable/edittextbackgroundsimple"
+                android:drawableStart="@drawable/icon_phone_un"
+                android:drawablePadding="@dimen/_10sdp"
+                android:elevation="@dimen/_3sdp"
+                android:gravity="center|start"
+                android:hint="@string/phone_number"
+                android:inputType="phone|number"
+                android:maxLength="15"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:textColor="@color/text_color_heading"
+                android:textColorHint="@color/text_color_heading"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/_10sdp"
+                app:focusedBackground="@drawable/edittextbackgroundselected"
+                app:focusedDrawable="@drawable/icon_phone_en"
+                app:unFocusedBackground="@drawable/edittextbackgroundsimple"
+                app:unFocusedDrawable="@drawable/icon_phone_un"
+                tools:ignore="Autofill,LabelFor" />
+
+            <Spinner
+                android:id="@+id/address_organization"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:background="@drawable/edittextbackgroundsimple"
+                android:elevation="@dimen/_4sdp"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:spinnerMode="dropdown"
+                android:textSize="@dimen/_10sdp"
+                tools:ignore="Autofill,LabelFor,RtlSymmetry" />
+
+            <com.reloop.reloop.customviews.CustomEditText
+                android:id="@+id/location"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:background="@drawable/edittextbackgroundsimple"
+                android:drawableStart="@drawable/icon_address_location_un"
+                android:drawableEnd="@drawable/icon_location_clickable_general"
+                android:drawablePadding="@dimen/_10sdp"
+                android:elevation="@dimen/_3sdp"
+                android:focusable="false"
+                android:hint="@string/map_pin"
+                android:inputType="text"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_4sdp"
+                android:textColor="@color/text_color_heading"
+                android:textColorHint="@color/text_color_heading"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/_10sdp"
+                app:focusedBackground="@drawable/edittextbackgroundselected"
+                app:focusedDrawable="@drawable/icon_address_location_en"
+                app:unFocusedBackground="@drawable/edittextbackgroundsimple"
+                app:unFocusedDrawable="@drawable/icon_address_location_un"
+                tools:ignore="Autofill,LabelFor" />
+
+            <TextView
+                android:id="@+id/message"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:textColor="@color/light_black"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textSize="@dimen/_10sdp"
+                tools:text="R123456ABCD" />
+
+
+            <!--            <Spinner-->
+            <!--                android:id="@+id/city"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="@dimen/_30sdp"-->
+            <!--                android:layout_marginStart="@dimen/_3sdp"-->
+            <!--                android:layout_marginTop="@dimen/_15sdp"-->
+            <!--                android:layout_marginEnd="@dimen/_3sdp"-->
+            <!--                android:layout_marginBottom="@dimen/_3sdp"-->
+            <!--                android:spinnerMode="dropdown"-->
+            <!--                android:background="@drawable/edittextbackgroundsimple"-->
+            <!--                android:elevation="@dimen/_4sdp"-->
+            <!--                android:textSize="@dimen/_10sdp"-->
+            <!--                android:paddingStart="@dimen/_10sdp"-->
+            <!--                android:paddingEnd="@dimen/_10sdp"-->
+            <!--                tools:ignore="Autofill,LabelFor,RtlSymmetry" />-->
+
+            <!--            <com.toptoche.searchablespinnerlibrary.SearchableSpinner-->
+            <!--                android:id="@+id/district"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="@dimen/_30sdp"-->
+            <!--                android:layout_marginStart="@dimen/_3sdp"-->
+            <!--                android:layout_marginTop="@dimen/_15sdp"-->
+            <!--                android:layout_marginEnd="@dimen/_3sdp"-->
+            <!--                android:layout_marginBottom="@dimen/_20sdp"-->
+            <!--                android:spinnerMode="dropdown"-->
+            <!--                android:background="@drawable/edittextbackgroundsimple"-->
+            <!--                android:elevation="@dimen/_4sdp"-->
+            <!--                android:textSize="@dimen/_10sdp"-->
+            <!--                android:paddingStart="@dimen/_10sdp"-->
+            <!--                android:paddingEnd="@dimen/_10sdp"-->
+            <!--                tools:ignore="Autofill,LabelFor,RtlSymmetry" />-->
+        </LinearLayout>
+
+    </ScrollView>
+</FrameLayout>

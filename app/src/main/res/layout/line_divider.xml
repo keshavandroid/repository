@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View android:layout_width="match_parent"
+    android:layout_height="@dimen/_1sdp"
+    android:layout_marginStart="@dimen/_20sdp"
+    android:layout_marginTop="@dimen/_15sdp"
+    android:layout_marginBottom="@dimen/_15sdp"
+    android:layout_marginEnd="@dimen/_20sdp"
+    android:alpha="0.3"
+    android:background="@color/text_color_heading"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

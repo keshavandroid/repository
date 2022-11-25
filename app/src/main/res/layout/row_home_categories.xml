@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_90sdp"
+    android:layout_gravity="top"
+    android:layout_marginStart="@dimen/_6sdp"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginEnd="@dimen/_6sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:background="@color/colorWhite"
+    android:elevation="@dimen/_3sdp"
+    app:cardCornerRadius="@dimen/_15sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="2">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageButton
+                android:id="@+id/info_button"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/_2sdp"
+                android:background="@android:color/transparent"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/icon_info_home_screen"
+                tools:ignore="ContentDescription" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/info_button"
+                >
+                <ImageView
+                    android:id="@+id/imageView_category_icon"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/icon_tree"
+                    tools:ignore="ContentDescription" />
+
+
+                <TextView
+                    android:id="@+id/points"
+                    style="@style/TSSHPoppinsMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textStyle="bold"
+                    android:layout_alignParentTop="true"
+
+                    android:layout_toEndOf="@+id/imageView_category_icon"
+                    android:gravity="center"
+                    android:text="1,000"
+                    android:textAlignment="gravity"
+                    android:textSize="@dimen/_14sdp" />
+                <TextView
+                    android:id="@+id/tv_unit"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_below="@+id/points"
+                    android:layout_width="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="center"
+                    android:layout_toEndOf="@+id/imageView_category_icon"
+                    android:text="970 kwh"
+                    android:textSize="@dimen/_10sdp" />
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_2sdp"
+            android:background="@color/color_background" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/tv_heading_category"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:lines="1"
+                android:gravity="center|start"
+                android:paddingStart="@dimen/_5sdp"
+                android:text="1,000"
+                android:textAlignment="gravity"
+                android:textSize="@dimen/_9sdp" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

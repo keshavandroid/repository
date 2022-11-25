@@ -1,0 +1,64 @@
+{
+  "project_info": {
+    "project_number": "290412357838",
+    "firebase_url": "https://reloop-android.firebaseio.com",
+    "project_id": "reloop-android",
+    "storage_bucket": "reloop-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290412357838:android:ed11d8ecbb88d95106489f",
+        "android_client_info": {
+          "package_name": "com.reloop.reloop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "290412357838-153n6vofpkl3cqkq753nuuck6emvtid2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reloop.reloop",
+            "certificate_hash": "e7fc230969a64d4602805ff9a12ef1f37c3b1b64"
+          }
+        },
+        {
+          "client_id": "290412357838-7samgj93s07n8lf6qkn7qnjth8p8f2q0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reloop.reloop",
+            "certificate_hash": "434c3fe6a91cec6c3fb13599943dc0ccc0b50532"
+          }
+        },
+        {
+          "client_id": "290412357838-cqljeso8569g7cl0jr6tqi3m2cvngukr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reloop.reloop",
+            "certificate_hash": "7d805b5f56b6791e645ba912573382831087b1b6"
+          }
+        },
+        {
+          "client_id": "290412357838-8acn0i11g84hmtshjudd7pp8h1kbib07.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYiYX80u6qzCtrZoQEjF4yqv5yIcvmMiQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "290412357838-8acn0i11g84hmtshjudd7pp8h1kbib07.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

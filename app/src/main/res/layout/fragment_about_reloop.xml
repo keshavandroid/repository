@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@drawable/shape_layout_curve_background"
+    tools:context=".fragments.AboutReloopFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:ignore="UselessParent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TSPoppinsMedium"
+                android:id="@+id/heading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/about_reloop" />
+
+            <TextView
+                style="@style/TSPoppinsRegular"
+                android:id="@+id/about_reloop"
+                android:layout_below="@+id/heading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/back"
+                android:scrollbars = "vertical"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text=""
+                android:textSize="@dimen/_12sdp" />
+
+            <Button
+                android:id="@+id/back"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/button_shape_hollow"
+                android:text="@string/back"
+                android:textAllCaps="false"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_12sdp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                tools:ignore="ButtonStyle" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</FrameLayout>

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_layout_curve_background"
+    android:clickable="true"
+    android:focusable="true"
+    tools:context=".fragments.ContactUsFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_above="@+id/llButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="UselessParent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/heading"
+                style="@style/TSPoppinsMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/contact_us" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/heading"
+                android:orientation="vertical">
+
+                <com.reloop.reloop.customviews.CustomEditText
+                    android:id="@+id/email"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:background="@drawable/edittextbackgroundsimple"
+                    android:elevation="@dimen/_3sdp"
+                    android:gravity="center|start"
+                    android:hint="@string/enter_email"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textColor="@color/text_color_heading"
+                    android:textColorHint="@color/text_color_heading"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/_10sdp"
+                    app:focusedBackground="@drawable/edittextbackgroundselected"
+                    app:focusedPaddingEnd="@dimen/_10sdp"
+                    app:focusedPaddingStart="@dimen/_20sdp"
+                    app:unFocusedBackground="@drawable/edittextbackgroundsimple"
+                    tools:ignore="Autofill,LabelFor" />
+
+                <Spinner
+                    android:id="@+id/labels"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:background="@drawable/edittextbackgroundsimple"
+                    android:elevation="@dimen/_4sdp"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:spinnerMode="dropdown"
+                    android:textSize="@dimen/_10sdp"
+                    tools:ignore="Autofill,LabelFor,RtlSymmetry,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+                <com.reloop.reloop.customviews.CustomEditText
+                    android:id="@+id/subject"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:background="@drawable/edittextbackgroundsimple"
+                    android:elevation="@dimen/_3sdp"
+                    android:gravity="center|start"
+                    android:hint="@string/enter_subject"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textColor="@color/text_color_heading"
+                    android:textColorHint="@color/text_color_heading"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="gone"
+                    app:focusedBackground="@drawable/edittextbackgroundselected"
+                    app:focusedPaddingEnd="@dimen/_10sdp"
+                    app:focusedPaddingStart="@dimen/_20sdp"
+                    app:unFocusedBackground="@drawable/edittextbackgroundsimple"
+                    tools:ignore="Autofill,LabelFor" />
+
+                <TextView
+                    android:id="@+id/orderId"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:textSize="@dimen/_14sdp"
+                    tools:text="Order Id" />
+
+                <com.reloop.reloop.customviews.CustomEditText
+                    android:id="@+id/description"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:background="@drawable/edittextbackgroundsimple"
+                    android:elevation="@dimen/_3sdp"
+                    android:gravity="top|start"
+                    android:hint="@string/enter_description"
+                    android:inputType="textMultiLine"
+                    android:lineSpacingMultiplier="1"
+                    android:minLines="8"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textColor="@color/text_color_heading"
+                    android:textColorHint="@color/text_color_heading"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/_10sdp"
+                    app:focusedBackground="@drawable/edittextbackgroundselected"
+                    app:unFocusedBackground="@drawable/edittextbackgroundsimple" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/whatsApp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/_15sdp"
+                            android:paddingEnd="@dimen/_5sdp"
+                            android:text="For technical issues, please send us a screenshot / screenrecording on WhatsApp"
+                            android:textSize="@dimen/_11sdp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/imageView"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_whatsapp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/instagram"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/_15sdp"
+                            android:paddingEnd="@dimen/_5sdp"
+                            android:text="For informative content and how to recycle better please follow our Instagram page"
+                            android:textSize="@dimen/_11sdp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/imageView2"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_instagram"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/deleteAct"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_14sdp"
+                    android:visibility="visible"
+                    android:text="Delete Account"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+    <LinearLayout
+        android:id="@+id/llButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/back"
+            style="@style/TSPoppinsRegular"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/button_shape_hollow"
+            android:text="@string/back"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_12sdp"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/submit"
+            style="@style/TSPoppinsRegular"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/button_shape"
+            android:text="@string/submit"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_12sdp" />
+    </LinearLayout>
+
+    </RelativeLayout>
+</FrameLayout>

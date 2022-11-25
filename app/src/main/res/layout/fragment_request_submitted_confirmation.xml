@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_background"
+    tools:context=".fragments.RequestSubmitConfirmationFragment">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|top"
+            android:orientation="vertical"
+            tools:ignore="UselessLeaf">
+
+            <TextView
+                style="@style/TSPoppinsMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/thank_you"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_20sdp" />
+
+            <TextView
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="@string/collection_submitted"
+                android:textSize="@dimen/_14sdp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_180sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:src="@drawable/img_request_submitted"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/order_number_is"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                style="@style/TSPoppinsMedium"
+                android:id="@+id/idNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CE562147"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_30sdp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

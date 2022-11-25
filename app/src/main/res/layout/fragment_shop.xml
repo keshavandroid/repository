@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_shop_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    tools:context=".fragments.ShopFragment">
+    <TextView
+        android:id="@+id/tvNoDataFound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_data_found"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:textColor="@color/quantum_grey"
+        android:textSize="@dimen/_16sdp"
+        android:gravity="center"/>
+
+        <LinearLayout
+            android:id="@+id/ll_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="2"
+            tools:ignore="UselessParent">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:layout_weight="0.1"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        style="@style/TSPoppinsMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="@string/reloop_store" />
+
+                    <TextView
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:visibility="visible"
+                        android:clickable="false"
+                        android:text="@string/services"
+                        android:textSize="@dimen/_16sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rV_shop_categories"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="true" />
+                    <TextView
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:visibility="visible"
+                        android:clickable="false"
+                        android:text="@string/products"
+                        android:textSize="@dimen/_16sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/product_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="true" />
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_weight="1.9">
+                <TextView
+                    style="@style/TSPoppinsSemiBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center|start"
+                    android:text="@string/all_prices_are_inclusive_of_5_vat_taxes"
+                    android:textSize="@dimen/_10sdp" />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+</FrameLayout>
+<!--    <?xml version="1.0" encoding="utf-8"?>-->
+<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--xmlns:tools="http://schemas.android.com/tools"-->
+<!--android:id="@+id/container_shop_fragment"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent"-->
+<!--android:clickable="true"-->
+<!--android:focusable="true"-->
+<!--tools:context=".fragments.ShopFragment">-->
+<!--<ScrollView-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:fillViewport="true"-->
+<!--    android:nestedScrollingEnabled="true"-->
+<!--    tools:ignore="UselessParent">-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        tools:ignore="UselessParent">-->
+
+<!--        <TextView-->
+<!--            style="@style/TSPoppinsMedium"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/_15sdp"-->
+<!--            android:layout_marginStart="@dimen/_10sdp"-->
+<!--            android:text="@string/reloop_store" />-->
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/rV_shop_categories"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:nestedScrollingEnabled="true"-->
+<!--            android:layout_height="match_parent" />-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            style="@style/TSPoppinsSemiBold"-->
+<!--            android:textSize="@dimen/_10sdp"-->
+<!--            android:layout_marginStart="@dimen/_15sdp"-->
+<!--            android:layout_marginTop="@dimen/_10sdp"-->
+<!--            android:layout_marginBottom="@dimen/_10sdp"-->
+<!--            android:text="@string/all_prices_are_inclusive_of_5_vat_taxes"/>-->
+<!--    </LinearLayout>-->
+<!--</ScrollView>-->
+
+<!--</FrameLayout>-->

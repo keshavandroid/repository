@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_15sdp"
+    android:layout_marginTop="@dimen/_15sdp"
+    android:layout_marginEnd="@dimen/_15sdp"
+    android:background="@color/colorWhite"
+    android:clickable="false"
+    android:clipToPadding="false"
+    android:focusable="false"
+    app:cardCornerRadius="@dimen/_10sdp"
+    app:cardElevation="@dimen/_8sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/cross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@android:color/transparent"
+            android:padding="@dimen/_10sdp"
+            android:src="@drawable/icon_cancel_cross_blue"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:layout_width="@dimen/_85sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:src="@drawable/icon_home"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/totalUserPoints"
+            style="@style/TSPoppinsSemiBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="2350,"
+            android:textSize="@dimen/_25sdp" />
+
+        <TextView
+            style="@style/TSPoppinsMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.7"
+            android:text="@string/reloop_points_"
+            android:textAlignment="center"
+            android:textSize="@dimen/_12sdp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:alpha="0.3"
+            android:background="@color/text_color_heading" />
+
+        <TextView
+            android:id="@+id/reloop_point_detail"
+            style="@style/TSPoppinsRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:text="1 Reloop Point = 10 AED"
+            android:textAlignment="center"
+            android:textSize="@dimen/_14sdp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.reloop.reloop.customviews.CustomEditText
+                android:id="@+id/points_to_redeem"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:background="@drawable/edittextbackgroundsimple"
+                android:drawableStart="@drawable/icon_redeem_points_un"
+                android:drawablePadding="@dimen/_10sdp"
+                android:elevation="@dimen/_3sdp"
+                android:gravity="center|start"
+                android:hint="@string/enter_redeem_points"
+                android:inputType="number"
+                android:maxLength="6"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:textColor="@color/text_color_heading"
+                android:textColorHint="@color/text_color_heading"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/_10sdp"
+                app:focusedBackground="@drawable/edittextbackgroundselected"
+                app:focusedDrawable="@drawable/icon_redeem_points_en"
+                app:unFocusedBackground="@drawable/edittextbackgroundsimple"
+                app:unFocusedDrawable="@drawable/icon_redeem_points_un"
+                tools:ignore="Autofill,LabelFor" />
+
+            <TextView
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:layout_marginEnd="@dimen/_6sdp"
+                android:text="="
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/discount_price"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:background="@drawable/edittextbackgroundsimple"
+                android:elevation="@dimen/_3sdp"
+                android:gravity="center"
+                android:hint="@string/currency_symbol"
+                android:padding="@dimen/_10sdp"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textColorHint="@color/colorPrimary"
+                android:textSize="@dimen/_12sdp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cancel"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/button_shape_hollow_white"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimary"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/redeem"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:background="@drawable/button_shape"
+                android:text="@string/redeem"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                tools:ignore="ButtonStyle" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

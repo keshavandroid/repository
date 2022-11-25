@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    style="@style/TSPoppinsRegular"
+    android:textSize="@dimen/_10sdp"
+    android:paddingStart="@dimen/_10sdp"
+    android:drawablePadding="@dimen/_10sdp"
+    android:drawableStart="@drawable/icon_map_cities_un"
+    android:paddingEnd="0dp"
+    android:drawableEnd="@drawable/icon_spinner_dropdown_arrow"
+    android:text="Today"
+    android:layout_height="wrap_content">
+
+</TextView>

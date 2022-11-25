@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_background">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/footer">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- User Pointer-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <ImageView
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:background="@drawable/icon_marker"
+                tools:ignore="ContentDescription" />
+        </RelativeLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/user_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:elevation="@dimen/_5sdp"
+            app:backgroundTint="@color/colorPrimary"
+            app:srcCompat="@drawable/icon_my_location"
+            android:layout_above="@+id/buttons"
+            tools:ignore="RelativeOverlap" />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_alignParentBottom="true"
+          android:gravity="center"
+          android:layout_marginBottom="@dimen/_5sdp"
+          android:id="@+id/buttons">
+          <Button
+              android:id="@+id/cancel"
+              style="@style/TSPoppinsRegular"
+              android:layout_width="wrap_content"
+              android:layout_height="@dimen/_25sdp"
+              android:background="@drawable/button_shape_hollow"
+              android:text="@string/cancel"
+              android:textAllCaps="false"
+              android:visibility="gone"
+              android:textColor="@color/colorPrimary"
+              android:textSize="@dimen/_10sdp"
+              tools:ignore="RelativeOverlap" />
+
+          <Button
+              android:id="@+id/done"
+              style="@style/TSPoppinsRegular"
+              android:layout_width="wrap_content"
+              android:layout_height="@dimen/_25sdp"
+              android:background="@drawable/button_shape"
+              android:text="@string/save"
+              android:textAllCaps="false"
+              android:visibility="gone"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:textColor="@color/colorWhite"
+              android:textSize="@dimen/_10sdp"
+              tools:ignore="RelativeOverlap" />
+
+      </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_10sdp">
+
+
+        <LinearLayout
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@drawable/shape_header_curve_background"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:src="@drawable/icon_marker_footer"
+                tools:ignore="ContentDescription" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/address_header"
+                style="@style/TSPoppinsMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/address"
+                android:textDirection="locale"
+                android:textSize="@dimen/_13sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/address_title"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/address_header"
+                android:alpha="0.5"
+                android:textDirection="locale"
+                android:textSize="@dimen/_10sdp" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

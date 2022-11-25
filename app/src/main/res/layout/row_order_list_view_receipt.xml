@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_15sdp"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginEnd="@dimen/_15sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:background="@android:color/transparent">
+
+    <TextView
+        android:id="@+id/order_name"
+        style="@style/TSPoppinsMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/order_price"
+        android:text="Rado Watch"
+        android:textColor="@color/green_color_button"
+        android:textSize="@dimen/_16sdp" />
+
+    <TextView
+        android:id="@+id/order_description"
+        style="@style/TSPoppinsRegular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/order_name"
+        android:text="Order Detail"
+        android:visibility="gone"
+        android:textColor="@color/color_heading"
+        android:textSize="@dimen/_12sdp" />
+
+    <TextView
+        android:id="@+id/order_price"
+        style="@style/TSPoppinsRegular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/order_name"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:text="$50.00"
+        android:textColor="@color/color_detail_text"
+        android:textSize="@dimen/_12sdp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/order_description">
+
+        <include layout="@layout/line_divider" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

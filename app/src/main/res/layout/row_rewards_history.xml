@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginEnd="@dimen/_10sdp"
+    android:layout_marginBottom="@dimen/_10sdp"
+    app:cardBackgroundColor="@color/color_order_history_row"
+    app:cardCornerRadius="@dimen/_10sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_10sdp">
+
+            <TextView
+                android:id="@+id/order_name"
+                style="@style/TSPoppinsMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:text="Rado Watch"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:textSize="@dimen/_16sdp" />
+
+            <TextView
+                android:id="@+id/order_description"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/order_name"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:text="Rado Outlet California"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:textSize="@dimen/_12sdp" />
+
+            <TextView
+                android:id="@+id/order_date"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/order_description"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_marginBottom="@dimen/_6sdp"
+                android:text="Feb 02 2020"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:textSize="@dimen/_12sdp" />
+
+
+            <TextView
+                android:id="@+id/order_price"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/order_date"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:text="$50.00"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:textSize="@dimen/_12sdp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

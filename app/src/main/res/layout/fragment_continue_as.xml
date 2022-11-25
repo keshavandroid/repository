@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_signup_bg">
+
+    <ImageView
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:src="@drawable/icon_reloop_logo_intro" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/tvContinueAs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Continue as"
+            android:textColor="@color/color_detail_text"
+            android:textSize="@dimen/_14sdp" />
+
+        <TextView
+            android:id="@+id/tvHouseholdBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvContinueAs"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/shape_button_green_outline"
+            android:paddingHorizontal="@dimen/_50sdp"
+            android:paddingVertical="@dimen/_10sdp"
+            android:text="Household"
+            android:textColor="@color/green_color_button"
+            android:textSize="@dimen/_16sdp" />
+
+        <ImageButton
+            android:id="@+id/ib_info_household"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_below="@+id/tvContinueAs"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_toRightOf="@+id/tvHouseholdBtn"
+            android:background="@android:color/transparent"
+            android:src="@drawable/icon_about_reloop_information"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tvOrganizationsBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvHouseholdBtn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/shape_button_green_outline"
+            android:paddingHorizontal="@dimen/_40sdp"
+            android:paddingVertical="@dimen/_10sdp"
+            android:text="Organization"
+            android:textColor="@color/green_color_button"
+            android:textSize="@dimen/_16sdp" />
+
+        <ImageButton
+            android:id="@+id/ib_info_organization"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_below="@+id/tvHouseholdBtn"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_toRightOf="@+id/tvOrganizationsBtn"
+            android:background="@android:color/transparent"
+            android:src="@drawable/icon_about_reloop_information"
+            tools:ignore="ContentDescription" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_signup_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="@dimen/_30sdp"
+        android:layout_marginBottom="@dimen/_50sdp"
+        android:gravity="center"
+        android:textColor="@color/color_detail_text"
+        android:textSize="@dimen/_14sdp"
+        tools:text="If you wish to recycle for both
+an organization and your household,
+you can create two separate accounts" />
+
+</RelativeLayout>

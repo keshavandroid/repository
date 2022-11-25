@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_15sdp"
+    android:layout_marginTop="@dimen/_15sdp"
+    android:layout_marginEnd="@dimen/_15sdp"
+    android:background="@color/colorWhite"
+    android:clickable="false"
+    android:focusable="false"
+    app:cardCornerRadius="@dimen/_10sdp"
+    app:cardElevation="@dimen/_8sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/_10sdp"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/_10sdp"
+        tools:ignore="UselessParent">
+
+
+            <TextView
+                android:id="@+id/tittle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/no_internet_connection"
+                style="@style/TSPoppinsSemiBold"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/_20sdp" />
+
+
+
+                <Button
+                    android:id="@+id/yes"
+                    android:layout_width="@dimen/_130sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_40sdp"
+                    android:background="@drawable/button_shape"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:text="Yes, I'm sure"
+                    android:textAllCaps="false"
+                    style="@style/TSPoppinsSemiBold"
+                    android:textSize="@dimen/_10sdp"
+                    android:textColor="@color/colorWhite" />
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

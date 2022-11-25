@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="@dimen/_120sdp"
+    android:background="@android:color/transparent"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:src="@drawable/charity"
+        android:id="@+id/img_donation"
+        android:layout_toStartOf="@+id/info_button"
+        tools:ignore="ContentDescription" />
+    <ImageButton
+        android:id="@+id/info_button"
+        android:layout_width="@dimen/_22sdp"
+        android:layout_height="@dimen/_15sdp"
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/transparent"
+        android:padding="@dimen/_5sdp"
+        android:src="@drawable/icon_info_home_screen"
+        tools:ignore="ContentDescription" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TSPoppinsRegular"
+        android:id="@+id/tv_heading_category"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:textSize="@dimen/_14sdp"
+        android:layout_below="@+id/img_donation"
+        android:text="Plant a Tree"/>
+</RelativeLayout>

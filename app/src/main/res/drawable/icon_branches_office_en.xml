@@ -1,0 +1,48 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="15dp"
+    android:height="15dp"
+    android:viewportWidth="15"
+    android:viewportHeight="15">
+    <group>
+        <clip-path android:pathData="M0,0h15v15h-15z M 0,0"/>
+        <path
+            android:pathData="M14.75,14.5h-1.5L13.25,6.25A0.25,0.25 0,0 0,13 6L9.5,6L9.5,0.25A0.25,0.25 0,0 0,9.25 0L2.75,0A0.25,0.25 0,0 0,2.5 0.25L2.5,14.5L0.25,14.5a0.25,0.25 0,0 0,0 0.5h14.5a0.25,0.25 0,0 0,0 -0.5ZM5.25,14.5h-1L4.25,12.25A0.25,0.25 0,0 1,4.5 12L5,12a0.25,0.25 0,0 1,0.25 0.25ZM6.25,6.25L6.25,14.5h-0.5L5.75,12.25A0.75,0.75 0,0 0,5 11.5L4.5,11.5a0.75,0.75 0,0 0,-0.75 0.75L3.75,14.5L3,14.5L3,0.5L9,0.5L9,6L6.5,6A0.25,0.25 0,0 0,6.25 6.25ZM12.75,14.5h-6v-8h6Z"
+            android:fillColor="@color/color_icons_selected"/>
+        <path
+            android:pathData="M8,3.5H6.5a0.25,0.25 0,0 0,-0.25 0.25v1.5a0.25,0.25 0,0 0,0.25 0.25H8a0.25,0.25 0,0 0,0.25 -0.25V3.75A0.25,0.25 0,0 0,8 3.5ZM7.75,5h-1V4h1Z"
+            android:fillColor="@color/color_icons_selected"/>
+        <path
+            android:pathData="M8,1H6.5a0.25,0.25 0,0 0,-0.25 0.25v1.5A0.25,0.25 0,0 0,6.5 3H8a0.25,0.25 0,0 0,0.25 -0.25V1.25A0.25,0.25 0,0 0,8 1ZM7.75,2.5h-1v-1h1Z"
+            android:fillColor="@color/color_icons_selected"/>
+        <path
+            android:pathData="M5.5,3.5H4a0.25,0.25 0,0 0,-0.25 0.25v1.5A0.25,0.25 0,0 0,4 5.5H5.5a0.25,0.25 0,0 0,0.25 -0.25V3.75A0.25,0.25 0,0 0,5.5 3.5ZM5.25,5h-1V4h1Z"
+            android:fillColor="@color/color_icons_selected"/>
+        <path
+            android:pathData="M5.5,1H4a0.25,0.25 0,0 0,-0.25 0.25v1.5A0.25,0.25 0,0 0,4 3H5.5a0.25,0.25 0,0 0,0.25 -0.25V1.25A0.25,0.25 0,0 0,5.5 1ZM5.25,2.5h-1v-1h1Z"
+            android:fillColor="@color/color_icons_selected"/>
+        <path
+            android:pathData="M5.5,6H4a0.25,0.25 0,0 0,-0.25 0.25v1.5A0.25,0.25 0,0 0,4 8H5.5a0.25,0.25 0,0 0,0.25 -0.25V6.25A0.25,0.25 0,0 0,5.5 6ZM5.25,7.5h-1v-1h1Z"
+            android:fillColor="@color/color_icons_selected"/>
+        <path
+            android:pathData="M5.5,8.5H4a0.25,0.25 0,0 0,-0.25 0.25v1.5A0.25,0.25 0,0 0,4 10.5H5.5a0.25,0.25 0,0 0,0.25 -0.25V8.75A0.25,0.25 0,0 0,5.5 8.5ZM5.25,10h-1V9h1Z"
+            android:fillColor="@color/color_icons_selected"/>
+        <path
+            android:pathData="M10.25,11.5h1.5a0.25,0.25 0,0 0,0.25 -0.25V9.75a0.25,0.25 0,0 0,-0.25 -0.25h-1.5a0.25,0.25 0,0 0,-0.25 0.25v1.5A0.25,0.25 0,0 0,10.25 11.5ZM10.5,10h1v1h-1Z"
+            android:fillColor="@color/color_icons_selected"/>
+        <path
+            android:pathData="M10.25,9h1.5A0.25,0.25 0,0 0,12 8.75L12,7.25A0.25,0.25 0,0 0,11.75 7h-1.5a0.25,0.25 0,0 0,-0.25 0.25v1.5A0.25,0.25 0,0 0,10.25 9ZM10.5,7.5h1v1h-1Z"
+            android:fillColor="@color/color_icons_selected"/>
+        <path
+            android:pathData="M10.25,14h1.5a0.25,0.25 0,0 0,0.25 -0.25v-1.5a0.25,0.25 0,0 0,-0.25 -0.25h-1.5a0.25,0.25 0,0 0,-0.25 0.25v1.5A0.25,0.25 0,0 0,10.25 14ZM10.5,12.5h1v1h-1Z"
+            android:fillColor="@color/color_icons_selected"/>
+        <path
+            android:pathData="M7.75,11.5h1.5a0.25,0.25 0,0 0,0.25 -0.25V9.75a0.25,0.25 0,0 0,-0.25 -0.25H7.75a0.25,0.25 0,0 0,-0.25 0.25v1.5A0.25,0.25 0,0 0,7.75 11.5ZM8,10H9v1H8Z"
+            android:fillColor="@color/color_icons_selected"/>
+        <path
+            android:pathData="M7.75,9h1.5a0.25,0.25 0,0 0,0.25 -0.25V7.25A0.25,0.25 0,0 0,9.25 7H7.75a0.25,0.25 0,0 0,-0.25 0.25v1.5A0.25,0.25 0,0 0,7.75 9ZM8,7.5H9v1H8Z"
+            android:fillColor="@color/color_icons_selected"/>
+        <path
+            android:pathData="M7.75,14h1.5a0.25,0.25 0,0 0,0.25 -0.25v-1.5A0.25,0.25 0,0 0,9.25 12H7.75a0.25,0.25 0,0 0,-0.25 0.25v1.5A0.25,0.25 0,0 0,7.75 14ZM8,12.5H9v1H8Z"
+            android:fillColor="@color/color_icons_selected"/>
+    </group>
+</vector>

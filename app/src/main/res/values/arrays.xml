@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="spinnerLable">
+        <item>Sector</item>
+        <item>Sector 1</item>
+        <item>Sector 2</item>
+    </array>
+    <!-- dots inactive colors -->
+    <color name="dot_dark_screen1">#D6D6D6</color>
+    <color name="dot_dark_screen2">#D6D6D6</color>
+    <color name="dot_dark_screen3">#D6D6D6</color>
+
+
+    <!-- dots active colors -->
+    <color name="dot_light_screen1">#AFCC36</color>
+    <color name="dot_light_screen2">#AFCC36</color>
+    <color name="dot_light_screen3">#AFCC36</color>
+
+    <array name="array_dot_active">
+        <item>@color/dot_light_screen1</item>
+        <item>@color/dot_light_screen2</item>
+        <item>@color/dot_light_screen3</item>
+
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/dot_dark_screen1</item>
+        <item>@color/dot_dark_screen2</item>
+        <item>@color/dot_dark_screen3</item>
+
+    </array>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/green_color_button">
+    <item>
+        <shape
+            android:padding="10dp"
+            android:shape="rectangle">
+            <!-- you can use any color you want I used here gray color-->
+            <solid android:color="#FFFFFF" />
+            <stroke
+                android:width="2dp"
+                android:color="@color/green_color_button" />
+            <corners android:radius="30sp" />
+        </shape>
+    </item>
+</ripple>

@@ -1,0 +1,35 @@
+<resources>
+
+    <!--Reloop Server Links Production-->
+    <string name="production_reloop" translatable="false">https://api.reloopapp.com/api/</string>
+    <string name="production_reloop_image" translatable="false">https://api.reloopapp.com/api/</string>
+    <string name="production_reloop_deepLink" translatable="false">https://api.reloopapp.com/api/</string>
+
+    <!--Reloop Server Links Production-->
+    <string name="staging_reloop" translatable="false">http://reloop.teamtechverx.com/api/</string>
+    <string name="staging_reloop_image" translatable="false">http://reloop.teamtechverx.com/api/</string>
+    <string name="staging_reloop_deepLink" translatable="false">http://reloop.teamtechverx.com/api/</string>
+
+    <!--Reloop Server Links New Staging-->
+    <string name="staging_reloop_new" translatable="false">https://staging.reloopapp.com/api/</string>
+    <string name="staging_reloop_image_new" translatable="false">https://staging.reloopapp.com/api/</string>
+    <string name="staging_reloop_deepLink_new" translatable="false">https://staging.reloopapp.com/api/</string>
+
+
+    <!--Reloop Server Links Development-->
+
+    <string name="development_reloop" translatable="false">http://192.168.4.187:8000/api/</string>
+    <string name="development_reloop_image" translatable="false">http://reloop.teamtechverx.com/</string>
+    <string name="development_reloop_deeplink" translatable="false">reloop.teamtechverx.com</string>
+
+    <!--Freejna Server Links Local-->
+
+    <string name="local_freejna" translatable="false">http://175.10.21.62:8089/api/v1/</string>
+    <string name="local_freejna_image" translatable="false">http://175.10.21.62:8089/</string>
+    <string name="local_freejna_deeplink" translatable="false">http://175.10.21.62:8089/api/</string>
+
+    <string name="freejna_stagging" translatable="false">https://freejnastaging.azurewebsites.net/api/v1/</string>
+    <string name="freejna_stagging_image" translatable="false">https://freejnastaging.azurewebsites.net/</string>
+    <string name="freejna_stagging_deeplink" translatable="false">https://freejnastaging.azurewebsites.net/api/</string>
+
+</resources>

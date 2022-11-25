@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_background"
+    tools:context=".fragments.RequestSubmitConfirmationFragment">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|top"
+            android:orientation="vertical"
+            tools:ignore="UselessLeaf">
+
+            <TextView
+                style="@style/TSPoppinsMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/thank_you"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_20sdp" />
+
+            <TextView
+                android:id="@+id/message"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:text="@string/collection_submitted"
+                android:textAlignment="center"
+                android:textSize="@dimen/_14sdp" />
+
+            <ImageView
+                android:id="@+id/imageConfirmation"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_180sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:src="@drawable/icon_confirm_subscription_cycle_two"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/idMessage"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/order_submitted"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/idNumber"
+                style="@style/TSPoppinsMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CE562147"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_24sdp" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</FrameLayout>

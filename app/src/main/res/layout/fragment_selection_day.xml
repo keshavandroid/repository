@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/color_background"
+    tools:context=".fragments.SelectionDayFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:clickable="false"
+            android:focusable="false"
+            app:cardCornerRadius="@dimen/_10sdp"
+            app:cardElevation="@dimen/_8sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:id="@+id/calendarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:mcv_firstDayOfWeek="monday"
+                    android:focusedMonthDateColor="@color/colorPrimary"
+                    android:scrollbars="vertical"
+                    android:theme="@style/CalenderHeader"
+                    android:unfocusedMonthDateColor="@color/colorPrimary"
+                    android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"
+                    app:mcv_arrowColor="@color/colorPrimary"
+                    app:mcv_selectionColor="@color/colorPrimary"
+                    app:mcv_showOtherDates="all"
+                    app:mcv_tileHeight="@dimen/_30sdp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/message"
+            style="@style/TSPoppinsRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_black"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:textSize="@dimen/_10sdp"
+            tools:text="R123456ABCD" />
+    </LinearLayout>
+
+
+    <!--  <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+          android:id="@+id/calendarView"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:mcv_selectionColor="@color/colorPrimary"
+          app:mcv_headerTextAppearance="@style/CalenderHeader"
+          app:mcv_dateTextAppearance="@style/CalenderDate"
+          app:mcv_weekDayTextAppearance="@style/CalenderWeek"
+          app:mcv_selectionMode="single"
+          app:mcv_titleAnimationOrientation="vertical"
+          app:mcv_leftArrowMask="@drawable/icon_left_arrow_calender"
+          app:mcv_rightArrowMask="@drawable/icon_right_arrow_calender"
+          />-->
+
+</ScrollView>

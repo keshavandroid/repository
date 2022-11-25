@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/selector_settings"
+        android:title="@string/settings"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/navigation_shop"
+        android:icon="@drawable/selector_shop"
+        android:title="@string/title_shop"
+        android:visible="true"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/selector_home"
+        android:title="@string/title_home"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/navigation_reports"
+        android:icon="@drawable/selector_reports"
+        android:title="@string/reports"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/navigation_rewards"
+        android:icon="@drawable/selector_rewards"
+        android:title="@string/rewards"
+        app:showAsAction="always" />
+
+</menu>

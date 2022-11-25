@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_15sdp"
+    android:layout_marginTop="@dimen/_15sdp"
+    android:layout_marginEnd="@dimen/_15sdp"
+    android:background="@color/colorWhite"
+    android:clickable="false"
+    android:focusable="false"
+    app:cardCornerRadius="@dimen/_10sdp"
+    app:cardElevation="@dimen/_8sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/cross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@android:color/transparent"
+            android:padding="@dimen/_10sdp"
+            android:src="@drawable/icon_cancel_cross_blue"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:src="@drawable/icon_payment_form"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            style="@style/TSPoppinsSemiBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/accept_payment"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/please_enter_following_information_to_proceed_your_subscription"
+            android:textAlignment="center" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:alpha="0.3"
+            android:background="@color/text_color_heading" />
+
+        <com.reloop.reloop.customviews.CustomEditText
+            style="@style/TSPoppinsRegular"
+            android:id="@+id/card_number"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/edittextbackgroundsimple"
+            android:drawableStart="@drawable/icon_card_number_un"
+            android:drawablePadding="@dimen/_10sdp"
+            android:gravity="center|start"
+            android:hint="@string/card_number"
+            android:inputType="number"
+            android:paddingStart="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:textColor="@color/text_color_heading"
+            android:textColorHint="@color/text_color_heading"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/_10sdp"
+            tools:ignore="Autofill,LabelFor"
+            app:focusedBackground="@drawable/edittextbackgroundselected"
+            app:unFocusedBackground="@drawable/edittextbackgroundsimple"
+            app:focusedDrawable="@drawable/icon_card_number_en"
+            app:unFocusedDrawable="@drawable/icon_card_number_un"
+            android:elevation="@dimen/_3sdp"
+            android:layout_marginBottom="@dimen/_3sdp"
+
+            />
+
+        <com.reloop.reloop.customviews.CustomEditText
+            style="@style/TSPoppinsRegular"
+            android:id="@+id/card_expiry"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/edittextbackgroundsimple"
+            android:drawableStart="@drawable/icon_calendar_un"
+            android:drawablePadding="@dimen/_10sdp"
+            android:gravity="center|start"
+            android:hint="@string/mm_yy"
+            android:inputType="number"
+            android:paddingStart="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:textColor="@color/text_color_heading"
+            android:textColorHint="@color/text_color_heading"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/_10sdp"
+            tools:ignore="Autofill,LabelFor"
+            app:focusedBackground="@drawable/edittextbackgroundselected"
+            app:unFocusedBackground="@drawable/edittextbackgroundsimple"
+            app:focusedDrawable="@drawable/icon_calendar_en"
+            app:unFocusedDrawable="@drawable/icon_calendar_un"
+            android:elevation="@dimen/_3sdp"
+            android:layout_marginBottom="@dimen/_3sdp"
+            />
+
+        <com.reloop.reloop.customviews.CustomEditText
+            style="@style/TSPoppinsRegular"
+            android:id="@+id/card_cvv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/edittextbackgroundsimple"
+            android:drawableStart="@drawable/icon_card_cvv_un"
+            android:drawablePadding="@dimen/_10sdp"
+            android:gravity="center|start"
+            android:hint="@string/cvv"
+            android:inputType="number"
+            android:paddingStart="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:textColor="@color/text_color_heading"
+            android:textColorHint="@color/text_color_heading"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/_10sdp"
+            tools:ignore="Autofill,LabelFor"
+            app:focusedBackground="@drawable/edittextbackgroundselected"
+            app:unFocusedBackground="@drawable/edittextbackgroundsimple"
+            app:focusedDrawable="@drawable/icon_card_cvv_en"
+            app:unFocusedDrawable="@drawable/icon_card_cvv_un"
+            android:elevation="@dimen/_3sdp"
+            android:layout_marginBottom="@dimen/_3sdp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/button_shape_hollow_white"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                android:id="@+id/cancel"
+                android:textColor="@color/colorPrimary" />
+
+            <Button
+                android:id="@+id/pay"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/button_shape"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:text="Pay $ 50.00"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

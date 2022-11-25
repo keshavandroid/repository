@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_15sdp"
+    android:layout_marginTop="@dimen/_15sdp"
+    android:layout_marginEnd="@dimen/_15sdp"
+    android:background="@color/colorWhite"
+    android:clickable="false"
+    android:focusable="false"
+    app:cardCornerRadius="@dimen/_10sdp"
+    app:cardElevation="@dimen/_8sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/cross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@android:color/transparent"
+            android:padding="@dimen/_10sdp"
+            android:src="@drawable/icon_cancel_cross_blue"
+            tools:ignore="ContentDescription" />
+
+
+        <TextView
+            android:id="@+id/tv_heading_category"
+            style="@style/TSPoppinsSemiBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/term_conditions"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            style="@style/TSPoppinsRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:id="@+id/body_text"
+            android:maxLines="8"
+            android:scrollbars = "vertical"
+            android:textAlignment="viewStart"
+            android:textSize="@dimen/_10sdp" />
+
+        <CheckBox
+            android:id="@+id/agreementCheck"
+            style="@style/TSPoppinsRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:checked="false"
+            android:paddingStart="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_5sdp"
+            android:text="@string/confirm_text"
+            android:textColor="@color/text_color_heading"
+            android:textSize="@dimen/_10sdp"
+            app:buttonTint="@color/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_30sdp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/close"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/button_shape_hollow_white"
+                android:text="@string/close"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_12sdp"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/next"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:background="@drawable/button_shape"
+                android:text="@string/next"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_12sdp" />
+
+            <Button
+                android:id="@+id/create"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="@dimen/_180sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:background="@drawable/button_shape"
+                android:text="@string/create"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_12sdp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

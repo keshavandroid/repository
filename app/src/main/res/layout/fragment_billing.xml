@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@drawable/shape_layout_curve_background"
+    android:id="@+id/container_billing_fragment"
+    tools:context=".fragments.BillingFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="2"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.18"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TSPoppinsMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/billing" />
+
+            <TextView
+                style="@style/TSPoppinsSemiBold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|start"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:text="@string/all_prices_are_inclusive_of_5_vat_taxes"
+                android:textSize="@dimen/_10sdp" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvBilling"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/tvNoBilling"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_10sdp"
+                android:gravity="center"
+                android:textColor="@color/light_black"
+                android:textSize="@dimen/_14sdp"
+                android:text="@string/no_orders"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.82"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/back"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/button_shape_hollow"
+                android:text="@string/back"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_12sdp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

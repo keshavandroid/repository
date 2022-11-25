@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_15sdp"
+    android:layout_marginTop="@dimen/_15sdp"
+    android:layout_marginEnd="@dimen/_15sdp"
+    android:background="@color/colorWhite"
+    android:clickable="false"
+    android:focusable="false"
+    app:cardCornerRadius="@dimen/_10sdp"
+    app:cardElevation="@dimen/_8sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:id="@+id/cross"
+            android:background="@android:color/transparent"
+            android:src="@drawable/icon_cancel_cross_blue"
+            android:padding="@dimen/_10sdp"
+            tools:ignore="ContentDescription" />
+
+
+        <TextView
+            android:id="@+id/reloop_point_detail"
+            style="@style/TSPoppinsRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:text="@string/please_enter_organization_id"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:textAlignment="viewStart"
+            android:textSize="@dimen/_14sdp" />
+
+        <com.reloop.reloop.customviews.CustomEditText
+            android:id="@+id/organization_code"
+            style="@style/TSPoppinsRegular"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_3sdp"
+            android:background="@drawable/edittextbackgroundsimple"
+            android:drawableStart="@drawable/icon_organization_name_un"
+            android:drawablePadding="@dimen/_10sdp"
+            android:elevation="@dimen/_4sdp"
+            android:gravity="center|start"
+            android:hint="@string/enter_reloop_org_id"
+            android:inputType="text"
+            android:paddingStart="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:textColor="@color/text_color_heading"
+            android:textColorHint="@color/text_color_heading"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/_10sdp"
+            app:focusedBackground="@drawable/edittextbackgroundselected"
+            app:focusedDrawable="@drawable/icon_organization_name_en"
+            app:unFocusedBackground="@drawable/edittextbackgroundsimple"
+            app:unFocusedDrawable="@drawable/icon_organization_name_un"
+            tools:ignore="Autofill,LabelFor" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/button_shape_hollow_white"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                android:id="@+id/cancel"
+                android:textColor="@color/colorPrimary"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/verify"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/button_shape"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:text="@string/verify"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                tools:ignore="ButtonStyle" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
