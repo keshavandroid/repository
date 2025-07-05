@@ -1,8 +1,10 @@
 package com.reloop.reloop.network.serializer
 
+import com.android.reloop.model.AddressLocations
 import com.reloop.reloop.network.serializer.orderhistory.City
 import com.reloop.reloop.network.serializer.orderhistory.District
 import com.google.gson.annotations.SerializedName
+import com.reloop.reloop.network.serializer.collectionrequest.MaterialCategories
 
 class Addresses {
     @SerializedName("id")
@@ -15,6 +17,11 @@ class Addresses {
     var district_id: Int? = 0
     @SerializedName("location")
     var location: String? = ""
+
+    //new added
+    @SerializedName("title")
+    var title: String? = ""
+
     @SerializedName("latitude")
     var latitude: Double? = 0.0
     @SerializedName("longitude")
@@ -39,8 +46,18 @@ class Addresses {
     var updated_at: String? = ""
     @SerializedName("building_name")
     var building_name: String? = ""
+    @SerializedName("address_name")
+    var address_name: String? = ""
+
     @SerializedName("city")
     var city: City? = City()
     @SerializedName("district")
     var district: District? = District()
+
+    @SerializedName("address_locations")
+    var addressLocations: ArrayList<AddressLocations>? = ArrayList()
+
+    /*@SerializedName("categories")
+    var materialCategories: ArrayList<MaterialCategories>? = ArrayList()*/
+
 }

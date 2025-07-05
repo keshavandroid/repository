@@ -2,6 +2,7 @@ package com.reloop.reloop.fragments
 
 
 import android.os.Bundle
+import android.text.Html
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -53,7 +54,7 @@ class TermConditionFragment : BaseFragment(), OnNetworkResponse, View.OnClickLis
         NetworkCall.make()
             ?.setCallback(this)
             ?.setTag(RequestCodes.API.TERM_CONDITION)
-            ?.autoLoading(activity!!)
+            ?.autoLoading(requireActivity())
             ?.enque(
                 Network().apis()?.termsAndConditions()
             )
@@ -71,7 +72,8 @@ class TermConditionFragment : BaseFragment(), OnNetworkResponse, View.OnClickLis
                         AboutAppData::class.java
                     )
                     if (aboutApp != null)
-                        view_?.term_condition_text?.text = aboutApp.body
+                        //view_?.term_condition_text?.text = aboutApp.body
+                        view_?.term_condition_text?.text = Html.fromHtml(aboutApp.body)
                     view_?.term_condition_text?.movementMethod = ScrollingMovementMethod()
 
                 }

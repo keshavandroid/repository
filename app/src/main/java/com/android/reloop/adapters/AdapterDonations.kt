@@ -18,35 +18,25 @@ class AdapterDonations(
     var activity: Activity
 ) :
     RecyclerView.Adapter<ViewHolderDonations>() {
-    override fun onCreateViewHolder(
-        viewGroup: ViewGroup,
-        viewType: Int
-    ): ViewHolderDonations {
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.row_donations, viewGroup, false)
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolderDonations {
+        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.new_row_donations, viewGroup, false)
         return ViewHolderDonations(view, itemClick)
     }
 
     override fun getItemCount() = dataList.size
+
     override fun onBindViewHolder(holder: ViewHolderDonations, position: Int) {
         holder.heading?.text = dataList[position].name
         var placeholder = R.drawable.icon_placeholder_generic
         holder.infoButton.setOnClickListener {
 
-            AlertDialogs.informationDialog(
-                activity, dataList[position].avatar, dataList[position].name, dataList[position].description,
-                placeholder
-            )
+            AlertDialogs.informationDialog(activity, dataList[position].avatar, dataList[position].name, dataList[position].description, placeholder)
         }
         if (position == 0) {
             placeholder = R.drawable.treeplanting
         } else if (position == 1) {
             placeholder = R.drawable.charity
         }
-        Utils.glideImageLoaderServer(
-            holder.imageIcon,
-            dataList[position].avatar,
-            placeholder
-        )
+        Utils.glideImageLoaderServer(holder.imageIcon, dataList[position].avatar, placeholder)
     }
 }

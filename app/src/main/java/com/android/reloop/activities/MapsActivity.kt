@@ -39,6 +39,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.internal.LinkedTreeMap
 import com.google.gson.reflect.TypeToken
 import com.reloop.reloop.BuildConfig
@@ -102,6 +103,8 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraChang
             lng = bundle?.getDouble(Constants.DataConstants.longitude, 0.0)
             removeSaveButton = bundle?.getInt(Constants.DataConstants.removeSaveButton, 0)
         }
+
+        Log.e(TAG,"====lat===" + lat + "=====long====" + lng)
         setActionbar()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         if (!Places.isInitialized()) {
@@ -168,7 +171,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraChang
         } else {
             LogManager.getLogManager().writeLog("Maps Activity : onMapReady : asking permission")
             requestPermissions(
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 Constants.accessLocation
             )
         }
@@ -180,7 +183,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraChang
      }*/
 
     private fun hasLocationPermission(): Boolean {
-        return EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+        return EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     override fun onClick(view: View?) {
@@ -202,7 +205,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraChang
                     }
                 } else {
                     requestPermissions(
-                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION),
+                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                         Constants.accessLocation
                     )
                 }
@@ -272,7 +275,13 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraChang
                         startActivity(Intent(Settings.ACTION_APPLICATION_SETTINGS))
                         LogManager.getLogManager().writeLog("Maps Activity : permission alert : YES")
                     }
-                    .setNegativeButton(R.string.cancel, null)
+                    .setNegativeButton(R.string.cancel) { _: DialogInterface?, i: Int ->
+                        val dll = LatLng(lat!!, lng!!)
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dll, 8f))
+                        LogManager.getLogManager().writeLog("Maps Activity : onMapReady got location : $lat-$lng")
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dll, 15f))
+                    }
+                    //.setNegativeButton(R.string.cancel, null)
                     .show()
             }
         }
@@ -393,20 +402,31 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraChang
             ?.executeLocation()
     }
 
-    private fun getAddressNew(latitude: Double, longitude: Double) {
+    private fun getAddressNew(latitude1: Double, longitude1: Double) {
+
+        Log.e("TAG", "NEW ADDRESS 111" )
+
+
         LogManager.getLogManager().writeLog("Maps Activity : Get Address : $latitude $longitude")
         val geoCoder = Geocoder(
             this,
             Locale.getDefault()
         )
+        latitude = latitude1
+        longitude = longitude1
+
         var result: String = null.toString()
         try {
-            val addressList = geoCoder.getFromLocation(
-                latitude, longitude, 1
-            )
+            val addressList = geoCoder.getFromLocation(latitude!!, longitude!!, 1)
 
             if ((addressList != null && addressList.size > 0)) {
+
+
+
                 val addresses = addressList.get(0)
+
+
+
                 val sb = StringBuilder()
                 for (i in 0 until addresses.maxAddressLineIndex) {
                     sb.append(addresses.getAddressLine(i)).append("\n")
@@ -435,24 +455,25 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraChang
                 }
 
                 result = "$featureName $subLocality $locality -'$countryName"
+
+                Log.e("TAG", "FINAL  ADDRESS 000" )
                 Log.e("TAG","====address===" + result)
                 done?.visibility = View.VISIBLE
                 cancel?.visibility = View.VISIBLE
-                if (removeSaveButton == 1) {
+               /* if (removeSaveButton == 1) {
                     done?.visibility = View.GONE
-                }
+                }*/
                 address?.text = "$featureName $subLocality $locality -'$countryName"
                 LogManager.getLogManager().writeLog("Maps Activity : Get Address : $featureName $subLocality $locality -'$countryName")
             }
             else{
                 Log.e("TAG", "Unable to find location")
                 LogManager.getLogManager().writeLog("Maps Activity : Unable to find location from latlng")
-                findAddress(latitude,longitude)
+                findAddress(latitude1,longitude1)
             }
         } catch (e: IOException) {
             Log.e("TAG", "Unable connect to GeoCoder", e)
             LogManager.getLogManager().writeLog("Maps Activity : Unable connect to GeoCoder")
-
         }
     }
 
@@ -477,6 +498,9 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraChang
 
                 } else {
                     val addresses = dashboard.getResults()!!.get(0)!!.formattedAddress.toString()
+
+                    Log.e("TAG", "DASHBOARD")
+
                     Log.e("TAG", "====address===" + address)
                     done?.visibility = View.VISIBLE
                     cancel?.visibility = View.VISIBLE
@@ -508,7 +532,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraChang
             }
         } else {
             requestPermissions(
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 Constants.accessLocation
             )
         }

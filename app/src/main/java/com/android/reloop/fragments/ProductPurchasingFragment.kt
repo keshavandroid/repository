@@ -12,6 +12,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.android.reloop.model.Productsnew
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import com.google.gson.internal.LinkedTreeMap
 import com.reloop.reloop.R
 import com.reloop.reloop.activities.BaseActivity
 import com.reloop.reloop.activities.HomeActivity
@@ -23,15 +29,21 @@ import com.reloop.reloop.network.Network
 import com.reloop.reloop.network.NetworkCall
 import com.reloop.reloop.network.OnNetworkResponse
 import com.reloop.reloop.network.serializer.BaseResponse
-import com.reloop.reloop.network.serializer.cart.BuyProduct
 import com.reloop.reloop.network.serializer.DataParsing
+import com.reloop.reloop.network.serializer.cart.BuyProduct
 import com.reloop.reloop.network.serializer.shop.Product
 import com.reloop.reloop.network.serializer.user.User
-import com.reloop.reloop.utils.*
-import com.google.gson.Gson
-import com.google.gson.internal.LinkedTreeMap
+import com.reloop.reloop.utils.Constants
+import com.reloop.reloop.utils.Notify
+import com.reloop.reloop.utils.RequestCodes
+import com.reloop.reloop.utils.Utils
+import kotlinx.android.synthetic.main.fragment_subscription_cycle.*
+import org.json.JSONArray
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
+import java.util.*
+
 
 /**
  * A simple [Fragment] subclass.
@@ -69,6 +81,8 @@ class ProductPurchasingFragment : BaseFragment(), StepView, View.OnClickListener
     var buyProduct: BuyProduct? = null
     var mainLayout: FrameLayout? = null
     var mainLayout1: FrameLayout? = null
+    var stripePayButton: Button? = null
+
     //    private lateinit var stateHelper: FragmentStateHelper
 /*    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +100,9 @@ class ProductPurchasingFragment : BaseFragment(), StepView, View.OnClickListener
             }
         }
     }*/
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -99,10 +116,14 @@ class ProductPurchasingFragment : BaseFragment(), StepView, View.OnClickListener
         initViews(view)
         setListeners()
         populateData()
+
         return view
     }
 
+
+
     private fun initViews(view: View?) {
+
 
         mainLayout = view?.findViewById(R.id.container_subscription_cycle_parent)
         mainLayout1 = view?.findViewById(R.id.container_monthly_subscription_fragment)
@@ -120,10 +141,14 @@ class ProductPurchasingFragment : BaseFragment(), StepView, View.OnClickListener
         next = view?.findViewById(R.id.next)
         back = view?.findViewById(R.id.back)
         create = view?.findViewById(R.id.create)
+
+        stripePayButton = view?.findViewById(R.id.stripePayButton)
+
     }
 
     private fun setListeners() {
-        stepView = this
+
+        ProductPurchasingFragment.stepView = this
         next?.setOnClickListener(this)
         back?.setOnClickListener(this)
         create?.setOnClickListener(this)
@@ -155,6 +180,9 @@ class ProductPurchasingFragment : BaseFragment(), StepView, View.OnClickListener
                     textStep2,
                     requireActivity().getColor(R.color.text_color_heading)
                 )
+                back?.visibility = View.VISIBLE
+                next?.visibility = View.VISIBLE
+                stripePayButton?.visibility = View.GONE
             }
 
             Constants.recycleStep2 -> {
@@ -177,6 +205,9 @@ class ProductPurchasingFragment : BaseFragment(), StepView, View.OnClickListener
                     textStep3,
                     requireActivity().getColor(R.color.text_color_heading)
                 )
+                back?.visibility = View.VISIBLE
+                next?.visibility = View.VISIBLE
+                stripePayButton?.visibility = View.GONE
                 next?.text = getString(R.string.next)
             }
             Constants.recycleStep3 -> {
@@ -199,8 +230,17 @@ class ProductPurchasingFragment : BaseFragment(), StepView, View.OnClickListener
                     textStep4,
                     requireActivity().getColor(R.color.text_color_heading)
                 )
+
+
                 back?.visibility = View.VISIBLE
-                next?.text = "Pay ${Utils.commaConversion(buyProduct?.total)} ${Constants.currencySign}"
+                next?.visibility = View.GONE
+
+                stripePayButton?.visibility = View.VISIBLE //New here
+
+
+                //ORIGINAL ADDED next button
+//                next?.text = "Pay ${Utils.commaConversion(buyProduct?.total)} ${Constants.currencySign}"
+
             }
             Constants.recycleStep4 -> {
                 BaseActivity.stepViewUpdateUI(
@@ -215,8 +255,10 @@ class ProductPurchasingFragment : BaseFragment(), StepView, View.OnClickListener
                     textStep4,
                     requireActivity().getColor(R.color.green_color_button)
                 )
+
                 back?.visibility = View.GONE
                 next?.visibility = View.GONE
+                stripePayButton?.visibility = View.GONE
                 create?.visibility = View.VISIBLE
             }
         }
@@ -261,43 +303,118 @@ class ProductPurchasingFragment : BaseFragment(), StepView, View.OnClickListener
                 AddressInformationFragment.newInstance(buyProduct),
                 Constants.TAGS.AddressInformationFragment
             )
-        } else if (currentStep == Constants.recycleStep2) {
+        }
+        else if (currentStep == Constants.recycleStep2) {
+
+//            stripePayButton?.visibility = View.VISIBLE //old here
+
+
+            stripePayButton?.text = "Pay ${ Utils.commaConversion(buyProduct?.total) } ${Constants.currencySign}"
+
+            stripePayButton?.setOnClickListener {
+
+                val fragment: NewBillingInformationFragment =
+                    childFragmentManager.fragments[0] as NewBillingInformationFragment
+                fragment.performPayClick(requireActivity(),null)
+
+            }
+
+
             BaseActivity.replaceFragment(
                 childFragmentManager,
                 Constants.Containers.containerSubscriptionCycle,
-                BillingInformationFragment.newInstance(null, buyProduct),
-                Constants.TAGS.BillingInformationFragment
+
+//                BillingInformationFragment.newInstance(null, buyProduct),// original
+ //               Constants.TAGS.BillingInformationFragment // original
+
+                NewBillingInformationFragment.newInstance(
+                    null,
+                    buyProduct,
+                    0,
+                    null,
+                    Utils.commaConversion(buyProduct?.total),
+                null,
+                    null,null,null,null,null,null,null),//new AD
+                Constants.TAGS.NewBillingInformationFragment
             )
-        } else if (currentStep == Constants.recycleStep3) {
+        }
+
+        else if (currentStep == Constants.recycleStep3) {
+
+
+            if (CartInformationFragment.deliveryFeeValue != -1) {
+                buyProduct?.delivery_fee = CartInformationFragment.deliveryFeeValue.toString()
+            }
+
 
             buyProduct?.products = ArrayList()
             if (HomeActivity.cartList?.indices != null) {
                 for (i in HomeActivity.cartList?.indices!!) {
+
+                    Log.e(TAG,"===productId======" + HomeActivity.cartList?.get(i)?.id)
+                    Log.e(TAG,"===productqty======" + HomeActivity.cartList?.get(i)?.quantity)
+
                     val product = Product()
+                    Log.e(TAG,"===productId======" + HomeActivity.cartList?.get(i)?.id)
                     product.id = HomeActivity.cartList?.get(i)?.id
                     product.qty = HomeActivity.cartList?.get(i)?.quantity
                     buyProduct?.products?.add(product)
+
                 }
             }
-            var deliveryFeeString = ""
-            if (CartInformationFragment.deliveryFeeValue != -1) {
-                deliveryFeeString = "&" + CartInformationFragment.deliverFeeKey + "=${CartInformationFragment.deliveryFeeValue}"
+
+            Log.e("TAG","===BuyProduct address======" + Gson().toJson(User.retrieveUser()?.addresses))
+
+            val address = User.retrieveUser()?.addresses
+            for(i in address!!.indices)
+            {
+                if(address.get(i).location!!.contains(buyProduct?.map_location.toString()))
+                {
+                    buyProduct?.city_id = address.get(i).city_id
+                    buyProduct?.district_id = address.get(i).district_id
+                }
             }
-            var URL = "card_number=${buyProduct?.card_number}&expiry_date=${buyProduct?.exp_year + buyProduct?.exp_month}" +
-                        "&card_security_code=${buyProduct?.cvv.toString()}&" +
+
+            Log.e("TAG","===BuyProduct city======" + Gson().toJson(buyProduct?.city_id))
+            Log.e("TAG","===BuyProduct distirct======" + Gson().toJson(buyProduct?.district_id))
+
+
+            val couponid = buyProduct!!.coupon_id
+            if(!buyProduct!!.coupon_id.toString().isNullOrEmpty() && !buyProduct!!.coupon_id.toString().equals("null")) {
+                buyProduct!!.coupon_id = couponid
+            }
+
+            /*  var URL = "card_number=${buyProduct?.card_number}&expiry_date=${buyProduct?.exp_year + buyProduct?.exp_month}" +
+                        "&card_security_code=${buyProduct?.cvv.toString()}&" + "&is_new_card=${"1"}&"+
                         "user_id=${User.retrieveUser()?.id.toString()}&total=${buyProduct?.total.toString()}" +
                         "&coupon_id=${buyProduct?.coupon_id.toString()}&subtotal=${buyProduct?.subtotal.toString()}&points_discount=${buyProduct?.points_discount.toString()}&first_name=${buyProduct?.first_name.toString()}&" +
                         "last_name=${buyProduct?.last_name.toString()}&email=${buyProduct?.email.toString()}&phone_number=${buyProduct?.phone_number.toString()}" +
                         "&location=${buyProduct?.location.toString().replace(",", "")}&latitude=${buyProduct?.latitude.toString()}&longitude=${buyProduct?.longitude.toString()}" +
-                        "&city_id=${buyProduct?.city_id.toString()}&district_id=${buyProduct?.district_id.toString()}&organization_name=${buyProduct?.organization_name.toString()}"+ deliveryFeeString+"&map_location=${buyProduct?.map_location.toString()}"
+                        "&city_id=${buyProduct?.city_id.toString()}&district_id=${buyProduct?.district_id.toString()}&organization_name=${buyProduct?.organization_name.toString()}"+ deliveryFeeString+"&map_location=${buyProduct?.map_location.toString()}"*/
 
-            Log.e(TAG,"====SECURITY CODE PRODUCT===" +buyProduct?.cvv.toString())
+            /*var URL = "card_number=${buyProduct?.card_number}&expiry_date=${buyProduct?.exp_year + buyProduct?.exp_month}" +
+                    "&card_security_code=${buyProduct?.cvv.toString()}&is_new_card=${buyProduct?.is_new_card}" +
+                    "&user_id=${User.retrieveUser()?.id.toString()}&total=${buyProduct?.total.toString()}&delivery_fee=${buyProduct?.delivery_fee}" +
+                    "&coupon_id=${buyProduct?.coupon_id.toString()}&subtotal=${buyProduct?.subtotal.toString()}&points_discount=${buyProduct?.points_discount.toString()}&first_name=${buyProduct?.first_name.toString()}&" +
+                    "last_name=${buyProduct?.last_name.toString()}&email=${buyProduct?.email.toString()}&phone_number=${buyProduct?.phone_number.toString()}" +
+                    "&location=${buyProduct?.location.toString().replace(",", "")}&latitude=${buyProduct?.latitude.toString()}&longitude=${buyProduct?.longitude.toString()}" +
+                    "&city_id=${buyProduct?.city_id.toString()}&district_id=${buyProduct?.district_id.toString()}&organization_name=${buyProduct?.organization_name.toString()}"+"&map_location=${buyProduct?.map_location.toString()}"+"&user_card_id=${buyProduct?.user_card_id.toString()}"
 
             for (i in 0 until buyProduct?.products?.size!!) {
                 URL += "&products[${i}][id]=${buyProduct?.products?.get(i)?.id.toString()}"
                 URL += "&products[${i}][qty]=${buyProduct?.products?.get(i)?.qty.toString()}"
-            }
-            startActivityForResult(Intent(activity, WebViewActivity::class.java).putExtra(WebViewActivity.URL, URL), ServicePurchasingFragment.BUY_PLAN)
+            }*/
+
+            Log.e("TAG","===BuyProduct======" + Gson().toJson(buyProduct))
+
+            NetworkCall.make()
+                ?.setCallback(this)
+                ?.setTag(RequestCodes.API.BUY_PRODUCT)
+                ?.autoLoading(requireActivity())
+                ?.enque(Network().apis()?.buyProductNew(buyProduct!!)) //buy product json
+                ?.execute()
+
+            //startActivityForResult(Intent(activity, WebViewActivity::class.java).putExtra(WebViewActivity.URL, URL), ServicePurchasingFragment.BUY_PLAN)
             /*NetworkCall.make()
                 ?.setCallback(this)
                 ?.setTag(RequestCodes.API.BUY_PRODUCT)
@@ -314,32 +431,19 @@ class ProductPurchasingFragment : BaseFragment(), StepView, View.OnClickListener
         if (requestCode == ServicePurchasingFragment.BUY_PLAN && resultCode == Activity.RESULT_OK) {
             val fragment = ConfirmationSubscriptionFragment.newInstance()
             val args = Bundle()
-            args.putString(
-                Constants.DataConstants.purchaseID,
-                data?.extras?.getString(WebViewActivity.REFERENCE_ID)
-            )
-            args.putInt(
-                Constants.DataConstants.subscriptionCycle,
-                Constants.subscriptionCycleOne
-            )
+            args.putString(Constants.DataConstants.purchaseID, data?.extras?.getString(WebViewActivity.REFERENCE_ID))
+            args.putInt(Constants.DataConstants.subscriptionCycle, Constants.subscriptionCycleOne)
             buyProduct?.points_discount?.let {
-                args.putInt(
-                    Constants.DataConstants.rewardPoints,
-                    it.toInt()
-                )
+                args.putInt(Constants.DataConstants.rewardPoints, it.toInt())
             }
             fragment.arguments = args
-            BaseActivity.replaceFragment(
-                childFragmentManager,
-                Constants.Containers.containerSubscriptionCycle,
-                fragment, Constants.TAGS.ConfirmationSubscriptionFragment)
+            BaseActivity.replaceFragment(childFragmentManager, Constants.Containers.containerSubscriptionCycle, fragment, Constants.TAGS.ConfirmationSubscriptionFragment)
 
             HomeActivity.cartList?.clear()
             HomeActivity.refreshCart()
             CartInformationFragment.deliverFeeKey = ""
             CartInformationFragment.deliveryFeeValue = -1
         } else if (requestCode == ServicePurchasingFragment.BUY_PLAN && resultCode == Activity.RESULT_CANCELED) {
-
             try {
                 Notify.alerterRed(activity, data?.extras?.getString(WebViewActivity.MESSAGE)?.replace("+", " "))
             }
@@ -356,23 +460,16 @@ class ProductPurchasingFragment : BaseFragment(), StepView, View.OnClickListener
                 val baseResponse = Utils.getBaseResponse(response)
                 val dataParsing = Gson().fromJson(
                     Utils.jsonConverterObject(baseResponse?.data as? LinkedTreeMap<*, *>),
-                    DataParsing::class.java
-                )
+                    DataParsing::class.java)
+
+                Log.d("BUY_PRODUCT","STRIPE PRODUCT"+ GsonBuilder().setPrettyPrinting().create().toJson(dataParsing))
+
                 val fragment = ConfirmationSubscriptionFragment.newInstance()
                 val args = Bundle()
-                args.putString(
-                    Constants.DataConstants.purchaseID,
-                    dataParsing.buyProductId?.get(0)
-                )
-                args.putInt(
-                    Constants.DataConstants.subscriptionCycle,
-                    Constants.subscriptionCycleOne
-                )
+                args.putString(Constants.DataConstants.purchaseID, dataParsing.buyProductId?.get(0))
+                args.putInt(Constants.DataConstants.subscriptionCycle, Constants.subscriptionCycleOne)
                 buyProduct?.points_discount?.let {
-                    args.putInt(
-                        Constants.DataConstants.rewardPoints,
-                        it.toInt()
-                    )
+                    args.putInt(Constants.DataConstants.rewardPoints, it.toInt())
                 }
                 fragment.arguments = args
 
@@ -380,10 +477,12 @@ class ProductPurchasingFragment : BaseFragment(), StepView, View.OnClickListener
                     childFragmentManager,
                     Constants.Containers.containerSubscriptionCycle,
                     fragment,
-                    Constants.TAGS.ConfirmationSubscriptionFragment
-                )
+                    Constants.TAGS.ConfirmationSubscriptionFragment)
+
                 HomeActivity.cartList?.clear()
                 HomeActivity.refreshCart()
+                CartInformationFragment.deliverFeeKey = ""
+                CartInformationFragment.deliveryFeeValue = -1
             }
         }
     }

@@ -22,6 +22,7 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.android.reloop.network.serializer.FacebookLoginModel
+import com.android.reloop.searchablespinner.SearchableSpinner
 import com.android.reloop.utils.PhoneTextFormatter
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -54,11 +55,12 @@ import com.reloop.reloop.network.OnNetworkResponse
 import com.reloop.reloop.network.serializer.*
 import com.reloop.reloop.network.serializer.user.User
 import com.reloop.reloop.utils.*
-import com.toptoche.searchablespinnerlibrary.SearchableSpinner
 import kotlinx.android.synthetic.main.activity_signup.*
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class SignUpActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
@@ -159,27 +161,33 @@ class SignUpActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
 
         googleSignIn?.setOnClickListener(this)
         fb_icon?.setOnClickListener(this)
-        setFacebookLoginClickListener()
+//        setFacebookLoginClickListener()
     }
 
     private fun setFacebookLoginClickListener() {
-//        val EMAIL = "email"
-        facebookLogin.setReadPermissions(listOf("public_profile", "email"));
+//        facebookLogin.setReadPermissions(listOf("public_profile", "email"));
+
+        LoginManager.getInstance().logInWithReadPermissions(
+            this@SignUpActivity,
+            facebookCallbackManager!!,
+            Arrays.asList("public_profile","email"))//NEW AD
+
         LoginManager.getInstance()
-            .registerCallback(facebookCallbackManager, object : FacebookCallback<LoginResult?> {
-                override fun onSuccess(loginResult: LoginResult?) {
+            .registerCallback(facebookCallbackManager, object : FacebookCallback<LoginResult> {
+                override fun onSuccess(loginResult: LoginResult) {
                     val mGraphRequest = GraphRequest.newMeRequest(
                         loginResult?.accessToken
                     ) { me, response ->
-                        if (response.error != null) {
+                        if (response!!.error != null) {
                             Notify.alerterRed(
                                 this@SignUpActivity,
                                 "Unable To Get User Facebook Data"
                             )
                         } else {
-                            val email = me.optString("email")
-                            val firstName = me.optString("first_name")
-                            val lastName = me.optString("last_name")
+                            val email = me?.optString("email")
+                            val firstName = me?.optString("first_name")
+                            val lastName = me?.optString("last_name")
+
                             /*  if (email.isNullOrEmpty()) {
                                   Notify.alerterRed(
                                       this@SignUpActivity,
@@ -194,6 +202,7 @@ class SignUpActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
                                 firstName,
                                 lastName
                             )*/
+
                             val model = Gson().fromJson(Utils.jsonConverterObject(me as JSONObject),
                                 FacebookLoginModel::class.java)
                             socialLogin(Constants.LoginTypes.FACEBOOK, model)
@@ -208,7 +217,7 @@ class SignUpActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
 
                 override fun onCancel() {
                 // App code
-//                    Notify.Toast("Login Manager Facebook Login Cancel")
+//                 Notify.Toast("Login Manager Facebook Login Cancel")
                 }
 
                 override fun onError(exception: FacebookException) { // App code
@@ -407,11 +416,7 @@ class SignUpActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
             for (i in sectorList.indices) {
                 names.add(sectorList[i].name.toString())
             }
-            val sectorAdapter = AdapterSpinnerSimple(
-                R.layout.spinner_item_textview_drawable,
-                names,
-                getDrawable(R.drawable.icon_sector_un)!!, true
-            )
+            val sectorAdapter = AdapterSpinnerSimple(R.layout.spinner_item_textview_drawable, names, getDrawable(R.drawable.icon_sector_un)!!, true)
             sector?.adapter = sectorAdapter
         }
 
@@ -444,7 +449,8 @@ class SignUpActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
                 signInGoogle()
             }
             R.id.fb_icon -> {
-                facebookLogin.performClick()
+//                facebookLogin.performClick()
+                setFacebookLoginClickListener()
             }
             R.id.contactus -> {
                 if (!whatsAppNumber.isEmpty())
@@ -499,7 +505,9 @@ class SignUpActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
             )
             if (authSuccessful) {
                 createSignup?.isClickable = false
-                signUp?.email = email?.text.toString()
+
+                //ALL OLD params
+                /*signUp?.email = email?.text.toString()
                 signUp?.password = password?.text.toString()
                 signUp?.password_confirmation = confirm_password?.text.toString()
                 signUp?.phone_number = tvprefix.text.toString()+phone_number?.text.toString()
@@ -515,17 +523,31 @@ class SignUpActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
                 signUp?.city_id = dependenciesListing?.cities?.get(city.selectedItemPosition)?.id
                 signUp?.district_id = districtFilterList?.get(district.selectedItemPosition)?.id
                 signUp?.sector_id = null
-                signUp?.organization_id = null
+                signUp?.organization_id = null*/
+
+                signUp?.email = email?.text.toString()
+                signUp?.password = password?.text.toString()
+                signUp?.password_confirmation = confirm_password?.text.toString()
+                signUp?.phone_number = tvprefix.text.toString()+phone_number?.text.toString()
+//                signUp?.location = location?.text.toString()
+                signUp?.user_type = userType
+//                signUp?.no_of_employees = null
+//                signUp?.no_of_branches = null
+                if (organization?.text.toString().isEmpty()) {
+//                    signUp?.hh_organization_name = null
+                } else {
+//                    signUp?.hh_organization_name = organization?.text.toString()
+                }
+//                signUp?.city_id = dependenciesListing?.cities?.get(city.selectedItemPosition)?.id
+//                signUp?.district_id = districtFilterList?.get(district.selectedItemPosition)?.id
+//                signUp?.sector_id = null
+//                signUp?.organization_id = null
+
                 NetworkCall.make()
                     ?.setCallback(this)
                     ?.setTag(RequestCodes.API.SIGN_UP)
                     ?.autoLoading(this)
-                    ?.enque(
-                        Network().apis()?.register(
-
-                            signUp
-                        )
-                    )?.execute()
+                    ?.enque(Network().apis()?.register(signUp))?.execute()
             }
         } else if (userType == Constants.UserType.organization) {
             val authSuccessful: Boolean = SignUpOrganizationAuth.authenticate(
@@ -544,7 +566,9 @@ class SignUpActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
             )
             if (authSuccessful) {
                 createSignup?.isClickable = false
-                signUp?.email = email?.text.toString()
+
+                //ALL OLD Params
+                /*signUp?.email = email?.text.toString()
                 signUp?.organization_name = organizationName?.text.toString()
                 signUp?.password = password?.text.toString()
                 signUp?.password_confirmation = confirm_password?.text.toString()
@@ -556,7 +580,22 @@ class SignUpActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
                 signUp?.organization_id = null
                 signUp?.city_id = dependenciesListing?.cities?.get(city.selectedItemPosition)?.id
                 signUp?.district_id = districtFilterList?.get(district.selectedItemPosition)?.id
-                signUp?.sector_id = dependenciesListing?.sectors?.get(sector?.selectedItemPosition!!)?.id
+                signUp?.sector_id = dependenciesListing?.sectors?.get(sector?.selectedItemPosition!!)?.id*/
+
+                signUp?.email = email?.text.toString()
+                signUp?.organization_name = organizationName?.text.toString()
+                signUp?.password = password?.text.toString()
+                signUp?.password_confirmation = confirm_password?.text.toString()
+                signUp?.phone_number = tvprefix.text.toString() + phone_number?.text.toString()
+//                signUp?.location = location?.text.toString()
+                signUp?.user_type = userType
+//                signUp?.no_of_employees = Constants.getEmployeesNumberSelectList()[noOfEmployees?.selectedItemPosition!!]
+//                signUp?.no_of_branches = Constants.getBranchesNumberListSelectList()[noOfBranches?.selectedItemPosition!!]
+//                signUp?.organization_id = null
+//                signUp?.city_id = dependenciesListing?.cities?.get(city.selectedItemPosition)?.id
+//                signUp?.district_id = districtFilterList?.get(district.selectedItemPosition)?.id
+//                signUp?.sector_id = dependenciesListing?.sectors?.get(sector?.selectedItemPosition!!)?.id
+
                 NetworkCall.make()
                     ?.setCallback(this)
                     ?.setTag(RequestCodes.API.SIGN_UP)
@@ -571,11 +610,14 @@ class SignUpActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
     private fun updateUI(value: Int) {
         when (value) {
             Constants.UserType.organization -> {
-                noOfEmployees?.visibility = View.VISIBLE
+                //AKSHAY17
+                /*noOfEmployees?.visibility = View.VISIBLE
                 noOfBranches?.visibility = View.VISIBLE
                 sector?.visibility = View.VISIBLE
-                organizationName?.visibility = View.VISIBLE
                 organization?.visibility = View.GONE
+                */
+
+                organizationName?.visibility = View.VISIBLE
                 organizationBtn?.background = getDrawable(R.drawable.button_shape_green)
                 organizationBtn?.setTextColor(getColor(R.color.white))
                 household?.background = getDrawable(R.drawable.signup_button_style)
@@ -592,11 +634,14 @@ class SignUpActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
 
             }
             Constants.UserType.household -> {
-                noOfEmployees?.visibility = View.GONE
+                //AKSHAY17
+/*                noOfEmployees?.visibility = View.GONE
                 noOfBranches?.visibility = View.GONE
                 sector?.visibility = View.GONE
-                organizationName?.visibility = View.GONE
                 organization?.visibility = View.VISIBLE
+                */
+
+                organizationName?.visibility = View.GONE
                 household?.background = getDrawable(R.drawable.button_shape_green)
                 household?.setTextColor(getColor(R.color.white))
                 organizationBtn?.background = getDrawable(R.drawable.signup_button_style)
@@ -648,7 +693,18 @@ class SignUpActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
                     "continueASsharedPref",
                     Context.MODE_PRIVATE
                 )
-                if (isOrganization) {
+
+                //old
+                /*if (isOrganization) {
+                    val sharedValue =
+                        sharedPreferences.getString(
+                            "organization_signup_text_value",
+                            "defaultValue"
+                        )
+                    showInfoPopup(this, "Organization", sharedValue)
+                }*/
+
+                if(userType == Constants.UserType.organization){
                     val sharedValue =
                         sharedPreferences.getString(
                             "organization_signup_text_value",
@@ -656,6 +712,15 @@ class SignUpActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
                         )
                     showInfoPopup(this, "Organization", sharedValue)
                 }
+                val handler = Handler()
+                handler.postDelayed(
+                    {
+                        val intent = Intent(this, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }, 2000
+                )
+
             }
             RequestCodes.API.DEPENDENCIES -> {
                 dependenciesListing = Dependencies()
@@ -714,7 +779,7 @@ class SignUpActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
                 if (userModel.user_type == 0 || userModel.user_type == null) {
                     userModel?.user_type = Constants.UserType.household
                 }
-                userModel.save(userModel, this)
+                userModel.save(userModel, this,true)
                 val handler = Handler()
                 handler.postDelayed(
                     {
@@ -807,10 +872,9 @@ class SignUpActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
                         auth.currentUser?.email,
                         Constants.LoginTypes.GOOGLE,
                         acct.givenName,
-                        acct.familyName
-                    )
-                    progressDialogHide()
+                        acct.familyName)
 
+                    progressDialogHide()
                 }
             } else {
                 Log.e(LoginActivity.TAG, "signInWithCredential:failure", task.exception)

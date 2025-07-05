@@ -64,7 +64,9 @@ object SignUpHouseholdAuth {
             )
             check = false
         }
-        else if (location.isEmpty()) {
+
+            //Originaly added AD CHANGE
+        /*else if (location.isEmpty()) {
             Notify.alerterRed(
                 activity,
                 activity.resources.getString(R.string.location_err_msg)
@@ -83,7 +85,9 @@ object SignUpHouseholdAuth {
                 activity.resources.getString(R.string.district_err_msg)
             )
             check = false
-        }  else {
+        }*/
+
+        else {
             if (InternetCheck.getInstance()?.isNetworkAvailable(activity)!!) {
                 check = true
             } else {

@@ -35,13 +35,13 @@
             android:id="@+id/user_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/buttons"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/_12sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:elevation="@dimen/_5sdp"
             app:backgroundTint="@color/colorPrimary"
             app:srcCompat="@drawable/icon_my_location"
-            android:layout_above="@+id/buttons"
             tools:ignore="RelativeOverlap" />
 
       <LinearLayout

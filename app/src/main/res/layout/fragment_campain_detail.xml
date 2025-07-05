@@ -26,6 +26,10 @@
                 android:descendantFocusability="blocksDescendants"
                 android:orientation="vertical">
 
+
+                <!--<androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewPager"
+
                 <androidx.viewpager.widget.ViewPager
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_150sdp"
@@ -42,7 +46,31 @@
                     android:layout_marginRight="@dimen/_10sdp"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:visibility="visible"/>
+                    android:visibility="visible" />-->
+
+                <com.android.reloop.customviews.InfiniteViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp" />
+
+                <com.android.reloop.customviews.InfiniteCirclePageIndicator
+                    android:id="@+id/layoutDots"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:background="@android:color/white"
+                    android:gravity="center"
+                    android:visibility="visible"
+                    app:fillColor="@color/light_green"
+                    app:pageColor="@color/quantum_grey"
+                    app:radius="4dp"
+                    app:strokeColor="@color/default_circle_indicator_stroke_color"
+                    app:strokeWidth="0dp" />
 
                 <TextView
                     android:id="@+id/tv_campainName"
@@ -53,7 +81,7 @@
                     android:layout_marginTop="@dimen/_20sdp"
                     android:text=""
                     android:textAllCaps="false"
-                    android:textColor="@color/green_color_button"
+                    android:textColor="@color/colorBlack"
                     android:textSize="@dimen/_20sdp"
                     android:textStyle="bold" />
 
@@ -69,6 +97,25 @@
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/_12sdp"
                     android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btn_join"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_marginRight="@dimen/_30sdp"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_30sdp"
+                    android:paddingHorizontal="@dimen/_25sdp"
+                    android:background="@drawable/button_shape_green"
+                    android:gravity="center"
+                    android:backgroundTint="#1B9151"
+                    android:text="@string/click_to_join"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/_11sdp"
+                    android:visibility="gone"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -306,22 +353,24 @@
             android:layout_centerHorizontal="true"
             android:layout_weight="1.82">
 
-            <Button
+            <!--<Button
                 android:id="@+id/btn_join"
                 style="@style/TSPoppinsRegular"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/_25sdp"
                 android:layout_marginRight="@dimen/_30sdp"
+                android:layout_marginVertical="@dimen/_10sdp"
                 android:layout_marginLeft="@dimen/_30sdp"
-                android:background="@drawable/button_shape_rectangle"
+                android:paddingHorizontal="@dimen/_25sdp"
+                android:background="@drawable/bg_rounded_grey"
                 android:gravity="center"
-                android:backgroundTint="@color/green_color_button"
+                android:backgroundTint="#1B9151"
                 android:text="@string/click_to_join"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_11sdp"
-                android:visibility="gone"/>
+                android:visibility="gone"/>-->
 
             <Button
                 android:id="@+id/back"

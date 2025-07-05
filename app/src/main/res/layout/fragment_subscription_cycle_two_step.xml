@@ -177,6 +177,18 @@
                 android:visibility="visible"/>
 
             <Button
+                android:id="@+id/stripePayButton"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_gravity="center"
+                android:background="@drawable/button_shape"
+                android:text="PAY"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:visibility="gone"/>
+
+            <Button
                 android:id="@+id/create"
                 style="@style/TSPoppinsRegular"
                 android:layout_width="@dimen/_180sdp"
@@ -188,6 +200,8 @@
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_12sdp"
                 android:visibility="gone" />
+
+
 
         </LinearLayout>
 

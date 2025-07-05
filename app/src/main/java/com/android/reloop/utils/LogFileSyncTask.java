@@ -77,7 +77,6 @@ public class LogFileSyncTask {
         try {
             //File logFileCopy = lockFile(user.user_id);
             List<LogFile> logFiles = DatabaseHelper.getInstance(MainApplication.Companion.applicationContext()).getLogFiles();
-            Log.e(TAG,"Logs File Size : "+logFiles.size());
             for (LogFile file : logFiles) {
                 try {
                     if (sendFile(file)) {
@@ -89,13 +88,13 @@ public class LogFileSyncTask {
                 }
             }
         } catch (Exception e) {
-            Log.e(TAG, "LM Failed To Upload Logs To Server...",e);
+            e.printStackTrace();
+            Log.e("LogManager", "LM Failed To Upload Logs To Server...");
         }
 
         handler.sendEmptyMessage(888);
     }
     private boolean sendFile(LogFile logFile) throws Exception {
-        Log.e(TAG, "sendFile() called with: logFile = [" + logFile.filePath + "]");
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
         String version = Build.VERSION.SDK_INT + "";
@@ -124,7 +123,6 @@ public class LogFileSyncTask {
                         .autoLoading(null)
                         .enque(new Network().apis().pushLogFile(requestBody))
                         .executeCurrentThread();
-
                 return BaseResponse.Companion.isSuccess(response);
             } catch (Exception e) {
                 e.printStackTrace();

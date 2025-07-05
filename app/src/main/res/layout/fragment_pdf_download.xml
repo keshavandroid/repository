@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@drawable/shape_layout_curve_background"
+    tools:context=".fragments.TermConditionFragment">
+
+    <ScrollView
+        android:id="@+id/scrollViewPDF"
+        android:layout_above="@+id/llBottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:ignore="UselessParent">
+
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--HEADER-->
+            <RelativeLayout
+                android:id="@+id/relHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:src="@drawable/icon_reloop_logo_intro"></ImageView>
+
+                <RelativeLayout
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/arrows_down"></RelativeLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_below="@+id/relHeader"
+                android:layout_above="@+id/relFooter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    style="@style/TSPoppinsSemiBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Certificate of Recycling"
+                    android:textColor="@color/green_color_button"
+                    android:textSize="@dimen/_18sdp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/txtNamePDF"
+                    style="@style/TSPoppinsSemiBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/_12sdp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/txtConnectedHouseholds"
+                    style="@style/TSPoppinsRegular"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Achievements in numbers"
+                    android:textColor="@color/quantum_grey600"
+                    android:textSize="@dimen/_11sdp" />
+
+                <TextView
+                    android:id="@+id/txtDatePDF"
+                    style="@style/TSPoppinsRegular"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="00 - 00"
+                    android:textColor="@color/quantum_grey600"
+                    android:textSize="@dimen/_11sdp" />
+
+                <TextView
+                    android:id="@+id/txtTotalWasteRecycled"
+                    style="@style/TSPoppinsSemiBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="0 Kgs"
+                    android:textColor="@color/green_color_button"
+                    android:textSize="@dimen/_19sdp"
+                    android:visibility="visible" />
+
+                <TextView
+                    style="@style/TSPoppinsRegular"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Waste Recycled"
+                    android:textColor="@color/quantum_grey600"
+                    android:textSize="@dimen/_11sdp" />
+
+                <!--DISPLAY STATIC CATEGORIES (VISIBILITY IS GONE)-->
+                <LinearLayout
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_28sdp"
+                            android:src="@drawable/certificate_icons_plastics">
+                        </ImageView>
+
+                        <TextView
+                            android:id="@+id/txtPiePlastic"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 Kgs"
+                            android:singleLine="true"
+                            android:textColor="@color/green_color_button"
+                            android:textSize="@dimen/_7sdp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Plastics"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_28sdp"
+                            android:src="@drawable/certificate_icons_electronics">
+                        </ImageView>
+
+                        <TextView
+                            android:id="@+id/txtPieElectronics"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 Kgs"
+                            android:singleLine="true"
+                            android:textColor="@color/green_color_button"
+                            android:textSize="@dimen/_7sdp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Electronics"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_6sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_28sdp"
+                            android:src="@drawable/certificate_icons_metals">
+                        </ImageView>
+
+                        <TextView
+                            android:id="@+id/txtPieMetals"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 Kgs"
+                            android:singleLine="true"
+                            android:textColor="@color/green_color_button"
+                            android:textSize="@dimen/_7sdp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Metals"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_28sdp"
+                            android:src="@drawable/certificate_icons_glass">
+                        </ImageView>
+
+                        <TextView
+                            android:id="@+id/txtPieGlass"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 Kgs"
+                            android:singleLine="true"
+                            android:textColor="@color/green_color_button"
+                            android:textSize="@dimen/_7sdp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Glass"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_28sdp"
+                            android:src="@drawable/certificate_icons_clothes">
+                        </ImageView>
+
+                        <TextView
+                            android:id="@+id/txtPieClothes"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 Kgs"
+                            android:singleLine="true"
+                            android:textColor="@color/green_color_button"
+                            android:textSize="@dimen/_7sdp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Clothes"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_28sdp"
+                            android:src="@drawable/certificate_icons_paper">
+                        </ImageView>
+
+                        <TextView
+                            android:id="@+id/txtPiePaper"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 Kgs"
+                            android:singleLine="true"
+                            android:textColor="@color/green_color_button"
+                            android:textSize="@dimen/_7sdp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Paper"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_28sdp"
+                            android:src="@drawable/certificate_icons_food_waste">
+                        </ImageView>
+
+                        <TextView
+                            android:id="@+id/txtPieFood"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 Kgs"
+                            android:singleLine="true"
+                            android:textColor="@color/green_color_button"
+                            android:textSize="@dimen/_7sdp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Food"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_28sdp"
+                            android:src="@drawable/certificate_icons_oil">
+                        </ImageView>
+
+                        <TextView
+                            android:id="@+id/txtPieOil"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 Kgs"
+                            android:singleLine="true"
+                            android:textColor="@color/green_color_button"
+                            android:textSize="@dimen/_7sdp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Oil"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <!--DISPLAY DYNAMIC CATEGORIES-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPDFMaterials"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    tools:listitem="@layout/item_pdf_materials"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <LinearLayout
+                    android:id="@+id/llFirstRow"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llSecondRow"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </LinearLayout>
+
+                <TextView
+                    style="@style/TSPoppinsRegular"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Your efforts contributed to"
+                    android:textColor="@color/quantum_grey600"
+                    android:textSize="@dimen/_11sdp" />
+
+                <LinearLayout
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_28sdp"
+                            android:src="@drawable/certificate_icons_co2">
+                        </ImageView>
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Reducing"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                        <TextView
+                            android:id="@+id/txtCo2Emissions"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 Kgs"
+                            android:singleLine="true"
+                            android:textColor="@color/green_color_button"
+                            android:textSize="@dimen/_7sdp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/co2_heading"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_28sdp"
+                            android:src="@drawable/certificate_icons_water">
+                        </ImageView>
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Saving"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                        <TextView
+                            android:id="@+id/txtWater"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 L"
+                            android:singleLine="true"
+                            android:textColor="@color/green_color_button"
+                            android:textSize="@dimen/_7sdp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Water"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_28sdp"
+                            android:src="@drawable/certificate_icons_electricity">
+                        </ImageView>
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Saving"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                        <TextView
+                            android:id="@+id/txtElectricity"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 kWh"
+                            android:singleLine="true"
+                            android:textColor="@color/green_color_button"
+                            android:textSize="@dimen/_7sdp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Electricity"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_28sdp"
+                            android:src="@drawable/certificate_icons_farming_land">
+                        </ImageView>
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Supporting"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                        <TextView
+                            android:id="@+id/txtFarmingLand"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 ft²"
+                            android:singleLine="true"
+                            android:textColor="@color/green_color_button"
+                            android:textSize="@dimen/_7sdp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Farming Land"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_28sdp"
+                            android:src="@drawable/certificate_icons_landfill">
+                        </ImageView>
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Saving"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                        <TextView
+                            android:id="@+id/txtLandfillSpace"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 ft³"
+                            android:singleLine="true"
+                            android:textColor="@color/green_color_button"
+                            android:textSize="@dimen/_7sdp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Landfill Space"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_28sdp"
+                            android:src="@drawable/certificate_icons_trees">
+                        </ImageView>
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Saving"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                        <TextView
+                            android:id="@+id/txtTrees"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0"
+                            android:singleLine="true"
+                            android:textColor="@color/green_color_button"
+                            android:textSize="@dimen/_7sdp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Trees"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_28sdp"
+                            android:src="@drawable/certificate_icons_oil_saved">
+                        </ImageView>
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Saving"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                        <TextView
+                            android:id="@+id/txtOil"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 L"
+                            android:singleLine="true"
+                            android:textColor="@color/green_color_button"
+                            android:textSize="@dimen/_7sdp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Oil"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_28sdp"
+                            android:src="@drawable/certificate_icons_compost">
+                        </ImageView>
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Creating"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                        <TextView
+                            android:id="@+id/txtComposs"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 Kgs"
+                            android:singleLine="true"
+                            android:textColor="@color/green_color_button"
+                            android:textSize="@dimen/_7sdp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Compost"
+                            android:textColor="@color/quantum_grey600"
+                            android:textSize="@dimen/_7sdp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <!--FOOTER-->
+            <RelativeLayout
+                android:id="@+id/relFooter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">
+
+                <ImageView
+                    android:id="@+id/imgOrganization"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"
+                    android:src="@drawable/icon_placeholder_generic"></ImageView>
+
+                <RelativeLayout
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/arrows_up"></RelativeLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/llBottom"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:gravity="center_horizontal|bottom"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/back"
+            style="@style/TSPoppinsRegular"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_33sdp"
+            android:background="@drawable/button_shape_hollow"
+            android:text="@string/back"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_12sdp" />
+
+        <Button
+            android:id="@+id/btnDownloadPDF"
+            style="@style/TSPoppinsRegular"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_33sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginVertical="@dimen/_1sdp"
+            android:background="@drawable/button_shape_green"
+            android:text="Download PDF"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

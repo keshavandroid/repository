@@ -27,8 +27,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:gravity="center"
-                android:textColor="@color/colorBlack"
                 android:text="@string/campaigns_you_joined" />
 
             <androidx.recyclerview.widget.RecyclerView

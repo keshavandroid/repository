@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/txtCatName"
+        style="@style/TSPoppinsRegular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:layout_marginEnd="@dimen/_3sdp"
+        android:layout_marginBottom="@dimen/_3sdp"
+        android:drawablePadding="@dimen/_10sdp"
+        android:text="Electronics"
+        android:textColor="@color/quantum_grey"
+        android:textSize="@dimen/_11sdp" />
+
+    <ImageView
+        android:id="@+id/imgClose"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/txtCatName"
+        android:layout_margin="@dimen/_3sdp"
+        android:padding="@dimen/_1sdp"
+        android:src="@drawable/ic_close_green"
+        android:layout_width="@dimen/_14sdp"
+        android:layout_height="@dimen/_14sdp" />
+
+
+</RelativeLayout>

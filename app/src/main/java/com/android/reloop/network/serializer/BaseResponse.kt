@@ -16,6 +16,8 @@ class BaseResponse() : Serializable {
     var status: Boolean? = null
     @SerializedName("data")
     var data: Any? = null
+    @SerializedName("token")
+    var token: Any? = null
 
     constructor(message: String?, code: Int?) : this() {
         this.message = message
@@ -48,10 +50,8 @@ class BaseResponse() : Serializable {
 
         fun isUnAuthorized(response: Response<*>): Boolean {
             return try {
-                (response.code() == ResponseCode.UN_AUTHORIZED
-                        || response.code() == ResponseCode.NOT_FOUND ||
-                        response.code() == ResponseCode.INTERNAL_SERVER_ERROR
-                        ||
+                (response.code() == ResponseCode.UN_AUTHORIZED || response.code() == ResponseCode.NOT_FOUND ||
+                        response.code() == ResponseCode.INTERNAL_SERVER_ERROR ||
                         response.code() == ResponseCode.BAD_REQUEST)
             } catch (e: java.lang.Exception) {
                 false

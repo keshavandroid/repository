@@ -26,6 +26,7 @@ class WebViewActivity : AppCompatActivity() {
         var URL: String = "URL"
         var REFERENCE_ID: String = "REFERENCE_ID"
         var MESSAGE: String = "MESSAGE"
+
     }
 
     var progressDialog: Dialog? = null
@@ -101,8 +102,7 @@ class WebViewActivity : AppCompatActivity() {
             super.onPageFinished(view, url)
             if (webURL != url) {
                 view?.loadUrl(
-                    "javascript:window.HtmlViewer.showHTML" +
-                            "('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');"
+                    "javascript:window.HtmlViewer.showHTML" + "('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');"
                 )
             }
         }
@@ -161,7 +161,8 @@ class WebViewActivity : AppCompatActivity() {
                     if (response != null && response?.getResponseMessage() != "Success") {
                         (ctx as Activity).setResult(
                             Activity.RESULT_CANCELED,
-                            Intent().putExtra(MESSAGE, response.getResponseMessage()))
+                            Intent().putExtra(MESSAGE, response.getResponseMessage())
+                        )
                         ctx.finish()
                     } else
                         if (response?.getResponseCode() == "14000") {

@@ -1,10 +1,15 @@
 package com.reloop.reloop.utils
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import android.view.View
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import com.reloop.reloop.R
 import com.reloop.reloop.app.MainApplication
@@ -33,7 +38,7 @@ object Notify {
         activity: Context?,
         message: String?
     ) {
-        if (activity != null) Alerter.create(activity as Activity?)
+        if (activity != null) Alerter.create((activity as Activity?)!!)
             .setText(message!!)
             .setIcon(R.drawable.warning_sign)
             .setBackgroundColorRes(R.color.light_orange)
@@ -48,13 +53,15 @@ object Notify {
             .show()
     }
 
+
+
     fun alerterRedButton(
         activity: Activity?,
         message: String?,
         item: Category?,
         removeItemCart: RemoveItemCart?
     ) {
-        Alerter.create(activity)
+        Alerter.create(activity!!)
             .setText(message!!)
             .setDismissable(true)
             .setTextAppearance(R.style.AlertTextAppearance_Title)
@@ -86,7 +93,7 @@ object Notify {
     ) {
         val content = SpannableString(link)
         content.setSpan(UnderlineSpan(), 0, link.length, 0)
-        Alerter.create(activity)
+        Alerter.create(activity!!)
             .setText(message)
             .setDuration(5000)
             .setBackgroundColorRes(R.color.light_orange)
@@ -102,12 +109,64 @@ object Notify {
             .show()
     }
 
+    fun hyperlinkAlertGreen(
+        activity: Activity?,
+        message: String,
+        link: String,
+        callback: AlertDialogCallback,
+        value: Int
+    ) {
+        val content = SpannableString(link)
+        content.setSpan(UnderlineSpan(), 0, link.length, 0)
+        Alerter.create(activity!!)
+            .setText(message)
+            .setBackgroundColorRes(R.color.light_green)
+            .enableInfiniteDuration(true)
+            .setTextAppearance(R.color.white)
+            .setIcon(R.drawable.warning_sign)
+            .addButton(content, R.style.AlertStyleButtons2, View.OnClickListener {
+                callback.callDialog(value)
+                if (Alerter.isShowing) {
+                    Alerter.hide()
+                }
+            })
+            .enableSwipeToDismiss()
+            .show()
+    }
+
+    fun hyperlinkAlertWithoutButton(
+        activity: Activity?,
+        message: String,
+        link: String,
+        callback: AlertDialogCallback,
+        value: Int
+    ) {
+        val content = SpannableString(link)
+        content.setSpan(UnderlineSpan(), 0, link.length, 0)
+        Alerter.create(activity!!)
+            .setText(message)
+            .setDuration(5000)
+            .setBackgroundColorRes(R.color.light_orange)
+            .setTextAppearance(R.color.white)
+            .setIcon(R.drawable.warning_sign)
+            /*.addButton(content, R.style.AlertStyleButtons2, View.OnClickListener {
+                callback.callDialog(value)
+                if (Alerter.isShowing) {
+                    Alerter.hide()
+                }
+            })*/
+            .enableSwipeToDismiss()
+            .show()
+    }
+
+
+
     fun alerterOrganizationConfirmation(
         activity: Activity?,
         message: String?,
         notifyCallback: NotifyCallback
     ) {
-        Alerter.create(activity)
+        Alerter.create(activity!!)
             .setText(message!!)
             .setDismissable(true)
             .setTextAppearance(R.style.AlertTextAppearance_Title)

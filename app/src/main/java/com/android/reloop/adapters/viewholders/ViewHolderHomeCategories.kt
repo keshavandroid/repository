@@ -14,7 +14,7 @@ class ViewHolderHomeCategories(itemView: View) :
     var imageIcon: ImageView? = itemView.findViewById(R.id.imageView_category_icon)
     var points: TextView? = itemView.findViewById(R.id.points)
     var info: ImageButton? = itemView.findViewById(R.id.info_button)
-
+    var tv_status: TextView?= itemView.findViewById(R.id.tv_status)
 
 
 }

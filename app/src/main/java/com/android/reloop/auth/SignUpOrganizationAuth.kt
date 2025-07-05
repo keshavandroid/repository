@@ -73,7 +73,10 @@ object SignUpOrganizationAuth {
                 activity.resources.getString(R.string.phone_number_not_valid)
             )
             check = false
-        } else if (location.isEmpty()) {
+        }
+
+            //Originaly added AD CHANGE
+        /*else if (location.isEmpty()) {
             Notify.alerterRed(
                 activity,
                 activity.resources.getString(R.string.location_err_msg)
@@ -110,7 +113,7 @@ object SignUpOrganizationAuth {
                 activity.resources.getString(R.string.noOfBranches_err_msg)
             )
             check = false
-        }
+        }*/
         else {
             if (InternetCheck.getInstance()?.isNetworkAvailable(activity)!!) {
                 check = true

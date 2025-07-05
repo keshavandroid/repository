@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reports_fragment_container"
+    android:layout_width="match_parent"
+    android:background="@color/main_bg_color"
+    android:layout_height="match_parent"
+    tools:context=".fragments.ReportsFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TSPoppinsMedium"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:visibility="gone"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:text="@string/reports" />
+
+            <RelativeLayout
+                android:gravity="center"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imgGift"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_kgs_img">
+
+                </ImageView>
+
+                <TextView
+                    android:id="@+id/txtTotalKgs"
+                    style="@style/TSPoppinsMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_toRightOf="@+id/imgGift"
+                    android:text="0.0"
+                    android:textColor="@color/quantum_black_100"
+                    android:textSize="@dimen/_26sdp"
+                    android:visibility="visible" />
+
+                <TextView
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_below="@+id/txtTotalKgs"
+                    android:layout_toRightOf="@+id/imgGift"
+                    android:text="Kilograms Recycled"
+                    android:textColor="@color/quantum_black_100"
+                    android:textSize="@dimen/_14sdp"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+            <!--<ImageView
+                android:id="@+id/imgExportReport"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="right"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:src="@drawable/download_report"
+                app:tint="#158dcc">
+            </ImageView>-->
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtConnectedHouseholds"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:text="@string/connected_households"
+                    android:textColor="@color/quantum_grey"
+                    android:textSize="@dimen/_11sdp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/txtConnectedOrgs"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtConnectedHouseholds"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:text="@string/connected_organizations"
+                    android:textColor="@color/quantum_grey"
+                    android:textSize="@dimen/_11sdp"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/imgExportReport"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_toLeftOf="@+id/imgDownloadPDF"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/bg_white_circle"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:src="@drawable/excel_icon">
+                </ImageView>
+
+                <ImageView
+                    android:id="@+id/imgDownloadPDF"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/_7sdp"
+                    android:background="@drawable/bg_white_circle"
+                    android:layout_marginRight="@dimen/_25sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:src="@drawable/download_pdf"
+                    app:tint="#ffffff">
+                </ImageView>
+
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/download"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_30sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:background="@drawable/button_shape"
+                    android:drawableStart="@drawable/icon_download"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:paddingEnd="@dimen/_20sdp"
+                    android:text="@string/download"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/_12sdp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/txtClearFilterReport"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="@dimen/_30sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:layout_toLeftOf="@+id/filter"
+                    android:text="@string/str_clear_filter"
+                    android:textColor="#158dcc"
+                    android:textSize="@dimen/_11sdp"
+                    android:visibility="gone" />
+
+                <ImageButton
+                    android:id="@+id/filter"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/_30sdp"
+                    android:background="@null"
+                    android:visibility="gone"
+                    android:src="@drawable/icon_filter_un"
+                    tools:ignore="ContentDescription" />
+
+            </RelativeLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/dropDowns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/edittextbackgroundsimple"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <Spinner
+                    android:id="@+id/organization_filter"
+                    android:layout_width="@dimen/_230sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginEnd="@dimen/_3sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:background="@null"
+                    android:elevation="@dimen/_4sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:spinnerMode="dropdown"
+                    android:textSize="@dimen/_10sdp"
+                    tools:ignore="Autofill,LabelFor,RtlSymmetry" />
+            </LinearLayout>
+
+
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@color/colorWhite"
+                android:elevation="@dimen/_3sdp"
+                app:cardCornerRadius="@dimen/_15sdp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:text="@string/reports_new_title"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:textSize="@dimen/_13sdp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/filterDay"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:text="@string/day"
+                            android:gravity="center"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textSize="@dimen/_9sdp" />
+
+                        <TextView
+                            android:id="@+id/filterWeek"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:text="@string/week"
+                            android:textAlignment="center"
+                            android:gravity="center"
+                            android:textAllCaps="false"
+                            android:textSize="@dimen/_9sdp" />
+
+                        <TextView
+                            android:id="@+id/filterMonth"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:text="@string/month"
+                            android:gravity="center"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textSize="@dimen/_9sdp" />
+
+                        <TextView
+                            android:id="@+id/filterYear"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/year"
+                            android:gravity="center"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textSize="@dimen/_9sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:gravity="center">
+
+                        <ImageButton
+                            android:id="@+id/previous"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/icon_left_arrow_reports"
+                            android:visibility="gone"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
+                            android:id="@+id/filter_label"
+                            style="@style/TSPoppinsRegular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/_15sdp" />
+
+                        <ImageButton
+                            android:id="@+id/next"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/icon_right_arrow_reports"
+                            android:visibility="gone"
+                            tools:ignore="ContentDescription" />
+                    </LinearLayout>
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/bar_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_200sdp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_240sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@color/colorWhite"
+                android:elevation="@dimen/_3sdp"
+                app:cardCornerRadius="@dimen/_15sdp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/heading_pieChart"
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:text="@string/material_composition"
+                        android:textSize="@dimen/_15sdp"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/heading_time_period"
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:text=""
+                        android:textSize="@dimen/_15sdp"
+                        android:visibility="gone" />
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/pie_chart"
+                        android:visibility="visible"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:id="@+id/no_data_tv"
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pie_chart_no_data_msg"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:textSize="@dimen/_13sdp"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:background="@color/colorWhite"
+                android:elevation="@dimen/_5sdp"
+                app:cardCornerRadius="@dimen/_15sdp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <TextView
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:text="Your Environmental Impact in Numbers!"
+                    android:textSize="@dimen/_12sdp" />
+
+
+                <TextView
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:text="Your recycling contribution helped"
+                    android:textColor="#BBBBBB"
+                    android:textSize="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvHomeCategories"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:listitem="@layout/item_row_store_contribution"
+                        android:layout_marginHorizontal="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+
+
+            </androidx.cardview.widget.CardView>
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@color/colorWhite"
+                android:elevation="@dimen/_3sdp"
+                app:cardCornerRadius="@dimen/_12sdp">
+
+                <LinearLayout
+                    android:layout_marginVertical="@dimen/_15sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="10"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_weight="2"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:src="@drawable/cigarette_butts_green" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7.5"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TSPoppinsMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.7"
+                            android:text="@string/you_saved"
+                            android:textColor="@color/quantum_grey700"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <TextView
+                            style="@style/TSPoppinsMedium"
+                            android:id="@+id/tvCigaretteButts"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/cigarette_butts"
+                            android:textColor="@color/colorPrimary"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:textSize="@dimen/_12sdp" />
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/info_button"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:background="@android:color/transparent"
+                        android:padding="@dimen/_5sdp"
+                        android:layout_weight="0.5"
+                        android:src="@drawable/icon_info_home_screen"
+                        tools:ignore="ContentDescription" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCoffeeCapsule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@color/colorWhite"
+                android:elevation="@dimen/_3sdp"
+                app:cardCornerRadius="@dimen/_12sdp">
+
+                <LinearLayout
+                    android:layout_marginVertical="@dimen/_15sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="10"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_weight="2"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:src="@drawable/coffee_capsule_green" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7.5"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TSPoppinsMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.7"
+                            android:text="@string/you_saved"
+                            android:textColor="@color/quantum_grey700"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <TextView
+                            style="@style/TSPoppinsMedium"
+                            android:id="@+id/tvCoffeeCapsule"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/coffee_capsule"
+                            android:textColor="@color/colorPrimary"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:textSize="@dimen/_12sdp" />
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/info_button_coffee_capsule"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:background="@android:color/transparent"
+                        android:padding="@dimen/_5sdp"
+                        android:layout_weight="0.5"
+                        android:src="@drawable/icon_info_home_screen"
+                        tools:ignore="ContentDescription" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardSoapBars"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@color/colorWhite"
+                android:elevation="@dimen/_3sdp"
+                app:cardCornerRadius="@dimen/_12sdp">
+
+                <LinearLayout
+                    android:layout_marginVertical="@dimen/_15sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="10"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_weight="2"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:src="@drawable/soap_bar_green" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7.5"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TSPoppinsMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.7"
+                            android:text="@string/you_saved"
+                            android:textColor="@color/quantum_grey700"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <TextView
+                            style="@style/TSPoppinsMedium"
+                            android:id="@+id/tvSoapBars"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/soap_bars"
+                            android:textColor="@color/colorPrimary"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:textSize="@dimen/_12sdp" />
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/info_button_soap_bars"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:background="@android:color/transparent"
+                        android:padding="@dimen/_5sdp"
+                        android:layout_weight="0.5"
+                        android:src="@drawable/icon_info_home_screen"
+                        tools:ignore="ContentDescription" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
+
+
+</FrameLayout>

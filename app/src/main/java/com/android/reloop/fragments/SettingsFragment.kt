@@ -4,17 +4,25 @@ package com.reloop.reloop.fragments
 import android.annotation.SuppressLint
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.android.reloop.fragments.CampaignsListFragment
-import com.android.reloop.fragments.EditProfileFragment
+import com.android.reloop.fragments.*
+import com.android.reloop.network.serializer.dashboard.Dashboard
+import com.android.reloop.network.serializer.dashboard.SettingsModel
 import com.android.reloop.utils.Configuration
+import com.facebook.login.LoginManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.gson.Gson
+import com.google.gson.internal.LinkedTreeMap
 import com.reloop.reloop.R
 import com.reloop.reloop.activities.BaseActivity
 import com.reloop.reloop.activities.HomeActivity
@@ -26,6 +34,8 @@ import com.reloop.reloop.network.serializer.BaseResponse
 import com.reloop.reloop.network.serializer.user.User
 import com.reloop.reloop.utils.*
 import com.onesignal.OneSignal
+import com.reloop.reloop.app.MainApplication
+import com.reloop.reloop.tinydb.TinyDB
 import retrofit2.Call
 import retrofit2.Response
 
@@ -41,6 +51,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, AlertDialogCallba
         fun newInstance(): SettingsFragment {
             return SettingsFragment()
         }
+        var settings = SettingsModel()
 
         var TAG = "SettingsFragment"
     }
@@ -55,6 +66,9 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, AlertDialogCallba
     var changePassword: TextView? = null
     var rewards_history: TextView? = null
     var campaings: TextView? = null
+    var dropOffPin: TextView? = null
+
+    var paymentMethods: TextView? = null
 
     var logout: LinearLayout? = null
     var app_name: TextView? = null
@@ -63,11 +77,18 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, AlertDialogCallba
     var branch_name: TextView? = null
     var app_info: LinearLayout? = null
 
+    private var campaignVisibility: String =""
+    private var dropOffVisibility: String =""
+
+
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         if (isResumed) {
             if (isVisibleToUser) {
+
+                callDashboard()
+
                 if (HomeActivity.settingClicked) {
                     checkLoginType()
                     HomeActivity.settingClicked = false
@@ -84,8 +105,50 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, AlertDialogCallba
         initViews(view)
         setListeners()
         populateData()
+        callDashboard()
         checkSocialLogin()
         return view
+    }
+
+    private fun callDashboard() {
+        /*if (!NetworkCall.inProgress()) {
+            NetworkCall.make()
+                ?.setCallback(this)
+                ?.setTag(RequestCodes.API.DASHBOARD)
+                ?.enque(Network().apis()?.dashboard())
+                ?.execute()
+        }*/
+
+        val tinyDB: TinyDB?
+        tinyDB = TinyDB(MainApplication.applicationContext())
+
+        campaignVisibility = tinyDB.getString("campaign_visibility").toString()
+        if(campaignVisibility.equals("VISIBLE")){
+            campaings?.visibility = View.VISIBLE
+        }else{
+            campaings?.visibility = View.GONE
+        }
+
+        dropOffVisibility = tinyDB.getString("dropoff_visibility").toString()
+
+        //use this to show drop-off flow and set visibility visible in xml file
+        /*if (MainApplication.userType() == Constants.UserType.household) {
+            dropOffPin!!.visibility = View.VISIBLE
+
+            if(dropOffVisibility.equals("VISIBLE")){
+                dropOffPin!!.visibility = View.VISIBLE
+            }else{
+                dropOffPin!!.visibility = View.GONE
+            }
+
+        }else{
+            dropOffPin!!.visibility = View.GONE
+        }*/
+
+        //HIDE dropoffpin in settings screen
+        dropOffPin!!.visibility = View.GONE
+
+
     }
 
     private fun initViews(view: View?) {
@@ -105,7 +168,8 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, AlertDialogCallba
         app_info = view?.findViewById(R.id.app_info)
         rewards_history = view?.findViewById(R.id.rewards_history)
         campaings = view?.findViewById(R.id.campaigns)
-
+        dropOffPin = view?.findViewById(R.id.drop_off_pin)
+        paymentMethods = view?.findViewById(R.id.paymentMethods)
     }
 
     private fun setListeners() {
@@ -120,6 +184,8 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, AlertDialogCallba
         changePassword?.setOnClickListener(this)
         rewards_history?.setOnClickListener(this)
         campaings?.setOnClickListener(this)
+        dropOffPin?.setOnClickListener(this)
+        paymentMethods?.setOnClickListener(this)
 
     }
 
@@ -161,7 +227,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, AlertDialogCallba
                 BaseActivity.replaceFragment(
                     childFragmentManager,
                     Constants.Containers.settingsFragmentContainer,
-                    ContactUsFragment.newInstance("", "", -1),
+                    ContactUsFragment.newInstance("", "", "-1",""),
                     Constants.TAGS.ContactUsFragment
                 )
             }
@@ -212,26 +278,102 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, AlertDialogCallba
                     CampaignsListFragment.newInstance(),
                     Constants.TAGS.CampaignsListFragment)
             }
+            R.id.drop_off_pin -> {
+                if (MainApplication.userType() == Constants.UserType.household) {
+                    if (User.retrieveUser()?.first_name.isNullOrEmpty()
+                        || User.retrieveUser()?.last_name.isNullOrEmpty()
+                        || User.retrieveUser()?.addresses.isNullOrEmpty()
+                        || User.retrieveUser()?.addresses?.get(0)?.street.isNullOrEmpty()
+                        || User.retrieveUser()?.addresses?.get(0)?.building_name.isNullOrEmpty()
+                        || User.retrieveUser()?.phone_number.isNullOrEmpty()
+//                        || User.retrieveUser()?.gender.isNullOrEmpty()
+//                        || User.retrieveUser()?.birth_date.isNullOrEmpty() //Earlier mandatory, now optional
+                    ) {
+                        Notify.hyperlinkAlert(
+                            activity,
+                            getString(R.string.update_profile_msg),
+                            getString(R.string.update_profile_heading),
+                            this, 2
+                        )
+                    } else {
+                        BaseActivity.replaceFragment(
+                            childFragmentManager,
+                            Constants.Containers.settingsFragmentContainer,
+                            DropOffPinFragment.newInstance(""),
+                            Constants.TAGS.DropOffPinFragment
+                        )
+                    }
+                }else{
+                    if (User.retrieveUser()?.organization?.name.isNullOrEmpty()
+                        || User.retrieveUser()?.addresses.isNullOrEmpty()
+                        || User.retrieveUser()?.addresses?.get(0)?.street.isNullOrEmpty()
+                        || User.retrieveUser()?.addresses?.get(0)?.building_name.isNullOrEmpty()
+                        || User.retrieveUser()?.phone_number.isNullOrEmpty()
+                    ) {
+                        Notify.hyperlinkAlert(
+                            activity,
+                            getString(R.string.update_profile_msg),
+                            getString(R.string.update_profile_heading),
+                            this, 2
+                        )
+                    }else{
+                        BaseActivity.replaceFragment(
+                            childFragmentManager,
+                            Constants.Containers.settingsFragmentContainer,
+                            DropOffPinFragment.newInstance(""),
+                            Constants.TAGS.DropOffPinFragment
+                        )
+                    }
+                }
+
+
+
+            }
+            R.id.paymentMethods -> {
+                //old payment methods
+                /*BaseActivity.replaceFragment(childFragmentManager,
+                    Constants.Containers.settingsFragmentContainer,
+                    PaymentMethodsFragment.newInstance(),
+                    Constants.TAGS.PaymentMethodsFragment)*/
+
+                //new payment mehtods
+                BaseActivity.replaceFragment(childFragmentManager,
+                    Constants.Containers.settingsFragmentContainer,
+                    NewPaymentMethodsFragment.newInstance(),
+                    Constants.TAGS.NewPaymentMethodsFragment)
+
+            }
         }
     }
 
     override fun callDialog(model: Any?) {
-        try {
-            var oneSignalPlayerId = ""
-            val oneSignalUserID = OneSignal.getDeviceState()!!.userId
-            oneSignalPlayerId = oneSignalUserID ?: ""
-            /*OneSignal.idsAvailable { userId, registrationId ->
-                oneSignalPlayerId = userId
-            }*/
-            NetworkCall.make()
-                ?.setCallback(this)
-                ?.setTag(RequestCodes.API.LOGOUT)
-                ?.autoLoading(requireActivity())
-                ?.enque(Network().apis()?.logout(oneSignalPlayerId))
-                ?.execute()
 
-        } catch (e: Exception) {
-            e.printStackTrace()
+        if(model == null){
+            try {
+                var oneSignalPlayerId = ""
+                val oneSignalUserID = OneSignal.getDeviceState()!!.userId
+                oneSignalPlayerId = oneSignalUserID ?: ""
+                /*OneSignal.idsAvailable { userId, registrationId ->
+                    oneSignalPlayerId = userId
+                }*/
+
+                LoginManager.getInstance().logOut() //facebook
+
+                GoogleSignIn.getClient(requireContext(), GoogleSignInOptions.DEFAULT_SIGN_IN).signOut() //google
+
+
+                NetworkCall.make()
+                    ?.setCallback(this)
+                    ?.setTag(RequestCodes.API.LOGOUT)
+                    ?.autoLoading(requireActivity())
+                    ?.enque(Network().apis()?.logout(oneSignalPlayerId))
+                    ?.execute()
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }else{
+            editProfile?.performClick()
         }
     }
 
@@ -239,11 +381,11 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, AlertDialogCallba
 
         if (User.retrieveUser()?.login_type!! == Constants.LoginTypes.FACEBOOK
             || User.retrieveUser()?.login_type!! == Constants.LoginTypes.GOOGLE
-            || User.retrieveUser()?.login_type!! == Constants.LoginTypes.APP_LOGIN
-        ) {
+            || User.retrieveUser()?.login_type!! == Constants.LoginTypes.APP_LOGIN)
+        {
             if (User.retrieveUser()?.login_type!! == Constants.LoginTypes.FACEBOOK
-                || User.retrieveUser()?.login_type!! == Constants.LoginTypes.GOOGLE
-            ) {
+                || User.retrieveUser()?.login_type!! == Constants.LoginTypes.GOOGLE)
+            {
                 changePassword?.visibility = View.GONE
             }
             if (User.retrieveUser()?.first_name.isNullOrEmpty()
@@ -256,7 +398,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, AlertDialogCallba
                 handler.postDelayed(
                     {
                         editProfile?.performClick()
-                    }, 1000
+                    }, 1000 // old 5000
                 )
             }
         }
@@ -278,7 +420,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, AlertDialogCallba
                 handler.postDelayed(
                     {
                         editProfile?.performClick()
-                    }, 1000
+                    }, 1000 //old 5000
                 )
             }
         }
@@ -289,10 +431,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, AlertDialogCallba
         val manager: PackageManager? = activity?.getPackageManager()
         var info: PackageInfo? = null
         try {
-            info = manager?.getPackageInfo(
-                activity?.packageName.toString(),
-                PackageManager.GET_ACTIVITIES
-            )
+            info = manager?.getPackageInfo(activity?.packageName.toString(), PackageManager.GET_ACTIVITIES)
             app_name?.text = resources.getString(R.string.app_name) + " " + "2020"
             version_code?.text = "Build " + info!!.versionCode
             build_no?.text = "Version " + info.versionName
@@ -307,6 +446,37 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, AlertDialogCallba
             RequestCodes.API.LOGOUT -> {
                 Utils.logOut(activity)
             }
+
+            /*RequestCodes.API.DASHBOARD -> {
+                try {
+                    val baseResponse = Utils.getBaseResponse(response)
+
+                    val dashboard = Gson().fromJson(
+                        Utils.jsonConverterObject(baseResponse?.data as? LinkedTreeMap<*, *>),
+                        Dashboard::class.java)
+
+                    settings = dashboard.settings
+
+                    //open when campaign show
+                    if (!settings.campaigns_visibility.isNullOrEmpty())
+                    {
+                        Log.e("TAG","===campaign visibility===" + settings.campaigns_visibility.get(0).value)
+                        if(settings.campaigns_visibility.get(0).value.equals("1")) {
+                            campaings?.visibility = View.VISIBLE
+                            Log.d("campaignVisibility", "VISIBLE")
+                        } else{
+                            campaings?.visibility = View.GONE
+                            Log.d("campaignVisibility", "INVISIBLE")
+                        }
+                    }
+                    else{
+
+                    }
+
+                } catch (e: Exception) {
+                    Log.e("Home Fragment", e.toString())
+                }
+            }*/
         }
     }
 

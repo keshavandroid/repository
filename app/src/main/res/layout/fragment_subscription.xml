@@ -8,31 +8,34 @@
     android:clickable="true"
     android:focusable="true"
     tools:context=".fragments.SubscriptionFragment">
-        <LinearLayout
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--<LinearLayout
+            android:layout_above="@+id/llbuttons"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:weightSum="2"
-            tools:ignore="UselessParent">
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true"
-                android:nestedScrollingEnabled="true"
-                android:layout_weight="0.18"
-                tools:ignore="UselessParent">
+            android:orientation="vertical">
+
+        </LinearLayout>-->
+
+        <ScrollView
+            android:layout_above="@+id/llbuttons"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                tools:ignore="UselessLeaf,UselessParent">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/subscribe"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_150sdp"
-                    android:background="@color/colorPrimary"
-                    tools:ignore="UselessParent">
+                    android:background="@color/colorPrimary">
 
                     <TextView
                         style="@style/TSPoppinsMedium"
@@ -75,8 +78,7 @@
                         android:layout_below="@+id/line"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"
-                        android:nestedScrollingEnabled="true" />
+                        android:nestedScrollingEnabled="false" />
 
                 </RelativeLayout>
 
@@ -89,53 +91,58 @@
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:elevation="2dp">
 
-                    <include layout="@layout/row_subscription_adapter" />
+                    <include layout="@layout/row_default_subscription" />
                 </RelativeLayout>
 
             </RelativeLayout>
-            </ScrollView>
+        </ScrollView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.82"
-                android:orientation="horizontal"
 
-                android:background="@color/color_background"
-                android:gravity="center">
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:id="@+id/llbuttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/color_background"
+            android:gravity="center">
 
-                <Button
-                    android:id="@+id/back"
-                    style="@style/TSPoppinsRegular"
-                    android:layout_width="@dimen/_120sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:background="@drawable/button_shape_hollow"
-                    android:text="@string/back"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_weight="1"/>
+            <Button
+                android:id="@+id/back"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/button_shape_hollow"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:text="@string/back"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_12sdp"
+                android:layout_weight="1"/>
 
-                <Button
-                    android:id="@+id/btn_recycle"
-                    style="@style/TSPoppinsRegular"
-                    android:layout_width="@dimen/_120sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_20sdp"
-                    android:textSize="@dimen/_12sdp"
-                    android:background="@drawable/button_shape_green"
-                    android:gravity="center"
-                    android:text="@string/recycle"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:layout_weight="1"
-                    android:textColor="@color/colorWhite"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
+            <Button
+                android:id="@+id/btn_recycle"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:textSize="@dimen/_12sdp"
+                android:background="@drawable/button_shape_green"
+                android:gravity="center"
+                android:text="@string/recycle"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:layout_weight="1"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold" />
         </LinearLayout>
+
+    </RelativeLayout>
 
 
 </FrameLayout>

@@ -8,249 +8,282 @@
     android:id="@+id/confirm_collection"
     tools:context=".fragments.ConfirmCollectionFragment">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:id="@+id/scrollView"
-        tools:ignore="UselessParent">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:orientation="vertical"
-            tools:ignore="UselessLeaf">
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:layout_above="@+id/llCheckbox"
+            android:id="@+id/scrollView"
+            tools:ignore="UselessParent">
 
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/TSPoppinsSemiBold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:text="@string/name"
-                    android:id="@+id/name_heading"
-                    android:textSize="@dimen/_10sdp"
-                    tools:ignore="RelativeOverlap" />
-
-                <TextView
-                    android:id="@+id/name"
-                    style="@style/TSPoppinsRegular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:text="Eddie Johnson"
-                    android:textSize="@dimen/_10sdp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/TSPoppinsSemiBold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:text="@string/category"
-                    android:textSize="@dimen/_10sdp"
-                    android:id="@+id/category_heading"
-                    tools:ignore="RelativeOverlap" />
-
-                <TextView
-                    android:id="@+id/category"
-                    style="@style/TSPoppinsRegular"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:text="@string/electronics"
-                    android:textSize="@dimen/_10sdp"
-                    android:textAlignment="gravity"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:maxLines="3"
-                    android:gravity="end|center"
-                    android:layout_toEndOf="@+id/category_heading"
-                    tools:ignore="RelativeOverlap" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/TSPoppinsSemiBold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:text="@string/phone_number"
-                    android:textSize="@dimen/_10sdp"
-                    tools:ignore="RelativeOverlap" />
-
-                <TextView
-                    android:id="@+id/phone_number"
-                    style="@style/TSPoppinsRegular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:text="123456789"
-                    android:textSize="@dimen/_10sdp"
-                    tools:ignore="RelativeOverlap" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:alpha="0.3"
-                android:background="@color/text_color_heading" />
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:gravity="center|start"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/TSPoppinsSemiBold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/schedule_date"
-                    android:textSize="@dimen/_10sdp"
-                    tools:ignore="RelativeOverlap" />
-
-                <TextView
-                    android:id="@+id/schedule_date"
-                    style="@style/TSPoppinsRegular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="6"
-                    android:text="20-20-2020"
-                    android:layout_alignParentEnd="true"
-                    android:scrollbars="vertical"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:textSize="@dimen/_10sdp" />
-
-            </RelativeLayout>
-
-
-            <TextView
-                style="@style/TSPoppinsSemiBold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/address"
-                android:textSize="@dimen/_10sdp"
-                android:id="@+id/address_header"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/_10sdp"
-                tools:ignore="RelativeOverlap" />
-
-            <Spinner
-                android:id="@+id/address_organization"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_marginStart="@dimen/_3sdp"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_3sdp"
-                android:layout_marginBottom="@dimen/_3sdp"
-                android:background="@drawable/edittextbackgroundsimple"
-                android:elevation="@dimen/_4sdp"
-                android:paddingStart="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_10sdp"
-                android:spinnerMode="dropdown"
-                android:textSize="@dimen/_10sdp"
-                tools:ignore="Autofill,LabelFor,RtlSymmetry" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="vertical">
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:orientation="vertical"
+                tools:ignore="UselessLeaf">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TSPoppinsSemiBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:text="@string/name"
+                        android:id="@+id/name_heading"
+                        android:textSize="@dimen/_10sdp"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:id="@+id/name"
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="Eddie Johnson"
+                        android:textSize="@dimen/_10sdp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TSPoppinsSemiBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:text="@string/category"
+                        android:textSize="@dimen/_10sdp"
+                        android:id="@+id/category_heading"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:id="@+id/category"
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="@string/electronics"
+                        android:textSize="@dimen/_10sdp"
+                        android:textAlignment="gravity"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:maxLines="3"
+                        android:gravity="end|center"
+                        android:layout_toEndOf="@+id/category_heading"
+                        tools:ignore="RelativeOverlap" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TSPoppinsSemiBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:text="@string/phone_number"
+                        android:textSize="@dimen/_10sdp"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:id="@+id/phone_number"
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="123456789"
+                        android:textSize="@dimen/_10sdp"
+                        tools:ignore="RelativeOverlap" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:alpha="0.3"
+                    android:background="@color/text_color_heading" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:gravity="center|start"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TSPoppinsSemiBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/schedule_date"
+                        android:textSize="@dimen/_10sdp"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:id="@+id/schedule_date"
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="6"
+                        android:text="20-20-2020"
+                        android:layout_alignParentEnd="true"
+                        android:scrollbars="vertical"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:textSize="@dimen/_10sdp" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/txtAddTitle"
+                    style="@style/TSPoppinsSemiBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address Title"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="visible"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    tools:ignore="RelativeOverlap" />
+
+                <Spinner
+                    android:id="@+id/address_title_organization"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_3sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:background="@drawable/edittextbackgroundsimple"
+                    android:elevation="@dimen/_4sdp"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:spinnerMode="dropdown"
+                    android:textSize="@dimen/_10sdp"
+                    tools:ignore="Autofill,LabelFor,RtlSymmetry" />
 
                 <TextView
                     style="@style/TSPoppinsSemiBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/map_pin"
+                    android:text="@string/address"
                     android:textSize="@dimen/_10sdp"
+                    android:id="@+id/address_header"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/_10sdp"
                     tools:ignore="RelativeOverlap" />
 
-                <com.reloop.reloop.customviews.CustomEditText
-                    android:id="@+id/location"
-                    style="@style/TSPoppinsRegular"
+                <Spinner
+                    android:id="@+id/address_organization"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginStart="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_3sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:background="@color/white"
+                    android:elevation="@dimen/_4sdp"
+                    android:clickable="false"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:spinnerMode="dropdown"
+                    android:textSize="@dimen/_10sdp"
+                    tools:ignore="Autofill,LabelFor,RtlSymmetry" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TSPoppinsSemiBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/map_pin"
+                        android:textSize="@dimen/_10sdp"
+                        tools:ignore="RelativeOverlap" />
+
+                    <com.reloop.reloop.customviews.CustomEditText
+                        android:id="@+id/location"
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginStart="@dimen/_3sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:background="@drawable/edittextbackgroundsimple"
+                        android:drawableStart="@drawable/icon_address_location_un"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:elevation="@dimen/_3sdp"
+                        android:focusable="false"
+                        android:hint="@string/select_map_pin"
+                        android:inputType="text"
+                        android:paddingStart="@dimen/_20sdp"
+                        android:paddingEnd="@dimen/_4sdp"
+                        android:textColor="@color/text_color_heading"
+                        android:textColorHint="@color/text_color_heading"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/_10sdp"
+                        android:drawableEnd="@drawable/icon_location_clickable_general"
+                        app:focusedBackground="@drawable/edittextbackgroundselected"
+                        app:focusedDrawable="@drawable/icon_address_location_en"
+                        app:unFocusedBackground="@drawable/edittextbackgroundsimple"
+                        app:unFocusedDrawable="@drawable/icon_address_location_un"
+                        tools:ignore="Autofill,LabelFor" />
+
+                </LinearLayout>
+                <TextView
+                    style="@style/TSPoppinsSemiBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/comments"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    tools:ignore="RelativeOverlap" />
+                <com.reloop.reloop.customviews.CustomEditText
+                    android:id="@+id/comments"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_3sdp"
                     android:layout_marginBottom="@dimen/_3sdp"
                     android:background="@drawable/edittextbackgroundsimple"
-                    android:drawableStart="@drawable/icon_address_location_un"
-                    android:drawablePadding="@dimen/_10sdp"
                     android:elevation="@dimen/_3sdp"
-                    android:focusable="false"
-                    android:hint="@string/select_map_pin"
-                    android:inputType="text"
+                    android:gravity="center|start"
+                    android:textAlignment="viewStart"
+                    android:inputType="textMultiLine"
                     android:paddingStart="@dimen/_20sdp"
-                    android:paddingEnd="@dimen/_4sdp"
+                    android:paddingEnd="@dimen/_10sdp"
                     android:textColor="@color/text_color_heading"
                     android:textColorHint="@color/text_color_heading"
                     android:textCursorDrawable="@null"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbars="vertical"
                     android:textSize="@dimen/_10sdp"
-                    android:drawableEnd="@drawable/icon_location_clickable_general"
+                    app:focusedPaddingStart="@dimen/_20sdp"
+                    app:focusedPaddingEnd="@dimen/_10sdp"
                     app:focusedBackground="@drawable/edittextbackgroundselected"
-                    app:focusedDrawable="@drawable/icon_address_location_en"
                     app:unFocusedBackground="@drawable/edittextbackgroundsimple"
-                    app:unFocusedDrawable="@drawable/icon_address_location_un"
                     tools:ignore="Autofill,LabelFor" />
 
-            </LinearLayout>
-            <TextView
-                style="@style/TSPoppinsSemiBold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/comments"
-                android:textSize="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_15sdp"
-                tools:ignore="RelativeOverlap" />
-            <com.reloop.reloop.customviews.CustomEditText
-                android:id="@+id/comments"
-                style="@style/TSPoppinsRegular"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_60sdp"
-                android:layout_marginStart="@dimen/_3sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_3sdp"
-                android:layout_marginBottom="@dimen/_3sdp"
-                android:background="@drawable/edittextbackgroundsimple"
-                android:elevation="@dimen/_3sdp"
-                android:gravity="center|start"
-                android:textAlignment="viewStart"
-                android:inputType="textMultiLine"
-                android:paddingStart="@dimen/_20sdp"
-                android:paddingEnd="@dimen/_10sdp"
-                android:textColor="@color/text_color_heading"
-                android:textColorHint="@color/text_color_heading"
-                android:textCursorDrawable="@null"
-                android:overScrollMode="always"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="vertical"
-                android:textSize="@dimen/_10sdp"
-                app:focusedPaddingStart="@dimen/_20sdp"
-                app:focusedPaddingEnd="@dimen/_10sdp"
-                app:focusedBackground="@drawable/edittextbackgroundselected"
-                app:unFocusedBackground="@drawable/edittextbackgroundsimple"
-                tools:ignore="Autofill,LabelFor" />
-
+                <!--
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -273,8 +306,161 @@
                     android:id="@+id/term_condition"
                     android:text="@string/i_confirm_complying_with_reloop_terms_condition"/>
             </LinearLayout>
+-->
 
+                <!--SINGLE IMAGE-->
+                <!--<RelativeLayout
+                    android:id="@+id/relUploadImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/dotted_bg">
+
+                    <RelativeLayout
+                        android:id="@+id/relImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_10sdp">
+
+                        <ImageView
+                            android:id="@+id/img_contact_us"
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="@dimen/_50sdp"
+                            android:layout_centerInParent="true"
+                            android:contentDescription="@string/selectImage"
+                            android:padding="@dimen/_2sdp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/upload_image" />
+
+                        <ImageView
+                            android:id="@+id/imgClose"
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:padding="@dimen/_3sdp"
+                            android:src="@drawable/ic_close_green"
+                            android:visibility="gone">
+
+                        </ImageView>
+
+                    </RelativeLayout>
+
+
+                    <TextView
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/relImageView"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:text="Upload image"
+                        android:textSize="@dimen/_11sdp" />
+
+                </RelativeLayout>-->
+
+                <!--Multiple Image-->
+                <RelativeLayout
+                    android:id="@+id/relUploadImage"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/dotted_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view_images"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginHorizontal="@dimen/_15sdp"
+                        android:layout_marginTop="16dp"
+                        android:visibility="visible"
+                        android:orientation="horizontal"
+                        tools:listitem="@layout/item_image" />
+
+                    <RelativeLayout
+                        android:id="@+id/relImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_below="@+id/recycler_view_images"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_10sdp">
+
+                        <ImageView
+                            android:id="@+id/img_contact_us"
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="@dimen/_50sdp"
+                            android:layout_centerInParent="true"
+                            android:contentDescription="select image"
+                            android:padding="@dimen/_2sdp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/upload_image" />
+
+                        <ImageView
+                            android:id="@+id/imgClose"
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:padding="@dimen/_3sdp"
+                            android:src="@drawable/ic_close_green"
+                            android:visibility="gone">
+
+                        </ImageView>
+
+                    </RelativeLayout>
+
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/relImageView"
+                        android:text="Upload image"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:textSize="@dimen/_11sdp" />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/llCheckbox"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|start"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp">
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TSPoppinsRegular"
+                android:textSize="@dimen/_10sdp"
+                android:id="@+id/term_condition_check"
+                app:buttonTint="@color/colorPrimary"
+                android:text=""
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:id="@+id/term_condition"
+                android:text="@string/i_confirm_complying_with_reloop_terms_condition"/>
         </LinearLayout>
-    </ScrollView>
+
+
+    </RelativeLayout>
+
+
+
 
 </FrameLayout>

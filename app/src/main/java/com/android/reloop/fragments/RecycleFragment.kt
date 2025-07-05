@@ -1,7 +1,9 @@
 package com.reloop.reloop.fragments
 
 
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +16,6 @@ import com.android.reloop.utils.LogManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.internal.LinkedTreeMap
-import com.google.gson.reflect.TypeToken
 import com.reloop.reloop.R
 import com.reloop.reloop.activities.BaseActivity
 import com.reloop.reloop.app.MainApplication
@@ -29,12 +30,18 @@ import com.reloop.reloop.network.serializer.DataParsing
 import com.reloop.reloop.network.serializer.collectionrequest.CollectionRequest
 import com.reloop.reloop.network.serializer.collectionrequest.GetPlans
 import com.reloop.reloop.network.serializer.collectionrequest.MaterialCategories
+import com.reloop.reloop.network.serializer.collectionrequest.MaterialCategoryRelation
+import com.reloop.reloop.network.serializer.orderhistory.CollectionRequests
 import com.reloop.reloop.network.serializer.settings.AboutAppData
 import com.reloop.reloop.tinydb.TinyDB
 import com.reloop.reloop.utils.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Call
 import retrofit2.Response
-import java.lang.reflect.Type
+import java.io.File
 
 
 /**
@@ -48,15 +55,29 @@ class RecycleFragment : BaseFragment(), View.OnClickListener, StepView, OnNetwor
     var collectionRequest: CollectionRequest? =
         CollectionRequest()
 
+    private var imagePart: MultipartBody.Part? = null
+
+    //SINGLE
+    var part: MultipartBody.Part? = null
+
+    //MULTIPLE
+    var multipartParts: List<MultipartBody.Part>? = null
+
+
+
     companion object {
         var getPlans: GetPlans? = null
         var userContainSingleCollectionRequest: Boolean = false
+        var editCollectionRequest: CollectionRequests? = null
+
         fun newInstance(
             plans: GetPlans?,
-            userContainSingleCollectionRequest: Boolean
+            userContainSingleCollectionRequest: Boolean,
+            editCollectionRequest: CollectionRequests?
         ): RecycleFragment {
             this.getPlans = plans
             this.userContainSingleCollectionRequest = userContainSingleCollectionRequest
+            this.editCollectionRequest = editCollectionRequest
             return RecycleFragment()
         }
 
@@ -81,10 +102,13 @@ class RecycleFragment : BaseFragment(), View.OnClickListener, StepView, OnNetwor
     var textStep3: TextView? = null
     var imageStep4: ImageView? = null
     var textStep4: TextView? = null
+    var textaccptMtr: TextView? = null
 
     var back: Button? = null
     var create: Button? = null
     private var materialCategories: ArrayList<MaterialCategories>? = ArrayList()
+
+    var materialCategoryRelation: MaterialCategoryRelation? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -113,6 +137,7 @@ class RecycleFragment : BaseFragment(), View.OnClickListener, StepView, OnNetwor
         next = view?.findViewById(R.id.next)
         back = view?.findViewById(R.id.back)
         create = view?.findViewById(R.id.create)
+        textaccptMtr = view?.findViewById(R.id.btn_accpt)
 
     }
 
@@ -121,17 +146,31 @@ class RecycleFragment : BaseFragment(), View.OnClickListener, StepView, OnNetwor
         next?.setOnClickListener(this)
         back?.setOnClickListener(this)
         create?.setOnClickListener(this)
+        textaccptMtr?.setOnClickListener(this)
     }
 
     private fun populateData() {
         LogManager.getLogManager().writeLog("$EVENTTAG : Executing Material Categories Service Call")
-        NetworkCall.make()
-            ?.setCallback(this)
-            ?.setTag(RequestCodes.API.MATERIAL_CATEGORIES)
-            ?.autoLoading(requireActivity())
-            ?.enque(Network().apis()?.getMaterialCategories())
-            ?.execute()
-        isAddedFragment = true
+
+        if(editCollectionRequest==null){
+            NetworkCall.make()
+                ?.setCallback(this)
+                ?.setTag(RequestCodes.API.MATERIAL_CATEGORIES)
+                ?.autoLoading(requireActivity())
+                ?.enque(Network().apis()?.getMaterialCategories())
+                ?.execute()
+            isAddedFragment = true
+        }else{
+            NetworkCall.make()
+                ?.setCallback(this)
+                ?.setTag(RequestCodes.API.MATERIAL_CATEGORIES)
+                ?.autoLoading(requireActivity())
+                ?.enque(Network().apis()?.getMaterialCategories(editCollectionRequest!!.request_collection!!.get(0).request_id))
+                ?.execute()
+            isAddedFragment = true
+        }
+
+
     }
 
     //------------------------------Update StepView UI-----------------------------
@@ -198,7 +237,12 @@ class RecycleFragment : BaseFragment(), View.OnClickListener, StepView, OnNetwor
                 back?.visibility = View.VISIBLE
                 next?.visibility = View.VISIBLE
                 create?.visibility = View.GONE
-                next?.text = getString(R.string.proceed)
+
+                if(editCollectionRequest!=null){ //if editCollectionRequest NOT NULL than it is Edit/UPDATE Flow
+                    next?.text = getString(R.string.txt_update)
+                }else{
+                    next?.text = getString(R.string.proceed)
+                }
             }
             Constants.recycleStep4 -> {
                 BaseActivity.stepViewUpdateUI(
@@ -290,7 +334,7 @@ class RecycleFragment : BaseFragment(), View.OnClickListener, StepView, OnNetwor
                         Constants.Containers.recycleFragmentContainer,
                         SelectionDayFragment.newInstance(
                             collectionRequest, getPlans,
-                            userContainSingleCollectionRequest
+                            userContainSingleCollectionRequest,editCollectionRequest //EDIT FLOW
                         ),
                         Constants.TAGS.SelectionDayFragment
                     )
@@ -309,37 +353,323 @@ class RecycleFragment : BaseFragment(), View.OnClickListener, StepView, OnNetwor
                 BaseActivity.replaceFragment(
                     childFragmentManager,
                     Constants.Containers.recycleFragmentContainer,
-                    ConfirmCollectionFragment.newInstance(materialCategories, collectionRequest),
+                    ConfirmCollectionFragment.newInstance(materialCategories, collectionRequest,editCollectionRequest),//EDIT FLOW
                     Constants.TAGS.ConfirmCollectionFragment
                 )
             }
             Constants.recycleStep3 -> {
 
-                NetworkCall.make()
-                    ?.setCallback(this)
-                    ?.setTag(RequestCodes.API.COLLECTION_REQUEST)
-                    ?.autoLoading(requireActivity())
-                    ?.enque(
-                        Network().apis()
-                            ?.collectionRequest(collectionRequest, collectionRequest?.map_location)
-                    )
-                    ?.execute()
+                //SINGLE IMAGE
+                /*if(collectionRequest!!.imageUri!=null){
+                    val filePath: String = getRealPathFromURI(collectionRequest!!.imageUri!!)
+                    val imageFile = File(filePath)
+                    val requestBody = imageFile.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                    part = MultipartBody.Part.createFormData("images["+0+"]", imageFile.name, requestBody)
+                }*/
+
+//MULTIPLE IMAGE
+                if(!collectionRequest!!.imageUris.isNullOrEmpty()){
+                    multipartParts = createMultipartParts(collectionRequest!!.imageUris)
+                }
+
+
+                if(editCollectionRequest==null){
+
+                    //NORMAL COLLECTION NEW
+                    if(multipartParts == null){// dont have images[0]
+
+                        NetworkCall.make()
+                            ?.setCallback(this)
+                            ?.setTag(RequestCodes.API.COLLECTION_REQUEST)
+                            ?.autoLoading(requireActivity())
+                            ?.enque(
+                                Network().apis()
+                                    ?.collectionRequest(collectionRequest, collectionRequest?.map_location)
+                            )
+                            ?.execute()
+                    }else{ //has images[0]
+
+                        val hashMap: HashMap<String?, RequestBody?>? = HashMap()
+
+                        hashMap?.put("map_location", RequestBody.create("text/plain".toMediaTypeOrNull(), collectionRequest?.map_location!!.toString()))
+
+                        //selected materials
+                        if(!collectionRequest!!.material_categories.isNullOrEmpty()){
+                            for (i in collectionRequest!!.material_categories!!.indices){
+                                hashMap?.put(
+                                    "material_categories[${i}][id]", RequestBody.create(
+                                        "text/plain".toMediaTypeOrNull(), collectionRequest!!.material_categories!!.get(i)!!.id.toString()
+                                    )
+                                )
+                            }
+                        }
+
+                        hashMap?.put(
+                            "collection_date", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.collection_date!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "collection_type", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.collection_type!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "first_name", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.first_name!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "last_name", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.last_name!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "location", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.location!!.toString()
+                            )
+                        )
+
+                        hashMap?.put("latitude", RequestBody.create("text/plain".toMediaTypeOrNull(), collectionRequest?.latitude!!.toString()))
+
+                        hashMap?.put("longitude", RequestBody.create("text/plain".toMediaTypeOrNull(), collectionRequest?.longitude!!.toString()))
+
+                        hashMap?.put("phone_number", RequestBody.create("text/plain".toMediaTypeOrNull(), collectionRequest?.phone_number!!.toString()))
+
+                        hashMap?.put("city_id", RequestBody.create("text/plain".toMediaTypeOrNull(), collectionRequest?.city_id!!.toString()))
+
+                        hashMap?.put("district_id", RequestBody.create("text/plain".toMediaTypeOrNull(), collectionRequest?.district_id!!.toString()))
+
+                        hashMap?.put(
+                            "street", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.street!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "organization_name", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.organization_name!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "user_comments", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.user_comments!!.toString()
+                            )
+                        )
+
+                        NetworkCall.make()
+                            ?.setCallback(this)
+                            ?.setTag(RequestCodes.API.COLLECTION_REQUEST)
+                            ?.autoLoading(requireActivity())
+                            ?.enque(Network().apis()?.collectionRequest(hashMap,multipartParts))
+                            ?.execute()
+                    }
+
+
+                }else{
+                    // EDIT COLLECTION ORIGINAL
+                    /*NetworkCall.make()
+                        ?.setCallback(this)
+                        ?.setTag(RequestCodes.API.EDIT_COLLECTION_REQUEST)
+                        ?.autoLoading(requireActivity())
+                        ?.enque(
+                            Network().apis()
+                                ?.editCollectionRequest(editCollectionRequest!!.id,
+                                    collectionRequest,
+                                    collectionRequest?.map_location,
+                                )
+                        )
+                        ?.execute()*/
+
+                    //NORMAL COLLECTION NEW
+                    if(multipartParts == null){// dont have images[0]
+
+                        NetworkCall.make()
+                            ?.setCallback(this)
+                            ?.setTag(RequestCodes.API.EDIT_COLLECTION_REQUEST)
+                            ?.autoLoading(requireActivity())
+                            ?.enque(
+                                Network().apis()
+                                    ?.editCollectionRequest(
+                                        editCollectionRequest!!.id,
+                                        collectionRequest,
+                                        collectionRequest?.map_location,
+                                    )
+                            )
+                            ?.execute()
+                    }else { //has images[0]
+                        val hashMap: HashMap<String?, RequestBody?>? = HashMap()
+
+                        hashMap?.put(
+                            "map_location", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.map_location!!.toString()
+                            )
+                        )
+
+                        //selected materials
+                        if(!collectionRequest!!.material_categories.isNullOrEmpty()){
+                            for (i in collectionRequest!!.material_categories!!.indices){
+                                hashMap?.put(
+                                    "material_categories[${i}][id]", RequestBody.create(
+                                        "text/plain".toMediaTypeOrNull(), collectionRequest!!.material_categories!!.get(i)!!.id.toString()
+                                    )
+                                )
+                            }
+                        }
+
+                        hashMap?.put(
+                            "collection_date", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.collection_date!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "collection_type", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.collection_type!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "first_name", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.first_name!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "last_name", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.last_name!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "location", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.location!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "latitude", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.latitude!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "longitude", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.longitude!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "phone_number", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.phone_number!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "city_id", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.city_id!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "district_id", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.district_id!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "street", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.street!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "organization_name", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.organization_name!!.toString()
+                            )
+                        )
+
+                        hashMap?.put(
+                            "user_comments", RequestBody.create(
+                                "text/plain".toMediaTypeOrNull(), collectionRequest?.user_comments!!.toString()
+                            )
+                        )
+
+
+                        NetworkCall.make()
+                            ?.setCallback(this)
+                            ?.setTag(RequestCodes.API.EDIT_COLLECTION_REQUEST)
+                            ?.autoLoading(requireActivity())
+                            ?.enque(
+                                Network().apis()
+                                    ?.editCollectionRequest(editCollectionRequest!!.id,hashMap,multipartParts)
+                            )
+                            ?.execute()
+                    }
+
+
+                }
             }
         }
+    }
+
+    fun createMultipartParts(imageUris: ArrayList<Uri>?): List<MultipartBody.Part>? {
+        return imageUris?.mapIndexed { index, uri ->
+            val filePath: String = getRealPathFromURI(uri)
+            val imageFile = File(filePath)
+            val requestBody: RequestBody = imageFile.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+            MultipartBody.Part.createFormData("images[$index]", imageFile.name, requestBody)
+        }
+    }
+
+    private fun getRealPathFromURI(uri: Uri): String {
+        val cursor = requireActivity().contentResolver.query(uri, null, null, null, null)
+        return cursor?.use {
+            it.moveToFirst()
+            val columnIndex = it.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+            it.getString(columnIndex)
+        } ?: ""
     }
 
     override fun onSuccess(call: Call<Any?>?, response: Response<Any?>, tag: Any?) {
         val baseResponse = Utils.getBaseResponse(response)
         when (tag) {
             RequestCodes.API.MATERIAL_CATEGORIES -> {
-                val gson = Gson()
+
+                //ORIGINAL
+                /*val gson = Gson()
                 val listType: Type = object : TypeToken<List<MaterialCategories?>?>() {}.type
                 materialCategories = gson.fromJson(Utils.jsonConverterArray(baseResponse?.data as? ArrayList<*>), listType)
+
+                Log.d("MATE_CAT",""+GsonBuilder().setPrettyPrinting().create().toJson(
+                    materialCategories
+                ))
+
                 LogManager.getLogManager().writeLog("$EVENTTAG : Material Categories Result ${gson.toJson(materialCategories)}")
                 BaseActivity.replaceFragmentBackStackNull(
                     childFragmentManager,
                     Constants.Containers.recycleFragmentContainer,
-                    SelectCategoriesFragment.newInstance(materialCategories, collectionRequest))
+                    SelectCategoriesFragment.newInstance(materialCategories, collectionRequest,editCollectionRequest))*/
+
+
+
+                //NEW
+                materialCategoryRelation = Gson().fromJson(Utils.jsonConverterObject(baseResponse?.data as? LinkedTreeMap<*, *>), MaterialCategoryRelation::class.java)
+                materialCategories = materialCategoryRelation?.materialCategoriesList
+
+                //Log.d("MATE_CAT",""+GsonBuilder().setPrettyPrinting().create().toJson(materialCategoryRelation?.materialCategoriesList))
+
+                BaseActivity.replaceFragmentBackStackNull(
+                    childFragmentManager,
+                    Constants.Containers.recycleFragmentContainer,
+                    SelectCategoriesFragment.newInstance(materialCategoryRelation?.materialCategoriesList, collectionRequest,editCollectionRequest,
+                        materialCategoryRelation?.recyclingFamiliesList!!
+                    ))
 
             }
             RequestCodes.API.COLLECTION_REQUEST -> {
@@ -359,6 +689,23 @@ class RecycleFragment : BaseFragment(), View.OnClickListener, StepView, OnNetwor
                     Constants.TAGS.RequestSubmitConfirmationFragment
                 )
             }
+            RequestCodes.API.EDIT_COLLECTION_REQUEST ->{
+                val dataParsing = Gson().fromJson(
+                    Utils.jsonConverterObject(baseResponse?.data as LinkedTreeMap<*, *>),
+                    CollectionRequests::class.java
+                )
+                val fragment = RequestSubmitConfirmationFragment.newInstance()
+                val args = Bundle()
+                args.putString(Constants.DataConstants.purchaseID, dataParsing.request_number)
+                fragment.arguments = args
+                BaseActivity.replaceFragment(
+                    childFragmentManager,
+                    Constants.Containers.recycleFragmentContainer,
+                    fragment,
+                    Constants.TAGS.RequestSubmitConfirmationFragment
+                )
+            }
+
             RequestCodes.API.TERM_CONDITION -> {
                 if (baseResponse?.data != null) {
                     val aboutApp = Gson().fromJson(
@@ -384,6 +731,8 @@ class RecycleFragment : BaseFragment(), View.OnClickListener, StepView, OnNetwor
                 Notify.alerterRed(activity, response?.message)
             }
             RequestCodes.API.COLLECTION_REQUEST -> {
+                Log.d("COLLECTION_FAIL",""+response?.message)
+
                 Notify.alerterRed(activity, response?.message)
             }
         }

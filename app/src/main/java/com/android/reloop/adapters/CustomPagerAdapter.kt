@@ -14,7 +14,7 @@ import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.reloop.reloop.R
 
-class CustomPagerAdapter(context: Context, sliderDataArrayList: ArrayList<String>,  i: Int,layoutDots: LinearLayout) : PagerAdapter() {
+class CustomPagerAdapter(context: Context, sliderDataArrayList: ArrayList<String>,  i: Int) : PagerAdapter() {
     var context: Context
     var layoutInflater: LayoutInflater
     var type : Int = 1
@@ -48,9 +48,10 @@ class CustomPagerAdapter(context: Context, sliderDataArrayList: ArrayList<String
         else{
             itemView = layoutInflater.inflate(R.layout.slider_layout_product, container, false)
         }
-    val imageView: ImageView = itemView?.findViewById(R.id.myimage) as ImageView
 
-    val sliderItem = mSliderItemsNew[position]
+        val sliderItem = mSliderItemsNew[position]
+
+        val imageView: ImageView = itemView?.findViewById(R.id.myimage) as ImageView
 
         // Glide is use to load image
         // from url in your imageview.
@@ -79,7 +80,6 @@ init {
     this.context = context
     this.mSliderItemsNew = sliderDataArrayList
     this.type = i
-    this.lldots = layoutDots
     layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 }
 }

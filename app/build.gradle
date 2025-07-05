@@ -1,11 +1,22 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 
+
+static def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('dd-MMM')
+    return formattedDate
+}
+
 android {
-    compileSdkVersion 31
+
+    /*new added*/
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
+    compileSdkVersion 34
     buildToolsVersion "30.0.3"
     useLibrary 'org.apache.http.legacy'
     signingConfigs {
@@ -16,14 +27,25 @@ android {
             storePassword '12345678'
         }
     }
+
+    //CHNAGE THESE before making live on playstore
+
+    //PaymentSheet.GooglePayConfiguration.Environment.Production in NewBillingInformationFragment
+    //Change STRIPE keys at every places in NewBillingInformationFragment, SubscriptionBottomsheet, NewPaymentMethodsFragment
+    //CHANGE INTENT FILTER for drop-off deeplink in manifiest.xml
+    //CHANGE server url in Configuration
+
+
+
     defaultConfig {
         applicationId "com.reloop.reloop"
-        minSdkVersion 23
-        targetSdkVersion 31
-        versionCode 54
-        versionName "11.7.0"
+        minSdkVersion 26 // old was 23 before Apache poi
+        targetSdkVersion 34
+        versionCode 113
+        versionName "12.1.18" // live stripe in front end
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        archivesBaseName = "Reloop_staging_" + getDate() + "_V" + versionCode
         resValue "string", "google_maps_key_project", (project.findProperty("AIzaSyBi8YohE9_P2E9rse6AuuHWWalDFEDTVT8") ?: "AIzaSyBi8YohE9_P2E9rse6AuuHWWalDFEDTVT8")
     }
     buildTypes {
@@ -44,12 +66,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
 buildscript {
     dependencies {
         classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.14.0'
-
     }
 
     repositories {
@@ -71,7 +93,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.google.android.material:material:1.6.0-alpha02'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8'
+
+//    implementation 'org.jetbrains.kotlinx:kotlinx-ccom.google.android.play.core.tasksoroutines-core:1.3.8' //Originally added
+//    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8" // maybe replacement
+
     //--------Networking Library
     api 'com.squareup.retrofit2:retrofit:2.9.0'
     api 'com.squareup.retrofit2:converter-gson:2.7.2'
@@ -79,7 +104,10 @@ dependencies {
     api 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
     //--------Notification Library
-    implementation 'com.tapadoo.android:alerter:4.0.2'
+//    implementation 'com.tapadoo.android:alerter:4.0.2'
+    implementation 'com.github.tapadoo:alerter:7.2.4'
+
+
     //-----SDP Library
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     //-------Event Bus Library
@@ -94,6 +122,8 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     /*For Maps*/
+
+    implementation 'com.google.maps.android:android-maps-utils:2.2.1'//cluster
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'com.google.android.libraries.places:places:2.5.0'
     implementation 'com.google.android.gms:play-services-places:17.0.0'
@@ -111,19 +141,32 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
-    /*Image Crop Library*/
 
-    api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+
+    /*Image Crop Library*/
+//    api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+//    implementation 'com.github.arthurhub:android-image-cropper:2.8.0'
+//    implementation("com.vanniktech:android-image-cropper:4.3.3")
+
+
+
+
+
 
 
     // dependency for slider view
 
-    implementation 'com.github.smarteist:autoimageslider:1.3.9'
+//    implementation 'com.github.smarteist:autoimageslider:1.3.9'
+    implementation 'com.github.smarteist:Android-Image-Slider:1.4.0'
+
 
     ///--------------Google And Facebook Auth--------------
 
-    //implementation 'com.facebook.android:facebook-login:8.1.0'
-    implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
+    //    implementation 'com.facebook.android:facebook-android-sdk:[8,9)' //original old AD
+//    implementation 'com.facebook.android:facebook-login:12.0.0' //facebook graph API v14
+
+    implementation 'com.facebook.android:facebook-login:15.0.2' //NEW AD - facebook graph API v16
+
 
     // Declare the dependencies for the Crashlytics and Analytics libraries
     // When using the BoM, you don't specify versions in Firebase library dependencies
@@ -142,15 +185,25 @@ dependencies {
     //------------------CalendarView-----------------
     implementation 'com.github.prolificinteractive:material-calendarview:2.0.0'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.0'
+
     //---------------------Search Spinner--------
-    implementation 'com.toptoche.searchablespinner:searchablespinnerlibrary:1.3.1'
+//    implementation 'com.toptoche.searchablespinner:searchablespinnerlibrary:1.3.1'
+
     //-----------------------------Zoom Image View--------------------------
     implementation 'com.jsibbold:zoomage:1.3.1'
 
-    implementation 'com.google.android.play:core-ktx:1.8.1'
+//    implementation 'com.google.android.play:core-ktx:1.8.1'//OLD Before 34 upgrade
+    implementation 'com.google.android.play:review:2.0.1'//NEW added two new libraries after 34 upgrade
+    implementation 'com.google.android.play:app-update:2.1.0'//NEW
+
+
+
     implementation 'org.jsoup:jsoup:1.8.3'
 
-    implementation 'com.amitshekhar.android:android-networking:1.0.2'
+//    implementation 'com.amitshekhar.android:android-networking:1.0.2'
+    implementation 'com.github.amitshekhariitbhu.Fast-Android-Networking:android-networking:1.0.4'
+
+
     implementation 'com.github.drawers:SpinnerDatePicker:2.0.1'
 
     // Add the Firebase Crashlytics SDK.
@@ -163,10 +216,44 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.3'
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
 
+
+
+
+//    implementation 'com.journeyapps:zxing-android-integration:2.0.1@aar'
+
+
+
     implementation 'com.daimajia.slider:library:1.1.5@aar'
     implementation 'com.nineoldandroids:library:2.4.0'
 
-    implementation 'com.romandanylyk:pageindicatorview:0.1.1'
+//    implementation 'com.romandanylyk:pageindicatorview:0.1.1'
+
+    //for card
+//    implementation 'morxander.editcard:EditCard:1.0.1'
+
+    //image picker
+//    implementation 'me.shaohui.advancedluban:library:1.3.5'
+
+    //Google PAY
+//    implementation "com.google.android.gms:play-services-pay:16.1.0"
+//    implementation "com.google.android.gms:play-services-wallet:19.1.0"
+
+
+//    implementation 'com.stripe:stripe-android:18.2.0'
+    implementation 'com.stripe:stripe-android:19.0.0'
+
+    //Recaptcha google
+//    implementation 'com.google.android.recaptcha:recaptcha:18.5.0'
+
+    implementation 'com.google.android.gms:play-services-safetynet:18.1.0'
+
+    //IMAGE COMPRESSOR
+    implementation 'id.zelory:compressor:3.0.1'
+
+
+    //Excel report
+    implementation 'org.apache.poi:poi:5.1.0'
+    implementation 'org.apache.poi:poi-ooxml:5.1.0'
 
 }
 

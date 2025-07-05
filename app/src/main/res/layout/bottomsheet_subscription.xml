@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+
+    <View
+        android:id="@+id/viewTop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:background="@color/quantum_grey"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_2sdp">
+
+    </View>
+
+    <RelativeLayout
+        android:id="@+id/rlTopBar"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@+id/viewTop"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgbackArrow"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:src="@drawable/icon_arrow_back"
+            android:visibility="gone"
+            app:tint="@color/quantum_black_100" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_below="@+id/imgbackArrow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/TSPoppinsMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_weight="1"
+                android:textSize="@dimen/_14sdp"
+                android:textColor="@color/quantum_black_100"
+                tools:text="Pay" />
+
+            <TextView
+                android:id="@+id/txtEdit"
+                style="@style/TSPoppinsMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_weight="2"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"                android:gravity="right"
+                android:textSize="@dimen/_14sdp"
+                android:text="Edit"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/txtDone"
+                style="@style/TSPoppinsMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_weight="2"
+                android:visibility="gone"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"                android:gravity="right"
+                android:textSize="@dimen/_14sdp"
+                android:text="Done"
+                android:textColor="@color/colorPrimary" />
+
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+
+
+
+
+    <RelativeLayout
+        app:layout_constraintTop_toBottomOf="@+id/rlTopBar"
+        app:layout_constraintBottom_toTopOf="@+id/llBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_marginVertical="@dimen/_20sdp"
+            android:id="@+id/rlListOfCards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewAdd"
+                android:layout_width="@dimen/_85sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_margin="@dimen/_8sdp"
+                app:cardBackgroundColor="@color/quantum_grey50"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:cardElevation="@dimen/_3sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/rlAddcard"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:id="@+id/iv_card"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_add"/>
+
+
+                </RelativeLayout>
+
+
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/addTxt"
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cardViewAdd"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:text="+ Add"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_12sdp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_paymentmethods"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_toRightOf="@+id/cardViewAdd"
+                android:visibility="visible"
+                tools:listitem="@layout/item_row_payment_method_new" />
+
+
+        </RelativeLayout>
+
+
+        <com.stripe.android.view.CardMultilineWidget
+            android:id="@+id/cardInputWidget"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_150sdp"
+
+            android:layout_below="@+id/rlListOfCards"
+            android:layout_centerInParent="true"
+            android:layout_marginVertical="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:background="@drawable/bg_rounded_dark_grey"
+            android:padding="@dimen/_15sdp" />
+
+
+    </RelativeLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/llBottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/back"
+            style="@style/TSPoppinsRegular"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:background="@drawable/button_shape_hollow"
+            android:text="@string/back"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_12sdp" />
+
+        <Button
+            android:id="@+id/btnSubscribe"
+            style="@style/TSPoppinsRegular"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:background="@drawable/button_shape"
+            android:text="Pay"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp" />
+
+        <Button
+            android:id="@+id/btnSelectCard"
+            style="@style/TSPoppinsRegular"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:background="@drawable/button_shape"
+            android:text="Pay"
+            android:visibility="gone"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

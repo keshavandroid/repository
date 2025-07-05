@@ -19,4 +19,8 @@ object EnvironmentalStatsDescriptionsIDs {
     const val COMPOST_CREATED_ID = 7
     const val CIGARETTE_BUTT_SAVED_ID = 8
     const val BIODIESEL_PRODUCED_ID = 9
+
+    const val COFFEE_CAPSULE_ID = 10
+    const val SOAP_BAR_ID = 11
+
 }

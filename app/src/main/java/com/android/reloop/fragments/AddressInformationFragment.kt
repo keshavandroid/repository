@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,8 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.reloop.reloop.R
 import com.reloop.reloop.activities.HomeActivity
 import com.reloop.reloop.activities.MapsActivity
@@ -130,10 +133,8 @@ class AddressInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
 
             }
 
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
             }
 
             @SuppressLint("SetTextI18n")
@@ -159,6 +160,20 @@ class AddressInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
 
     private fun setAddressSpinner() {
 
+        val prefs = requireContext().getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE)
+
+        val gson = Gson()
+        val json = prefs.getString("address_arr","testNoData")
+        Log.e("useraddress json"," === " + json)
+        if(json != null && json.isNotEmpty()) {
+            user?.addresses = if(json.equals("testNoData")) {
+                arrayListOf()
+            } else{
+                val type = object : TypeToken<ArrayList<Addresses>>() {}.type
+                gson.fromJson(json, type) as ArrayList<Addresses>
+            }
+        }
+        Log.e("TAG","===addresses======" + Gson().toJson(user?.addresses))
         //-------------------Addresses  Spinner---------------------
         val hideArrow = user?.user_type != Constants.UserType.organization
         val address = AdapterSpinnerAddress(
@@ -180,9 +195,19 @@ class AddressInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
                 id: Long
             ) {
                 try {
+
+                    Log.e("TAG","===address locationn======" + Gson().toJson(user?.addresses!![position].location))
+                    Log.e("TAG","===address city before s======" + Gson().toJson(user?.addresses!![position].city_id))
+                    Log.e("TAG","===address distirct before s======" + Gson().toJson(user?.addresses!![position].district_id))
+
                     location?.setText(user?.addresses?.get(position)?.location)
                     buyProduct?.latitude = user?.addresses!![position].latitude
                     buyProduct?.longitude = user?.addresses!![position].longitude
+                    buyProduct?.city_id = user?.addresses!![position].city_id
+                    buyProduct?.district_id = user?.addresses!![position].district_id
+
+                    Log.e("TAG","===address city after s ======" + Gson().toJson(buyProduct?.city_id))
+                    Log.e("TAG","===address distirct after s======" + Gson().toJson(buyProduct?.district_id))
 //                    setCityAndDistrictSpinners(position)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -220,23 +245,11 @@ class AddressInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
                     val intent = Intent(activity, MapsActivity::class.java)
                     val bundle = Bundle()
                     if (user?.user_type == Constants.UserType.organization) {
-                        bundle.putDouble(
-                            Constants.DataConstants.latitude,
-                            user?.addresses?.get(spinnerAddresses?.selectedItemPosition!!)?.latitude!!
-                        )
-                        bundle.putDouble(
-                            Constants.DataConstants.longitude,
-                            user?.addresses?.get(spinnerAddresses?.selectedItemPosition!!)?.longitude!!
-                        )
+                        bundle.putDouble(Constants.DataConstants.latitude, user?.addresses?.get(spinnerAddresses?.selectedItemPosition!!)?.latitude!!)
+                        bundle.putDouble(Constants.DataConstants.longitude, user?.addresses?.get(spinnerAddresses?.selectedItemPosition!!)?.longitude!!)
                     } else {
-                        bundle.putDouble(
-                            Constants.DataConstants.latitude,
-                            defaultAddress?.latitude!!
-                        )
-                        bundle.putDouble(
-                            Constants.DataConstants.longitude,
-                            defaultAddress?.longitude!!
-                        )
+                        bundle.putDouble(Constants.DataConstants.latitude, defaultAddress?.latitude!!)
+                        bundle.putDouble(Constants.DataConstants.longitude, defaultAddress?.longitude!!)
                     }
                     bundle.putInt(Constants.DataConstants.removeSaveButton, 1)
                     intent.putExtra(Constants.DataConstants.bundle, bundle)
@@ -246,11 +259,7 @@ class AddressInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
         }
     }
 
-    override fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?
-    ) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Constants.mapsCode) {
             val address: String? = data?.getStringExtra(Constants.DataConstants.location)
             location?.setText(address)
@@ -258,7 +267,6 @@ class AddressInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
             buyProduct?.longitude = data?.getDoubleExtra(Constants.DataConstants.longitude, 0.0)
         }
     }
-
 
     private fun populateSpinnerData(
     ) {
@@ -300,7 +308,7 @@ class AddressInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
                 "location",
                 1,
                 1,
-                activity!!
+                requireActivity()
             )
             if (authSuccessful) {
                 if (user?.addresses.isNullOrEmpty()
@@ -320,21 +328,23 @@ class AddressInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
                     buyProduct?.email = email?.text.toString()
                     buyProduct?.phone_number = phoneNumber?.text.toString()
                     buyProduct?.map_location = location?.text.toString()
-                    buyProduct?.location =
-                        user?.addresses?.get(0)?.unit_number + ", " + user?.addresses?.get(0)?.building_name + ", " + user?.addresses?.get(
+                    buyProduct?.location = user?.addresses?.get(0)?.unit_number + ", " + user?.addresses?.get(0)?.building_name + ", " + user?.addresses?.get(
                             0
                         )?.street + ", " + user?.addresses?.get(0)?.district?.name + ", " + user?.addresses?.get(
                             0
                         )?.city?.name
-                    buyProduct?.city_id =
-                        user?.addresses?.get(0)?.city?.id
+                    buyProduct?.city_id = user?.addresses?.get(0)?.city?.id
                     buyProduct?.district_id = user?.addresses?.get(0)?.district?.id
                     if (childToParent != null) {
                         childToParent?.callParent(buyProduct)
                     }
+
+                    Log.e("TAG","=====city id===" + buyProduct!!.city_id)
+                    Log.e("TAG","=====district id===" + buyProduct!!.district_id)
                 }
             }
-        } else {
+        }
+        else {
             val authSuccessful: Boolean = AddressInfoAuthOrganization.authenticate(
                 organizationName?.text.toString(),
                 email?.text.toString(),
@@ -342,7 +352,7 @@ class AddressInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
                 "location",
                 1,
                 1,
-                activity!!
+                requireActivity()
             )
             if (authSuccessful) {
                 if (user?.addresses.isNullOrEmpty()
@@ -361,24 +371,19 @@ class AddressInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
                     buyProduct?.email = email?.text.toString()
                     buyProduct?.phone_number = phoneNumber?.text.toString()
                     buyProduct?.map_location = location?.text.toString()
-                    buyProduct?.location =
-                        user?.addresses?.get(spinnerAddresses?.selectedItemPosition!!)?.unit_number + ", " + user?.addresses?.get(
-                            spinnerAddresses?.selectedItemPosition!!
-                        )?.building_name + ", " +
+                    buyProduct?.location = user?.addresses?.get(spinnerAddresses?.selectedItemPosition!!)?.unit_number + ", "+
+                            user?.addresses?.get(spinnerAddresses?.selectedItemPosition!!)?.building_name + ", " +
                                 user?.addresses?.get(spinnerAddresses?.selectedItemPosition!!)?.street + ", " + user?.addresses?.get(
                             spinnerAddresses?.selectedItemPosition!!
                         )?.district?.name + ", " + user?.addresses?.get(spinnerAddresses?.selectedItemPosition!!)?.city?.name
-                    buyProduct?.city_id =
-                        user?.addresses?.get(spinnerAddresses?.selectedItemPosition!!)?.city?.id
-                    buyProduct?.district_id =
-                        user?.addresses?.get(spinnerAddresses?.selectedItemPosition!!)?.district?.id
+                    buyProduct?.city_id = user?.addresses?.get(spinnerAddresses?.selectedItemPosition!!)?.city?.id
+                    buyProduct?.district_id = user?.addresses?.get(spinnerAddresses?.selectedItemPosition!!)?.district?.id
                     if (childToParent != null) {
                         childToParent?.callParent(buyProduct)
                     }
                 }
             }
         }
-
     }
 
     private fun setAddressSpinnerSelection() {
@@ -386,8 +391,16 @@ class AddressInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
             for (i in user?.addresses!!.indices) {
                 if (user?.addresses!![i].id == defaultAddress?.id) {
                     spinnerAddresses?.setSelection(i)
+
+                    Log.e("TAG","===address city before d ======" + Gson().toJson(user?.addresses!![i].city_id))
+                    Log.e("TAG","===address distirct before d======" + Gson().toJson(user?.addresses!![i].district_id))
                     buyProduct?.latitude = user?.addresses!![i].latitude
                     buyProduct?.longitude = user?.addresses!![i].longitude
+                    buyProduct?.city_id = user?.addresses!![i].city_id
+                    buyProduct?.district_id = user?.addresses!![i].district_id
+
+                    Log.e("TAG","===address city after d ======" + Gson().toJson(buyProduct?.city_id))
+                    Log.e("TAG","===address distirct after d======" + Gson().toJson(buyProduct?.district_id))
                     break
                 }
             }

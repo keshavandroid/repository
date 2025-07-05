@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.reloop.interfaces.SupportClick
 
 import com.reloop.reloop.R
 import com.reloop.reloop.adapters.AdapterRewardsHistory
@@ -24,6 +25,8 @@ import com.reloop.reloop.utils.RequestCodes
 import com.reloop.reloop.utils.Utils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.reloop.reloop.activities.BaseActivity
+import com.reloop.reloop.utils.Constants
 import retrofit2.Call
 import retrofit2.Response
 import java.lang.reflect.Type
@@ -32,7 +35,7 @@ import java.lang.reflect.Type
  * A simple [Fragment] subclass.
  */
 class RewardsHistoryFragment : BaseFragment(), OnNetworkResponse,View.OnClickListener,
-    RecyclerViewItemClick {
+    RecyclerViewItemClick, SupportClick {
 
     companion object {
 
@@ -85,15 +88,11 @@ class RewardsHistoryFragment : BaseFragment(), OnNetworkResponse,View.OnClickLis
             RequestCodes.API.REWARDS_HISTORY -> {
 //                Notify.alerterGreen(activity, baseResponse?.message)
                 val gson = Gson()
-                val listType: Type =
-                    object : TypeToken<List<RewardsHistory?>?>() {}.type
+                val listType: Type = object : TypeToken<List<RewardsHistory?>?>() {}.type
                 val apiList:ArrayList<RewardsHistory?>? = gson.fromJson(
-                    Utils.jsonConverterArray(baseResponse?.data as? ArrayList<*>),
-                    listType
-                )
+                    Utils.jsonConverterArray(baseResponse?.data as? ArrayList<*>), listType)
 
                 if (apiList!!.size >0) {
-
                     rv_rewards_history?.visibility = View.VISIBLE
                     tvNoOrders?.visibility = View.GONE
                     populateData(apiList)
@@ -125,4 +124,12 @@ class RewardsHistoryFragment : BaseFragment(), OnNetworkResponse,View.OnClickLis
 
     }
 
+    override fun openFragment(position: Int, status: String) {
+        BaseActivity.replaceFragment(
+            childFragmentManager,
+            Constants.Containers.containerRewardHistory,
+            ContactUsFragment.newInstance("", "", "-1",""),
+            Constants.TAGS.ContactUsFragment
+        )
+    }
 }

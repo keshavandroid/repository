@@ -105,15 +105,17 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <androidx.viewpager.widget.ViewPager
+            <!--<androidx.viewpager.widget.ViewPager
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/_110sdp"
                 android:layout_height="@dimen/_100sdp"
                 android:id="@+id/viewPager"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
-                android:visibility="gone"/>
+                android:visibility="gone"/>-->
 
-            <LinearLayout
+
+            <!--<LinearLayout
                 android:id="@+id/layoutDots"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"
@@ -121,7 +123,29 @@
                 android:layout_marginRight="@dimen/_10sdp"
                 android:gravity="center"
                 android:orientation="horizontal"
+                android:visibility="gone"/>-->
+
+
+            <com.android.reloop.customviews.InfiniteViewPager
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_110sdp"
+                android:id="@+id/viewPager"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
                 android:visibility="gone"/>
+
+            <com.android.reloop.customviews.InfiniteCirclePageIndicator
+                android:id="@+id/layoutDots"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@android:color/white"
+                app:fillColor="@color/light_green"
+                app:pageColor="@color/quantum_grey"
+                app:radius="@dimen/_4sdp"
+                app:strokeColor="@color/default_circle_indicator_stroke_color"
+                app:strokeWidth="0dp" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

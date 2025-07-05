@@ -8,8 +8,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.android.reloop.utils.LogFileSyncTask
 import com.android.reloop.utils.LogManager
+import com.facebook.FacebookSdk
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -17,7 +17,6 @@ import com.reloop.reloop.network.serializer.user.User
 import com.reloop.reloop.service.NotificationOpenHandler
 import com.reloop.reloop.service.NotificationReceivedHandler
 import com.onesignal.OneSignal
-import com.reloop.reloop.BuildConfig
 
 
 open class MainApplication : Application(), LifecycleObserver {
@@ -67,8 +66,6 @@ open class MainApplication : Application(), LifecycleObserver {
         instance = this
 
         LogManager.getLogManager().writeLog("${MainApplication} :APP LAUNCHED")
-        LogManager.getLogManager().writeLog("${MainApplication} :VERSION NAME  : ${BuildConfig.VERSION_NAME}")
-        LogManager.getLogManager().writeLog("${MainApplication} :VERSION CODE  : ${BuildConfig.VERSION_CODE}")
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
 //        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.DEBUG, OneSignal.LOG_LEVEL.DEBUG)
         //OneSignal
@@ -87,19 +84,21 @@ open class MainApplication : Application(), LifecycleObserver {
         FirebaseApp.initializeApp(applicationContext)
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
 
+        FacebookSdk.setClientToken("6324c264c381f3398197395fb41ac410");
+        FacebookSdk.sdkInitialize(getApplicationContext());
+//        FacebookSdk.setGraphApiVersion("v14.0"); // Specify the desired version here
+
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onAppBackgrounded() {
         inBackground = true
-        if(LogManager.isInitialized())
-        {
-            LogManager.getLogManager().sendLogs(true)
-        }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onAppForegrounded() {
         inBackground = false
     }
+
+
 }

@@ -71,7 +71,8 @@ class ContinueAsActivity : BaseActivity(), OnNetworkResponse {
         baseURL = if (Configuration.isProduction) {
             "https://api.reloopapp.com/api/settings";
         } else if (Configuration.isStagingNew) {
-            "https://staging.reloopapp.com/api/settings";
+//            "https://staging.reloopapp.com/api/settings";
+            "https://dev.reloopapp.com/api/settings";
         } else {
             "http://reloop.teamtechverx.com/api/settings";
         }
@@ -96,13 +97,10 @@ class ContinueAsActivity : BaseActivity(), OnNetworkResponse {
                         val organization_signup_text_value =
                             jsonArray_organization_signup_text.getJSONObject(0).getString("value")
                         saveTextInSharedPref(organization_signup_text_value)
-                        household_signup_info_value =
-                            jsonArray_household_signup_info.getJSONObject(0).getString("value")
-                        organization_signup_info_value =
-                            jsonArray_organization_signup_info.getJSONObject(0).getString("value")
+                        household_signup_info_value = jsonArray_household_signup_info.getJSONObject(0).getString("value")
+                        organization_signup_info_value = jsonArray_organization_signup_info.getJSONObject(0).getString("value")
 
-                        val signup_text_value =
-                            jsonArray_signup_text.getJSONObject(0).getString("value")
+                        val signup_text_value = jsonArray_signup_text.getJSONObject(0).getString("value")
                         Log.d("==>>", "signup_text_value: $signup_text_value")
                         tv_signup_text.text = signup_text_value
 
@@ -110,7 +108,6 @@ class ContinueAsActivity : BaseActivity(), OnNetworkResponse {
                     } catch (e: Exception) {
                         dismissProgressDialog()
                         Log.d("==>>", "onResponse: " + e.message)
-
                     }
                 }
 
@@ -122,10 +119,7 @@ class ContinueAsActivity : BaseActivity(), OnNetworkResponse {
     }
 
     private fun saveTextInSharedPref(text: String) {
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(
-            "continueASsharedPref",
-            Context.MODE_PRIVATE
-        )
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences("continueASsharedPref", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
         editor.putString("organization_signup_text_value", text)
         editor.apply()
@@ -174,13 +168,8 @@ class ContinueAsActivity : BaseActivity(), OnNetworkResponse {
 
     private fun buttonClickedState(textView: TextView) {
         try {
-            textView.setTextColor(
-                ContextCompat.getColor(
-                    applicationContext, R.color.white
-                )
-            )
-            textView.backgroundTintList =
-                ContextCompat.getColorStateList(applicationContext, R.color.green_color_button)
+            textView.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            textView.backgroundTintList = ContextCompat.getColorStateList(applicationContext, R.color.green_color_button)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -188,11 +177,7 @@ class ContinueAsActivity : BaseActivity(), OnNetworkResponse {
 
     private fun buttonResetState(textView: TextView) {
         try {
-            textView.setTextColor(
-                ContextCompat.getColor(
-                    applicationContext, R.color.green_color_button
-                )
-            )
+            textView.setTextColor(ContextCompat.getColor(applicationContext, R.color.green_color_button))
             textView.backgroundTintList = null
         } catch (e: Exception) {
             e.printStackTrace()
@@ -207,7 +192,7 @@ class ContinueAsActivity : BaseActivity(), OnNetworkResponse {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-//        finish()
+//      finish()
     }
 
     override fun onSuccess(call: Call<Any?>?, response: Response<Any?>, tag: Any?) {

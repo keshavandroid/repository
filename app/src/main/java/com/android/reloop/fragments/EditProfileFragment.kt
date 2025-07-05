@@ -5,8 +5,11 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,9 +18,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.reloop.imagecropper.CropImage
+import com.android.reloop.model.UserDependDetailsModel
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.internal.LinkedTreeMap
 import com.reloop.reloop.R
 import com.reloop.reloop.activities.BaseActivity
@@ -39,25 +48,19 @@ import com.reloop.reloop.network.serializer.DependencyDetail
 import com.reloop.reloop.network.serializer.organization.Organization
 import com.reloop.reloop.network.serializer.user.User
 import com.reloop.reloop.utils.*
-import com.theartofdev.edmodo.cropper.CropImage
 import com.tsongkha.spinnerdatepicker.DatePicker
 import com.tsongkha.spinnerdatepicker.DatePickerDialog
+import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
 import kotlinx.android.synthetic.main.fragment_edit_profile.view.*
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import pub.devrel.easypermissions.EasyPermissions
 import retrofit2.Call
 import retrofit2.Response
-
-import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 
 /**
@@ -81,6 +84,7 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
     var imageUri: Uri? = null
     private var dependenciesListing: Dependencies? = Dependencies()
     var user: User? = null
+    private var userprofile: UserDependDetailsModel? = UserDependDetailsModel()
 
     //    var updateProfile: UpdateProfile? = null
     var addressList: ArrayList<Addresses>? = null
@@ -96,25 +100,43 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
         fragmentView = inflater.inflate(R.layout.fragment_edit_profile, container, false)
         user = User.retrieveUser()
         addressList = user?.addresses
+
+        Log.e(TAG, "==userdata : ${Gson().toJson(user)}")
+
         initViews(fragmentView)
         setListeners(fragmentView)
         populateData(fragmentView)
-        NetworkCall.make()
-            ?.setCallback(this)
-            ?.setTag(RequestCodes.API.DEPENDENCIES)
-            ?.autoLoading(requireActivity())
-            ?.enque(
-                Network().apis()?.dependencies()
-            )
-            ?.execute()
+
+       /* if(!NetworkCall.inProgress()){
+            NetworkCall.make()
+                ?.setCallback(this)
+                ?.setTag(RequestCodes.API.DEPENDENCIES)
+                ?.autoLoading(requireActivity())
+                ?.enque(Network().apis()?.dependencies())
+                ?.execute()
+        }*/
+
+        //call single api for depend and get profile
+        if(!NetworkCall.inProgress()){
+            NetworkCall.make()
+                ?.setCallback(this)
+                ?.setTag(RequestCodes.API.USER_PROFILE_DEPENDENCIES)
+                ?.autoLoading(requireActivity())
+                ?.enque(Network().apis()?.userProfiledependencies())
+                ?.execute()
+        }
 
         return fragmentView
     }
 
     @SuppressLint("SetTextI18n")
     private fun initViews(view: View?) {
+
         when (user?.user_type!!) {
             Constants.UserType.household -> {
+
+                view?.titleADD?.visibility = View.GONE
+
                 view?.no_of_branches_heading?.visibility = View.GONE
                 view?.no_of_branches?.visibility = View.GONE
                 view?.sector_heading?.visibility = View.GONE
@@ -137,11 +159,23 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
                     fragmentView?.layoutAddAddress?.visibility = View.GONE
                 }
                 view?.dob_heading?.visibility = View.VISIBLE
+
+                view?.txtOptDob?.visibility = View.VISIBLE
+                view?.txtOptGen?.visibility = View.VISIBLE
+
                 view?.dob_edit?.visibility = View.VISIBLE
                 view?.gender_heading?.visibility = View.VISIBLE
                 view?.gender_group?.visibility = View.VISIBLE
             }
             Constants.UserType.organization -> {
+
+                val prefs: SharedPreferences = requireContext().getSharedPreferences(Constants.PREF_NAME, AppCompatActivity.MODE_PRIVATE)
+                val orgmane = prefs.getString("orgname","")
+
+                Log.e(TAG,"=====org name in info====="  + orgmane)
+
+                view?.titleADD?.visibility = View.VISIBLE
+
                 view?.first_name_heading?.text = "Organization Name*"
                 view?.first_name?.hint = "Enter Organization"
                 view?.last_name_heading?.visibility = View.GONE
@@ -157,10 +191,17 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
                 view?.organization_id_heading?.visibility = View.GONE
                 view?.cardViewOrg?.visibility = View.GONE
                 view?.organization_id?.visibility = View.GONE
-                view?.first_name?.setText(user?.organization?.name)
+
+
+                //view?.first_name?.setText(user?.organization?.name)
+                view?.first_name?.setText(orgmane)
                 view?.last_name?.visibility = View.GONE
                 view?.email?.setText(user?.email)
                 view?.dob_heading?.visibility = View.GONE
+
+                view?.txtOptDob?.visibility = View.GONE
+                view?.txtOptGen?.visibility = View.GONE
+
                 view?.dob_edit?.visibility = View.GONE
                 view?.gender_heading?.visibility = View.GONE
                 view?.gender_group?.visibility = View.GONE
@@ -228,14 +269,20 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
             view?.no_of_branches_heading?.text.toString(), 15, 16,
             Color.RED
         )
-        view?.dob_heading?.text = Utils.colorMyText(
-            view?.dob_heading?.text.toString(), 13, 14,
-            Color.RED
+
+        /*view?.dob_heading?.text = Utils.colorMyText(
+            view?.dob_heading?.text.toString(), 13, 24,
+            Color.GRAY
         )
         view?.gender_heading?.text = Utils.colorMyText(
-            view?.gender_heading?.text.toString(), 6, 7,
-            Color.RED
+            view?.gender_heading?.text.toString(), 6, 17,
+            Color.GRAY
         )
+        view?.txtOrgHeading?.text = Utils.colorMyText(
+            view?.txtOrgHeading?.text.toString(), 12, 23,
+            Color.GRAY
+        )*/
+
         view?.sector_heading?.text = Utils.colorMyText(
             view?.sector_heading?.text.toString(), 6, 7,
             Color.RED
@@ -245,6 +292,10 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
             Color.RED
         )
 
+        view?.add_new_address?.text = Utils.colorMyText(
+            view?.add_new_address?.text.toString(), 18, 19,
+            Color.RED
+        )
     }
 
     private fun setListeners(view: View?) {
@@ -267,10 +318,36 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
         if (addressList == null) {
             addressList = ArrayList()
         }
+
+        Log.d("addressData", "111 = " + GsonBuilder().setPrettyPrinting().create().toJson(addressList))
+
+        //Collections.sort(addressList, AddressesComparator())
+        //show default address on top
+        Collections.sort(addressList, Comparator<Addresses?> { o1, o2 ->
+            if (o1.default != null && o1.default == 1) {
+                return@Comparator -1
+            }
+            if (o2.default != null && o2.default == 1) {
+                1
+            } else o1.default!!.compareTo(o2.default!!)
+        })
+
+        Log.d("addressData", "222  = " + GsonBuilder().setPrettyPrinting().create().toJson(addressList))
+
+
+        if(addressList!!.isEmpty()){
+            view?.titleADD?.visibility = View.GONE
+        }else{
+            //NEW ADDED AD
+            view?.add_new_address?.text = ""+activity?.getString(R.string.add_new_address_optional)
+        }
+
+
         val linearLayoutManager = LinearLayoutManager(activity)
         view?.recyclerView?.layoutManager = linearLayoutManager
         adapterAddress = AdapterAddress(addressList, this, this, dependenciesListing)
         view?.recyclerView?.adapter = adapterAddress
+
         organizationModel = user?.organization
         if (!user?.birth_date.isNullOrEmpty()) {
             view?.dob_edit?.setText(Utils.getFormattedDisplayDateCollection(user?.birth_date))
@@ -326,6 +403,12 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
                 }
             }
         })
+    }
+
+    class AddressesComparator : Comparator<Addresses?> {
+        override fun compare(left: Addresses?, right: Addresses?): Int {
+            return left!!.default!!.compareTo(right!!.default!!)
+        }
     }
 
     override fun onClick(view: View?) {
@@ -473,13 +556,9 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
 
     override fun itemPosition(position: Int) {
         if (dependenciesListing != null && addressList?.get(position) != null) {
-            val fragment =
-                AddAddressFragment.newInstance(addressList?.get(position), dependenciesListing)
+            val fragment = AddAddressFragment.newInstance(addressList?.get(position), dependenciesListing)
             val args = Bundle()
-            args.putInt(
-                Constants.DataConstants.userStatus,
-                user?.user_type!!
-            )
+            args.putInt(Constants.DataConstants.userStatus, user?.user_type!!)
             fragment.arguments = args
             BaseActivity.replaceFragment(
                 childFragmentManager,
@@ -493,11 +572,11 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
     }
 
     override fun messageFromChildToParent() {
-        saveProfile(false)
+        //saveProfile(false)
         NetworkCall.make()
             ?.setCallback(this)
             ?.setTag(RequestCodes.API.GET_PROFILE)
-            ?.autoLoading(requireActivity())
+            //?.autoLoading(requireActivity())
             ?.enque(
                 Network().apis()?.getUserProfile()
             )
@@ -505,17 +584,30 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
     }
 
     private fun storageTask() {
-        if (hasStoragePermission()) {
-            CropImage.activity()
-                .start(requireActivity(), this)
-        } else {
-            EasyPermissions.requestPermissions(
-                this,
-                getString(R.string.write_external_storage),
-                RequestCodes.RC_STORAGE_PERM,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_IMAGES)
+                != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_MEDIA_IMAGES), 565);
+            } else {
+                CropImage.activity()
+                    .start(requireActivity(), this)
+            }
+        }else{
+            if (hasStoragePermission()) {
+                CropImage.activity()
+                    .start(requireActivity(), this)
+            } else {
+                EasyPermissions.requestPermissions(
+                    this,
+                    getString(R.string.write_external_storage),
+                    RequestCodes.RC_STORAGE_PERM,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            }
         }
+
+
     }
 
     private fun hasStoragePermission(): Boolean {
@@ -547,6 +639,7 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
                 Log.e(Constants.TAGS.EditProfileFragment, "$error")
             }
         }
+
 //        else if (resultCode == Constants.mapsCode) {
 //            val address: String? = data?.getStringExtra(Constants.DataConstants.location)
 //            fragmentView?.location?.setText(address)
@@ -557,6 +650,104 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
     override fun onSuccess(call: Call<Any?>?, response: Response<Any?>, tag: Any?) {
         val baseResponse = Utils.getBaseResponse(response)
         when (tag) {
+
+            RequestCodes.API.USER_PROFILE_DEPENDENCIES -> {
+                try {
+
+                    val dependencyDetail = DependencyDetail()
+
+                    userprofile = Gson().fromJson(
+                        Utils.jsonConverterObject(baseResponse?.data as? LinkedTreeMap<*, *>),
+                        UserDependDetailsModel::class.java)
+                    Log.e("Editprofile userprofile : ",Gson().toJson(userprofile))
+
+                    dependenciesListing = userprofile!!.dependencies
+                    Log.e("Editprofile depend : ",Gson().toJson(dependenciesListing))
+
+                    if (dependenciesListing?.organizations.isNullOrEmpty()) {
+                        dependenciesListing?.organizations = ArrayList()
+                    }
+                    dependencyDetail.name = "Select Organization"
+                    dependencyDetail.id = 0
+                    dependenciesListing?.organizations?.add(0, dependencyDetail)
+                    populateSpinnerData(dependenciesListing?.sectors)
+
+                    addressList?.clear()
+                    if (addressList == null) {
+                        addressList = ArrayList()
+                    }
+                    adapterAddress?.notify(addressList, dependenciesListing)
+
+                    val userModel = userprofile!!.userProfile
+                    Log.e("Editprofile userModel : ",Gson().toJson(userModel))
+                    if (userModel != null) {
+                        try {
+                            if (userModel.user_type == 0 || userModel.user_type == null) {
+                                userModel?.user_type = Constants.UserType.household
+                            }
+
+                            val token = baseResponse?.token
+                            userModel.api_token = token.toString()
+                            //userModel.api_token = User.retrieveUser()!!.api_token  //open when new staging
+                            userModel.save(userModel, context,false) //comment when new staging
+                            user = userModel //comment when new staging
+
+                            //open when new staging
+                           /* if (!userModel.api_token.isNullOrEmpty()) {
+                                userModel.save(userModel, context,false)
+                                user = userModel
+                            }*/  //open when new staging
+                            if (!userModel?.organization?.org_external_id.isNullOrEmpty() && userModel.user_type == Constants.UserType.household) {
+                                fragmentView?.organization_id?.setText(userModel?.organization?.name)
+                                fragmentView?.deleteOrgID?.visibility = View.VISIBLE
+                            } else {
+                                fragmentView?.deleteOrgID?.visibility = View.GONE
+                            }
+                        } catch (e: Exception) {
+                            Log.e("Edit Profile", e.toString())
+                            activity?.onBackPressed()
+                        }
+                    }
+
+                    addressList = user?.addresses
+
+                    if (addressList == null) {
+                        addressList = ArrayList()
+                    }
+//                if (user?.addresses != null && user?.addresses?.size!! > 0) {
+//                    fragmentView?.location?.setText(user?.addresses?.get(0)?.location)
+//                }
+
+                    //Collections.sort(addressList, AddressesComparator())
+                    //show default address on top
+                    Collections.sort(addressList, Comparator<Addresses?> { o1, o2 ->
+                        if (o1.default != null && o1.default == 1) {
+                            return@Comparator -1
+                        }
+                        if (o2.default != null && o2.default == 1) {
+                            1
+                        } else o1.default!!.compareTo(o2.default!!)
+                    })
+
+
+                    adapterAddress?.notify(addressList, dependenciesListing)
+                    when (user?.user_type) {
+                        Constants.UserType.household -> {
+                            if (addressList?.size!! > 0) {
+                                fragmentView?.add_new_address?.visibility = View.GONE
+                                fragmentView?.layoutAddAddress?.visibility = View.GONE
+
+                            }
+                        }
+                    }
+
+                    saveProfile(false)
+
+                } catch (e: Exception) {
+                    Log.e("Edit Profile", e.toString())
+                    activity?.onBackPressed()
+                }
+            }
             RequestCodes.API.DEPENDENCIES -> {
                 val dependencyDetail = DependencyDetail()
 
@@ -577,12 +768,16 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
                 dependencyDetail.id = 0
                 dependenciesListing?.organizations?.add(0, dependencyDetail)
                 populateSpinnerData(dependenciesListing?.sectors)
-                NetworkCall.make()
-                    ?.setCallback(this)
-                    ?.setTag(RequestCodes.API.GET_PROFILE)
-                    ?.autoLoading(requireActivity())
-                    ?.enque(Network().apis()?.getUserProfile())
-                    ?.execute()
+
+                if (!NetworkCall.inProgress()) {
+                    NetworkCall.make()
+                        ?.setCallback(this)
+                        ?.setTag(RequestCodes.API.GET_PROFILE)
+                        //?.autoLoading(requireActivity()) //originally added
+                        ?.enque(Network().apis()?.getUserProfile())
+                        ?.execute()
+                }
+
             }
             RequestCodes.API.UPDATE_PROFILE -> {
                 if (showLoader)
@@ -592,7 +787,7 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
                     Utils.jsonConverterObject(baseResponse?.data as LinkedTreeMap<*, *>),
                     User::class.java
                 )
-                userModel.save(userModel, context)
+                userModel.save(userModel, context,false)
                 //Set Delete Orgnization Id Button
                 if (!userModel?.organization?.org_external_id.isNullOrEmpty() && userModel.user_type == Constants.UserType.household) {
                     fragmentView?.organization_id?.setText(userModel?.organization?.name)
@@ -616,7 +811,7 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
                         userModel?.user_type = Constants.UserType.household
                     }
                     if (!userModel.api_token.isNullOrEmpty()) {
-                        userModel.save(userModel, context)
+                        userModel.save(userModel, context,false)
                         user = userModel
                     }
                     if (!userModel?.organization?.org_external_id.isNullOrEmpty() && userModel.user_type == Constants.UserType.household) {
@@ -631,12 +826,26 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
                 }
 
                 addressList = user?.addresses
+
                 if (addressList == null) {
                     addressList = ArrayList()
                 }
 //                if (user?.addresses != null && user?.addresses?.size!! > 0) {
 //                    fragmentView?.location?.setText(user?.addresses?.get(0)?.location)
 //                }
+
+                //Collections.sort(addressList, AddressesComparator())
+                //show default address on top
+                Collections.sort(addressList, Comparator<Addresses?> { o1, o2 ->
+                    if (o1.default != null && o1.default == 1) {
+                        return@Comparator -1
+                    }
+                    if (o2.default != null && o2.default == 1) {
+                        1
+                    } else o1.default!!.compareTo(o2.default!!)
+                })
+
+
                 adapterAddress?.notify(addressList, dependenciesListing)
                 when (user?.user_type) {
                     Constants.UserType.household -> {
@@ -647,6 +856,8 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
                         }
                     }
                 }
+
+                saveProfile(false)
             }
             RequestCodes.API.DELETE_ADDRESS -> {
                 if (deleteAddressPosition >= 0) {
@@ -659,7 +870,7 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
                     if (user?.addresses.isNullOrEmpty()) {
                         user?.addresses = ArrayList()
                     }
-                    user?.save(user!!, context)
+                    user?.save(user!!, context,false)
                 }
             }
             RequestCodes.API.ORGANIZATION_CODE -> {
@@ -729,7 +940,9 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
                 phone_number?.text.toString(),
                 requireActivity()
             )
-            if (authSuccessful) {
+
+            //OLD dateOfBirth and gender was mandatory
+            /*if (authSuccessful) {
                 if (user?.addresses.isNullOrEmpty()
                     || user?.addresses?.get(0)?.street.isNullOrEmpty()
                     || user?.addresses?.get(0)?.building_name.isNullOrEmpty()
@@ -738,6 +951,19 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
                     || (!male.isChecked && !female.isChecked)
                 ) {
                     Notify.alerterRed(activity, "Your profile is incomplete")
+                } else {
+                    editProfileHouseHold(showLoader)
+                }
+            }*/
+
+            //NEW dateOfBirth and gender is optional
+            if (authSuccessful) {
+                if (user?.addresses.isNullOrEmpty()
+                    || user?.addresses?.get(0)?.street.isNullOrEmpty()
+                    || user?.addresses?.get(0)?.building_name.isNullOrEmpty()
+                    || user?.addresses?.get(0)?.type.isNullOrEmpty()
+                ) {
+                    //Notify.alerterRed(activity, "Your profile is incomplete")
                 } else {
                     editProfileHouseHold(showLoader)
                 }
@@ -758,12 +984,17 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener, RecyclerViewIt
                 requireActivity()
             )
             if (authSuccessful) {
+                val orgname = first_name?.text.toString()
+                val prefs = requireContext().getSharedPreferences(Constants.PREF_NAME, AppCompatActivity.MODE_PRIVATE)
+                prefs.edit().putString("orgname", orgname).apply()
+
+
                 if (user?.addresses.isNullOrEmpty()
                     || user?.addresses?.get(0)?.street.isNullOrEmpty()
                     || user?.addresses?.get(0)?.building_name.isNullOrEmpty()
                     || user?.addresses?.get(0)?.type.isNullOrEmpty()
                 ) {
-                    Notify.alerterRed(activity, "Your profile is incomplete")
+                    //Notify.alerterRed(activity, "Your profile is incomplete")
                 } else {
                     editProfileOrganization(showLoader)
                 }

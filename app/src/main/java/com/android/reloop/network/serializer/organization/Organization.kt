@@ -19,4 +19,6 @@ class Organization {
     var created_at: String? = ""
     @SerializedName("updated_at")
     var updated_at: String? = ""
+    @SerializedName("is_master")
+    var is_master: Int? = 0
 }

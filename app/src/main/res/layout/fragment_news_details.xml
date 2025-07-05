@@ -18,7 +18,7 @@
            android:layout_height="match_parent"
            android:orientation="vertical">
 
-           <androidx.viewpager.widget.ViewPager
+           <!--<androidx.viewpager.widget.ViewPager
                android:layout_width="match_parent"
                android:layout_height="@dimen/_100sdp"
                android:id="@+id/viewPager"
@@ -34,7 +34,31 @@
                android:layout_marginRight="@dimen/_10sdp"
                android:gravity="center"
                android:orientation="horizontal"
-               android:visibility="visible"/>
+               android:visibility="visible"/>-->
+
+           <com.android.reloop.customviews.InfiniteViewPager
+               android:layout_width="match_parent"
+               android:layout_height="@dimen/_150sdp"
+               android:id="@+id/viewPager"
+               android:layout_marginLeft="@dimen/_10sdp"
+               android:layout_marginTop="@dimen/_10sdp"
+               android:layout_marginRight="@dimen/_10sdp" />
+
+           <com.android.reloop.customviews.InfiniteCirclePageIndicator
+               android:id="@+id/layoutDots"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="@dimen/_10sdp"
+               android:layout_marginRight="@dimen/_10sdp"
+               android:gravity="center"
+               android:visibility="visible"
+               android:layout_marginTop="@dimen/_10sdp"
+               android:background="@android:color/white"
+               app:fillColor="@color/light_green"
+               app:pageColor="@color/quantum_grey"
+               app:radius="4dp"
+               app:strokeColor="@color/default_circle_indicator_stroke_color"
+               app:strokeWidth="0dp" />
 
            <RelativeLayout
                android:layout_width="match_parent"

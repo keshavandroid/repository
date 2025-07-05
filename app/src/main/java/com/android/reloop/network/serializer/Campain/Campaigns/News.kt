@@ -45,6 +45,10 @@ class News {
     @Expose
     private var deletedAt: Any? = null
 
+    @SerializedName("image")
+    @Expose
+    private var image: String? = null
+
     @SerializedName("news_images")
     @Expose
     private var newsImages: List<NewsImage?>? = null
@@ -95,6 +99,14 @@ class News {
 
     fun setStatus(status: Int?) {
         this.status = status
+    }
+
+    fun getImage(): String? {
+        return image
+    }
+
+    fun setImage(image: String?) {
+        this.image = image
     }
 
     fun getCreatedAt(): String? {

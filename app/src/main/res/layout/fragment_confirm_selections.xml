@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    android:focusable="true"
+    android:id="@+id/container_confirm_selections"
+    android:background="@drawable/shape_layout_curve_background">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <HorizontalScrollView
+            android:id="@+id/stepView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:id="@+id/img_step1"
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="@dimen/_42sdp"
+                        android:src="@drawable/ic_step_select_station"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/text_step1"
+                        style="@style/TSPoppinsMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:gravity="center"
+                        android:text="@string/select_stations"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_9sdp" />
+                </LinearLayout>
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/_21sdp"
+                    android:src="@drawable/ic_next"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:id="@+id/img_step2"
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="@dimen/_42sdp"
+                        android:src="@drawable/ic_step_material"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/text_step2"
+                        style="@style/TSPoppinsMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:gravity="center"
+                        android:text="@string/select_material"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_9sdp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/_21sdp"
+                    android:src="@drawable/ic_next"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:id="@+id/img_step3"
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="@dimen/_42sdp"
+                        android:src="@drawable/ic_step_verify"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/text_step3"
+                        style="@style/TSPoppinsMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:gravity="center"
+                        android:src="@drawable/icon_select_categories_en"
+                        android:text="@string/verify_drop_off"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_9sdp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/_21sdp"
+                    android:src="@drawable/ic_next"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:id="@+id/img_step4"
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="@dimen/_42sdp"
+                        android:src="@drawable/ic_step_confirm_selections"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/text_step4"
+                        style="@style/TSPoppinsMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:gravity="center"
+                        android:src="@drawable/icon_select_categories_en"
+                        android:text="@string/confirm_selection"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_9sdp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/_21sdp"
+                    android:src="@drawable/ic_next"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:id="@+id/img_step5"
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="@dimen/_42sdp"
+                        android:src="@drawable/ic_step_succeeded"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/text_step5"
+                        style="@style/TSPoppinsMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:gravity="center"
+                        android:src="@drawable/icon_select_categories_en"
+                        android:text="@string/request_succeeded"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_9sdp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <ScrollView
+            android:layout_above="@+id/llBottom"
+            android:layout_below="@+id/stepView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_marginTop="@dimen/_24sdp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/ic_account_circle"
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp">
+                    </ImageView>
+
+                    <TextView
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:textColor="@color/text_color_drop_off"
+                        android:text="@string/name"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <TextView
+                        android:id="@+id/txtName"
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:textColor="@color/text_color_drop_off"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_11sdp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/ic_mobile_screen_share"
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp">
+                    </ImageView>
+
+                    <TextView
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/text_color_drop_off"
+                        android:text="@string/str_mobile_number"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <TextView
+                        android:id="@+id/txtMobile"
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:textColor="@color/text_color_drop_off"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_11sdp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/ic_material_fill"
+                        android:padding="@dimen/_3sdp"
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp">
+                    </ImageView>
+
+                    <TextView
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:textColor="@color/text_color_drop_off"
+                        android:text="@string/str_material_categories"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <TextView
+                        android:id="@+id/txtCategories"
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:textColor="@color/text_color_drop_off"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_11sdp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/ic_location_pin_white"
+                        android:padding="@dimen/_2sdp"
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        app:tint="#C5C5C5">
+                    </ImageView>
+
+                    <TextView
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:textColor="@color/text_color_drop_off"
+                        android:text="@string/str_drop_off_location"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <TextView
+                        android:id="@+id/txtLocation"
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:textColor="@color/text_color_drop_off"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_11sdp" />
+
+                </LinearLayout>
+
+                <TextView
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:textColor="@color/text_color_drop_off"
+                    android:text="Comments (Optional)"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_13sdp" />
+
+                <com.reloop.reloop.customviews.CustomEditText
+                    android:id="@+id/editComments"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_3sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:background="@drawable/edittextbackgroundsimple_rect"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:elevation="@dimen/_3sdp"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:paddingVertical="@dimen/_10sdp"
+                    android:lines="5"
+                    android:maxLines="5"
+                    android:textColor="@color/text_color_drop_off"
+                    android:textColorHint="@color/text_color_drop_off"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/_12sdp"
+                    app:focusedBackground="@drawable/edittextbackgroundselected_rect"
+                    app:unFocusedBackground="@drawable/edittextbackgroundsimple"
+                    tools:ignore="Autofill,LabelFor" />
+
+                <CheckBox
+                    android:id="@+id/remember_me"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:textSize="@dimen/_12sdp"
+                    android:text="I Confirm drop-off details"
+                    android:textColor="@color/text_color_drop_off"
+                    app:buttonTint="@color/drop_off_green" />
+
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+
+
+        <LinearLayout
+            android:id="@+id/llBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/back"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:background="@drawable/button_shape_hollow"
+                android:text="@string/back"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_12sdp" />
+
+            <Button
+                android:id="@+id/btnNext"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:background="@drawable/button_shape"
+                android:text="@string/submit"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12sdp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+</FrameLayout>

@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">ReLoop</string>
+
+
+  
+
+
     <string name="continue_btn_login">Continue</string>
     <string name="phone_number">Mobile Number</string>
     <string name="enter_email_err_msg">Enter Email Address</string>
@@ -38,10 +43,14 @@
     <string name="create_an_account">Create a ReLoop Account</string>
     <string name="household">Household</string>
     <string name="organization">Organization</string>
+    <string name="organization_optional">Organization (optional)</string>
+
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="address">Address</string>
+    <string name="addresses">Addresses</string>
+
     <string name="no_of_employees">No. of Employees</string>
     <string name="branches">No of Branches</string>
     <string name="cities_operating_in">Cities Operating in</string>
@@ -70,12 +79,15 @@
     <string name="dummy_text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore  veritatis et quasi architecto beatae vitae dicta sunt explicabo.Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore  veritatis et quasi architecto beatae vitae dicta sunt explicabo.</string>
     <string name="confirm_text">I confirm complying with the Terms &amp; Conditions.</string>
     <string name="close">Close</string>
-    <string name="thank_you">Thank You</string>
-    <string name="collection_submitted">Your collection request has been submitted successfully!</string>
+    <string name="thank_you">Thank You!</string>
+    <string name="collection_submitted">Your collection request has been submitted successfully.</string>
     <string name="order_submitted">Your Order Id Is </string>
     <string name="accept_payment">Accept Payment</string>
     <string name="please_enter_following_information_to_proceed_your_subscription">Please enter following information to proceed your subscription</string>
     <string name="card_number">Card Number</string>
+    <string name="card_holder">Card Holder</string>
+    <string name="card_holder_optional">Card Holder (optional)</string>
+
     <string name="mm_yy">Expiry mm/yy</string>
     <string name="cvv">CVV</string>
     <string name="cancel">Cancel</string>
@@ -84,6 +96,7 @@
     <string name="description">Description:</string>
     <string name="city">City</string>
     <string name="city_">City*</string>
+    <string name="title_">Location Title/Name*</string>
 
     <string name="street">Street/Cluster</string>
     <string name="street_">Street/Cluster*</string>
@@ -91,6 +104,8 @@
     <string name="district_">District*</string>
     <string name="location">Location:</string>
     <string name="dummy_address">Brooklyn Street 77, New York 2345, New York.</string>
+    <string name="txt_update">Update</string>
+
     <string name="proceed">Proceed</string>
     <string name="cart_information">Cart Information</string>
     <string name="billing">Billing</string>
@@ -170,7 +185,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="gps_network_not_enabled">GPS is Not Enabled</string>
     <string name="open_location_settings">Go to Location Setting</string>
-    <string name="app_may_not_work_msg">This App Requires Permission To Perfom Required Function. Please go to App setting and enable it.</string>
+    <string name="app_may_not_work_msg">ReLoop requires permission to access location for verifying the drop-off location. Kindly allow permission to location in order to proceed.</string>
     <string name="go_to_setting">Go To Setting</string>
     <string name="Done">Done</string>
     <string name="confirm_password_err_msg">Enter Confirm Password</string>
@@ -220,10 +235,12 @@
     <string name="my_activity">My Activity</string>
     <string name="subscriptions">Subscriptions</string>
     <string name="orders">Orders</string>
+    <string name="requests">Requests</string>
+
     <string name="support">Support</string>
     <string name="services">SERVICES</string>
     <string name="products">PRODUCTS</string>
-    <string name="default_address">Default Address</string>
+    <string name="default_address">Default</string>
     <string name="welcome_to">Welcome To</string>
     <string name="intro_1_msg">Use ReLoop to recycle from your doorstep!</string>
     <string name="intro_2_msg">Gain ReLoop Points when you recycle, and use the points to donate to meaningful causes or buy environmental products.</string>
@@ -233,13 +250,19 @@
     <string name="reset_password">Reset Password</string>
     <string name="main_location">Main Location</string>
     <string name="enter_coupon_code">Enter Coupon Code</string>
+
     <string name="facebook_app_id">2801053973346446</string>
+    <string name="facebook_client_token">6324c264c381f3398197395fb41ac410</string>
     <string name="fb_login_protocol_scheme">fb2801053973346446</string>
+
+
     <string name="day">Day</string>
     <string name="week">Week</string>
     <string name="month">Month</string>
     <string name="year">Year</string>
-    <string name="add_new_address">+ Add New Address</string>
+    <string name="add_new_address">+ Add New Address *</string>
+    <string name="add_new_address_optional">+ Add New Address</string>
+
     <string name="signup_with">Signup With</string>
     <string name="reset">Reset</string>
     <string name="currency_symbol">AED</string>
@@ -258,8 +281,12 @@
     <string name="unit_electricity">kWh</string>
     <string name="electricity_saved_heading">Electricity Saved</string>
     <string name="unit_kilograms">kilograms</string>
+
     <string name="co2_emission_heading">CO\u2082 Emission Reduced</string>
+    <string name="co2_heading">of CO\u2082 Emissions</string>
+
     <string name="unit_ftcube">ft³</string>
+    <string name="unit_ft2">ft²</string>
     <string name="landfill_heading">Landfill Space Saved</string>
     <string name="water_saved">Water Saved</string>
     <string name="start_recycle">Start Recycling!</string>
@@ -274,6 +301,8 @@
     <string name="building">Building</string>
     <string name="building_name">Building Name</string>
     <string name="building_name_">Building Name*</string>
+    <string name="building_">Building*</string>
+
     <string name="reloop_points_">ReLoop Points</string>
     <string name="enter_organization_name">Enter Organization Name</string>
     <string name="reports_new_title">Recycling Quantity (kg)</string>
@@ -298,19 +327,23 @@
     <string name="male">Male</string>
     <string name="rewards_history">Rewards History</string>
     <string name="cancel_order">Cancel Order</string>
+    <string name="edit_order">Edit Order</string>
+
     <string name="cancel_this_order">Are you Sure You want to cancel this order ?</string>
     <string name="no_address_found">Select Address</string>
     <string name="update_profile_heading">Update Profile</string>
+    <string name="select_pin_location">Please select pin location from your profile</string>
     <string name="update_profile_msg">You Need To Update Your Profile</string>
     <string name="limi_reach">Total Amount Limit Reach Cannot Apply Coupon</string>
     <string name="coupon_code_not_valid">Coupon Code is Not Valid</string>
     <string name="remove_last_item">Remove Last Item From Cart</string>
     <string name="remove_item">Remove Item From Cart</string>
     <string name="not_enough_points_msg">Not Enough Points To Redeem</string>
-    <string name="lat_value_not_available">Location Latitude Not Available Select Address Fromm Google Map</string>
-    <string name="lng_value_not_available">Location Longitude Not Available Select Address Fromm Google Map</string>
+    <string name="lat_value_not_available">Location Latitude Not Available Select Address From Google Map</string>
+    <string name="lng_value_not_available">Location Longitude Not Available Select Address From Google Map</string>
     <string name="all_prices_are_inclusive_of_5_vat_taxes">All prices are inclusive of 5% VAT</string>
     <string name="caoupon_not_valid_for_this">Coupon Not Valid For this Category</string>
+    <string name="value_must_be_minimum_two">Total value after discount cannot be less than AED 2.0 due to payment transaction charges</string>
     <string name="enable_renew">Enable auto-renew</string>
     <string name="unsubscribe"><u>Unsubscribe</u></string>
     <string name="first_name_">First Name*</string>
@@ -319,7 +352,10 @@
     <string name="enter_email_">Enter Email*</string>
     <string name="phone_number_">Mobile Number*</string>
     <string name="dob_">Date of Birth*</string>
+    <string name="dob_optional">Date of Birth (optional)</string>
     <string name="gender_">Gender*</string>
+    <string name="gender_optional">Gender (optional)</string>
+
     <string name="address_">Address*</string>
     <string name="email_">Email*</string>
     <string name="no_of_employees_">No. of Employees*</string>
@@ -335,14 +371,25 @@
     <string name="refunded_price">Refund Price</string>
     <string name="total_discount">Total Discount</string>
     <string name="support_"><u>Support</u></string>
+    <string name="txt_detail_"><u>Details</u></string>
+    <string name="txt_default_"><u>Default</u></string>
+    <string name="txt_set_default_"><u>Set Default</u></string>
+
+
     <string name="redeem_points_for_eco_products_in_reloop_store">Redeem points for eco-products in ReLoop Store</string>
     <string name="enter_reloop_org_id_optional">Enter ReLoop Org ID (Optional)</string>
     <string name="enter_you_school_company_name_optional">Enter your school/company name (Optional)</string>
+
+
+    <string name="enter_you_school_company_name">Enter your school/company name</string>
+
     <string name="map_pin_">Map Pin*</string>
     <string name="enter_reloop_org_id">Enter Reloop Org Id</string>
     <string name="by_subscribing_i_agree_to_auto_renewing_my_subscription_monthly">By subscribing, I agree to auto-renewing my subscription monthly</string>
     <string name="you_saved">You have saved</string>
     <string name="cigarette_butts">Cigarette Butts!</string>
+    <string name="coffee_capsule">Coffee Capsules!</string>
+    <string name="soap_bars">Soap Bars!</string>
     <string name="no_data_found">No Data Found!</string>
     <string name="environmental_impacts">Your Environmental Impact</string>
     <string name="txt_barcodedetail">Is the product recyclable? Scan barcode to know</string>
@@ -353,6 +400,8 @@
     <string name="scheduling">Scheduling</string>
     <string name="added_to_cart_msg">Added To Cart</string>
     <string name="campaigns">Campaigns</string>
+    <string name="drop_off_pin">Drop-Off Points</string>
+
     <string name="campaigns_list">Campaigns List</string>
     <string name="exit_campaign_text_msg">Are you sure you want to exit campaign?</string>
     <string name="barcode_scan_info_text_msg">Please join the campaign to activate barcode scanning.</string>
@@ -368,6 +417,95 @@
     <string name="order_verified">Verified</string>
     <string name="no_orders">No Record Found!</string>
     <string name="delivered">Delivered</string>
+    <string name="payment_methods">Payment Methods</string>
+    <string name="recommaned_payment_methods">Recommended method(s)</string>
+    <string name="other_payment_methods">Other saved method(s)</string>
+    <string name="update">Update</string>
+    <string name="delete_payment_method_text_msg">Are you sure you want to delete this payment method?</string>
+    <string name="select_payment_method"><u>Select payment method</u></string>
+    <string name="add_card">Add Card</string>
+    <string name="str_payment_charged_success">Payment charged successfully</string>
+    <string name="select_from_other_payment_methods">Select from saved payment method(s)</string>
 
+    <!--Drop Off Screens-->
+    <string name="select_stations">Select\nDrop-off</string>
+    <string name="select_material">Select\nMaterial</string>
+    <string name="verify_drop_off">Verify\nDrop-off</string>
+    <string name="request_succeeded">Request\nSucceeded!</string>
+    <string name="confirm_selection">Confirm\nSelections</string>
+
+    <string name="select_st">Select Selection</string>
+
+    <string name="select_pin">Select Pin</string>
+
+    <string name="str_filter">Filter</string>
+    <string name="str_favorites">Favorites</string>
+    <string name="str_clear_filters"><u>Clear filters</u></string>
+    <string name="str_clear_filter"><u>clear filter</u></string>
+    <string name="str_export_report"><u>export report</u></string>
+
+    <string name="apply_filter_str">Apply Filter</string>
+    <string name="start_drop_off_str">Start Drop-off</string>
+    <string name="add_to_favourites_str"><u>Add to favourites</u></string>
+    <string name="nav_to_loc_str"><u>Navigate to Location</u></string>
+    <string name="str_ecyclex_international_recycling">Ecyclex International Recycling</string>
+    <string name="str_verify_location">Click to Verify Your Location</string>
+    <string name="str_take_photo_of_material">Take Photo of Material</string>
+    <string name="str_scan_barcode">Scan Barcode of Recycling Box</string>
+    <string name="str_mobile_number">Mobile Number:</string>
+    <string name="str_material_categories">Material Categories:</string>
+    <string name="str_drop_off_location">Drop-off Location:</string>
+    <string name="you_have_successfully_submitted_na_drop_off_request">You have successfully submitted\na drop-off request!</string>
+    <string name="str_track_request"><u>Track request</u></string>
+    <string name="str_check_drop_off_station"><u>Check Drop-off Station</u></string>
+
+    <string name="subscription_message"><![CDATA[You have already subscribed for an auto-renew service. If you require extra trips,you can either request a one-time service, <b>or wait till your current subscription is renewed</b>, or cancel your current subscription and purchase a new one to avoid paying twice for an auto-renew subscriptions.]]></string>
+    <string name="points_earned">Points Earned</string>
+    <string name="kilograms_recycled">Kilograms Recycled</string>
+
+    <!-- GOOGLE PAY Checkout -->
+    <string name="google_pay_status_unavailable">Unfortunately, Google Pay is not available on this device.</string>
+    <string name="google_wallet_status_unavailable" translatable="false">Unfortunately, Google Wallet is not available on this phone.</string>
+    <string name="payments_show_name">Successfully received payment data for %s!</string>
+    <string name="gateway_replace_name_example">"Gateway name set to \"example\" - please modify Constants.java and replace it with your own gateway."</string>
+    <string name="checkout_item_description">Description</string>
+    <string name="add_google_wallet_success" translatable="false">The pass was added successfully!</string>
+
+    <string name="googlepay_button_content_description">Google Pay</string>
+
+    <string name="buy_with_googlepay_button_content_description">Buy with Google Pay</string>
+
+    <string name="donate_with_googlepay_button_content_description">Donate With Google Pay</string>
+
+    <string name="pay_with_googlepay_button_content_description">Pay With Google Pay</string>
+
+    <string name="subscribe_with_googlepay_button_content_description">Subscribe With Google Pay</string>
+
+    <string name="book_with_googlepay_button_content_description">Book With Google Pay</string>
+
+    <string name="checkout_with_googlepay_button_content_description">Checkout With Google Pay</string>
+
+    <string name="order_with_googlepay_button_content_description">Order With Google Pay</string>
+
+    <string name="view_in_googlepay_button_content_description">View In Google Pay</string>
+
+    <string name="connected_organizations">Connected organizations:</string>
+    <string name="connected_households">Connected households:</string>
+    <string name="change_payment_method"><u>Change payment method</u></string>
+    <string name="guest_acc_text">You are currently using a guest account, Signup/login to access all features of the app.</string>
+
+    <string name="crop_image_activity_title"></string>
+    <string name="crop_image_menu_rotate_left">Rotate counter clockwise</string>
+    <string name="crop_image_menu_rotate_right">Rotate</string>
+    <string name="crop_image_menu_crop">Crop</string>
+    <string name="crop_image_menu_flip">Flip</string>
+    <string name="crop_image_menu_flip_horizontally">Flip horizontally</string>
+    <string name="crop_image_menu_flip_vertically">Flip vertically</string>
+    <string name="pick_image_intent_chooser_title">Select source</string>
+    <string name="crop_image_activity_no_permissions">Cancelling, required permissions are not granted</string>
+    <string name="set_default_location">Please set any address as default</string>
+    <string name="collection_bins">Collection Bins</string>
+    <string name="str_accepted_material"><u>Accepted Material</u></string>
+    <string name="successfully_redeem_points">You have successfully redeemed your points!</string>
 
 </resources>

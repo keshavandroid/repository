@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    android:focusable="true"
+    android:id="@+id/container_req_success"
+    android:background="@drawable/shape_layout_curve_background">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <HorizontalScrollView
+            android:id="@+id/stepView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:id="@+id/img_step1"
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="@dimen/_42sdp"
+                        android:src="@drawable/ic_step_select_station"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/text_step1"
+                        style="@style/TSPoppinsMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:gravity="center"
+                        android:text="@string/select_stations"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_9sdp" />
+                </LinearLayout>
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/_21sdp"
+                    android:src="@drawable/ic_next"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:id="@+id/img_step2"
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="@dimen/_42sdp"
+                        android:src="@drawable/ic_step_material"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/text_step2"
+                        style="@style/TSPoppinsMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:gravity="center"
+                        android:text="@string/select_material"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_9sdp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/_21sdp"
+                    android:src="@drawable/ic_next"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:id="@+id/img_step3"
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="@dimen/_42sdp"
+                        android:src="@drawable/ic_step_verify"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/text_step3"
+                        style="@style/TSPoppinsMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:gravity="center"
+                        android:src="@drawable/icon_select_categories_en"
+                        android:text="@string/verify_drop_off"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_9sdp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/_21sdp"
+                    android:src="@drawable/ic_next"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:id="@+id/img_step4"
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="@dimen/_42sdp"
+                        android:src="@drawable/ic_step_confirm_selections"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/text_step4"
+                        style="@style/TSPoppinsMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:gravity="center"
+                        android:src="@drawable/icon_select_categories_en"
+                        android:text="@string/confirm_selection"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_9sdp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/_21sdp"
+                    android:src="@drawable/ic_next"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:id="@+id/img_step5"
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="@dimen/_42sdp"
+                        android:src="@drawable/ic_step_succeeded"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/text_step5"
+                        style="@style/TSPoppinsMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:gravity="center"
+                        android:src="@drawable/icon_select_categories_en"
+                        android:text="@string/request_succeeded"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_9sdp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:layout_below="@+id/stepView"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+           <RelativeLayout
+               android:background="#AECA36"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent">
+
+               <TextView
+                   android:id="@+id/txtMsg"
+                   style="@style/TSPoppinsRegular"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="center"
+                   android:layout_marginTop="@dimen/_34sdp"
+                   android:gravity="center"
+                   android:text="@string/you_have_successfully_submitted_na_drop_off_request"
+                   android:textAlignment="center"
+                   android:textColor="@color/white"
+                   android:textSize="@dimen/_15sdp" />
+
+               <TextView
+                   android:id="@+id/txtID"
+                   style="@style/TSPoppinsRegular"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@+id/txtMsg"
+                   android:layout_gravity="center"
+                   android:layout_marginTop="@dimen/_15sdp"
+                   android:gravity="center"
+                   android:textAlignment="center"
+                   android:textColor="@color/white"
+                   android:textSize="@dimen/_12sdp" />
+
+               <TextView
+                   android:id="@+id/txtTrackReq"
+                   style="@style/TSPoppinsSemiBold"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@+id/txtID"
+                   android:layout_gravity="center"
+                   android:padding="@dimen/_3sdp"
+                   android:gravity="center"
+                   android:text="@string/str_track_request"
+                   android:textAlignment="center"
+                   android:textColor="@color/white"
+                   android:textSize="@dimen/_15sdp" />
+
+               <ImageView
+                   android:layout_alignParentBottom="true"
+                   android:src="@drawable/img_drop_off_success"
+                   android:layout_below="@+id/txtTrackReq"
+                   android:layout_centerInParent="true"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content">
+
+               </ImageView>
+
+           </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+
+</FrameLayout>

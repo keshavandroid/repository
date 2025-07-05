@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_fragment_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_color"
+    tools:context=".fragments.SettingsFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:gravity="center|start|top"
+            android:orientation="vertical"
+            tools:ignore="UselessLeaf">
+
+            <TextView
+                style="@style/TSPoppinsMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/settings"
+                android:visibility="gone"
+                android:textColor="@color/color_heading"
+                android:textSize="@dimen/_20sdp" />
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:background="@drawable/bg_blue_round_corner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtMsgLogin"
+                    style="@style/TSPoppinsMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:text="@string/guest_acc_text"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:id="@+id/txtLoginNow"
+                    android:layout_below="@+id/txtMsgLogin"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/bg_rounded_white"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:paddingHorizontal="@dimen/_7sdp"
+                    android:text="Signup/Login"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_11sdp" />
+
+            </RelativeLayout>
+
+            <TextView
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:text="@string/my_account"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_10sdp" />
+
+            <TextView
+                android:id="@+id/edit_profile"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawableStart="@drawable/icon_person_edit_profile"
+                android:drawableEnd="@drawable/icon_arrow_indicator_setting"
+                android:drawablePadding="@dimen/_15sdp"
+                android:gravity="center|start"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:text="@string/edit_profile"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/change_password"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawableStart="@drawable/icon_change_password_key"
+                android:drawableEnd="@drawable/icon_arrow_indicator_setting"
+                android:drawablePadding="@dimen/_15sdp"
+                android:gravity="center|start"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:text="@string/change_password"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/paymentMethods"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawableStart="@drawable/icon_billing"
+                android:drawableEnd="@drawable/icon_arrow_indicator_setting"
+                android:drawablePadding="@dimen/_15sdp"
+                android:gravity="center|start"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:text="@string/payment_methods"
+                android:textSize="@dimen/_14sdp"
+                android:visibility="visible"/>
+
+            <TextView
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:text="@string/my_activity"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_10sdp" />
+
+            <TextView
+                android:id="@+id/subscription"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawableStart="@drawable/icon_subscription"
+                android:drawableEnd="@drawable/icon_arrow_indicator_setting"
+                android:drawablePadding="@dimen/_15sdp"
+                android:gravity="center|start"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:text="@string/subscriptions"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/order_history"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawableStart="@drawable/icon_order_history"
+                android:drawableEnd="@drawable/icon_arrow_indicator_setting"
+                android:drawablePadding="@dimen/_15sdp"
+                android:gravity="center|start"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:text="@string/requests"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/billing"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawableStart="@drawable/icon_billing"
+                android:drawableEnd="@drawable/icon_arrow_indicator_setting"
+                android:drawablePadding="@dimen/_15sdp"
+                android:gravity="center|start"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:text="@string/billing"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/rewards_history"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawableStart="@drawable/icon_rewards_history"
+                android:drawableEnd="@drawable/icon_arrow_indicator_setting"
+                android:drawablePadding="@dimen/_15sdp"
+                android:gravity="center|start"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:text="@string/rewards_history"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/campaigns"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawableStart="@drawable/icon_rewards_history"
+                android:drawableEnd="@drawable/icon_arrow_indicator_setting"
+                android:drawablePadding="@dimen/_15sdp"
+                android:gravity="center|start"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:text="@string/campaigns"
+                android:textSize="@dimen/_14sdp"
+                android:visibility="visible"/>
+
+            <!--<TextView
+                android:id="@+id/paymentMethods"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawableStart="@drawable/icon_billing"
+                android:drawableEnd="@drawable/icon_arrow_indicator_setting"
+                android:drawablePadding="@dimen/_15sdp"
+                android:gravity="center|start"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:text="@string/payment_methods"
+                android:textSize="@dimen/_14sdp"
+                android:visibility="visible"/>-->
+
+            <TextView
+                android:id="@+id/drop_off_pin"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawableStart="@drawable/icon_rewards_history"
+                android:drawableEnd="@drawable/icon_arrow_indicator_setting"
+                android:drawablePadding="@dimen/_15sdp"
+                android:gravity="center|start"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:text="Drop-off Points"
+                android:textSize="@dimen/_14sdp"
+                android:visibility="visible"/>
+
+            <TextView
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:text="@string/support"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_10sdp" />
+
+            <TextView
+                android:id="@+id/about_reloop"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawableStart="@drawable/icon_about_reloop_information"
+                android:drawableEnd="@drawable/icon_arrow_indicator_setting"
+                android:drawablePadding="@dimen/_15sdp"
+                android:gravity="center|start"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:text="@string/about_reloop"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/contact_us"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawableStart="@drawable/icon_contact_us"
+                android:drawableEnd="@drawable/icon_arrow_indicator_setting"
+                android:drawablePadding="@dimen/_15sdp"
+                android:gravity="center|start"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:text="@string/contact_us"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/term_condition"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawableStart="@drawable/icon_term_condition_settings"
+                android:drawableEnd="@drawable/icon_arrow_indicator_setting"
+                android:drawablePadding="@dimen/_15sdp"
+                android:gravity="center|start"
+                android:paddingStart="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:text="@string/term_conditions"
+                android:textSize="@dimen/_14sdp" />
+
+            <LinearLayout
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_marginStart="@dimen/_60sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_70sdp"
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:background="@drawable/button_shape_gray"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:src="@drawable/icon_logout_button"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="@string/logout"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_12sdp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:visibility="gone"
+                android:gravity="center"
+                android:id="@+id/app_info"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/app_name"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|start"
+                    android:text="@string/app_name"
+                    android:textSize="@dimen/_14sdp" />
+
+                <TextView
+                    android:id="@+id/build_no"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:gravity="center|start"
+                    android:text="1"
+                    android:textSize="@dimen/_14sdp" />
+
+                <TextView
+                    android:id="@+id/version_code"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:gravity="center|start"
+                    android:text="1.1.0"
+                    android:textSize="@dimen/_14sdp" />
+
+                <TextView
+                    android:id="@+id/branch_name"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:gravity="center|start"
+                    android:text="Development"
+                    android:textSize="@dimen/_14sdp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

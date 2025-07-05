@@ -33,9 +33,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
+                android:gravity="center"
                 android:text="@string/collection_submitted"
                 android:textAlignment="center"
-                android:textSize="@dimen/_14sdp" />
+                android:textSize="@dimen/_12sdp" />
 
             <ImageView
                 android:id="@+id/imageConfirmation"
@@ -53,7 +54,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/order_submitted"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_14sdp" />
+                android:textSize="@dimen/_12sdp" />
 
             <TextView
                 android:id="@+id/idNumber"
@@ -61,9 +62,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="CE562147"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_24sdp" />
+                android:textSize="@dimen/_20sdp" />
 
         </LinearLayout>
 

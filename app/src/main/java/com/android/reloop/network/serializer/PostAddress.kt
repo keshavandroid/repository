@@ -15,4 +15,7 @@ class PostAddress {
     var unit_number: String? = ""
     var default: Int? = 0
     var building_name: String? = ""
+
+    var title: String? = "" //new added
+
 }

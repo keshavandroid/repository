@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clickable="true"
     android:focusable="true"
     android:id="@+id/container_order_history_fragment"
@@ -11,6 +12,7 @@
 
 
     <LinearLayout
+        android:id="@+id/llrootlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -18,25 +20,171 @@
         tools:ignore="UselessParent">
 
         <LinearLayout
+            android:id="@+id/llrootlay1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.18"
             android:gravity="center|start"
             android:orientation="vertical">
 
-            <TextView
-                style="@style/TSPoppinsMedium"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:text="@string/orders" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtTitleMain"
+                    style="@style/TSPoppinsMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/imgExportReport"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/requests" />
+
+                <ImageView
+                    android:layout_toLeftOf="@+id/imgExportReport"
+                    android:id="@+id/imgExportReportbins"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:src="@drawable/icon_download"
+                    app:tint="#158dcc"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/imgExportReport"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="right"
+                    android:layout_marginHorizontal="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:src="@drawable/download_report"
+                    app:tint="#158dcc">
+                </ImageView>
+
+                <LinearLayout
+                    android:id="@+id/lldownsload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imgExportReport"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:elevation="@dimen/_4sdp"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:spinnerMode="dropdown"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/op1"
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:text="Download Trips Data"
+                        android:textColor="@color/colorBlack"
+                        android:layout_gravity="center"
+                        android:gravity="end"
+                        android:textSize="@dimen/_11sdp"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/op2"
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:text="Download Bins Data"
+                        android:textColor="@color/colorBlack"
+                        android:layout_gravity="center"
+                        android:gravity="end"
+                        android:textSize="@dimen/_11sdp"
+                        android:visibility="visible" />
+                    <TextView
+                        android:id="@+id/op3"
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:text="Cancel"
+                        android:textColor="@color/colorBlack"
+                        android:layout_gravity="center"
+                        android:gravity="end"
+                        android:textSize="@dimen/_11sdp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/txtClearFilterReport"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="@dimen/_30sdp"
+                    android:layout_below="@+id/txtTitleMain"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:text="@string/str_clear_filter"
+                    android:textColor="#158dcc"
+                    android:textSize="@dimen/_11sdp"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:id="@+id/dropDowns"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/txtClearFilterReport"
+                    android:background="@drawable/edittextbackgroundsimple"
+                    android:gravity="center"
+                    android:visibility="visible">
+
+                    <Spinner
+                        android:id="@+id/organization_filter"
+                        android:layout_width="@dimen/_230sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:background="@null"
+                        android:elevation="@dimen/_4sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:spinnerMode="dropdown"
+                        android:textSize="@dimen/_10sdp"
+                        tools:ignore="Autofill,LabelFor,RtlSymmetry" />
+                </LinearLayout>
+
+
+
+            </RelativeLayout>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvOrderHistory"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/_10sdp"
+                tools:listitem="@layout/row_order_history"
                 android:visibility="visible"/>
 
             <TextView
@@ -54,6 +202,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llrootlay2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.82"
@@ -62,7 +211,7 @@
             <Button
                 android:id="@+id/back"
                 style="@style/TSPoppinsRegular"
-                android:layout_width="@dimen/_120sdp"
+                android:layout_width="@dimen/_105sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:background="@drawable/button_shape_hollow"
                 android:text="@string/back"

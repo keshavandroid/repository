@@ -48,6 +48,10 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
     var start: Button? = null
     var MY_REQUEST_CODE = 111
     var updateAvilable = false
+
+    //Deep Linking
+    private var uriDeepLinking: Uri? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
@@ -74,7 +78,7 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
         setListeners()
         setData()
         Log.e("App Update ", "On Create")
-        //updateApp()
+//        updateApp()
         val update = Handler(Looper.getMainLooper())
         var currentVersion = ""
         try {
@@ -92,7 +96,29 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
                     if (userModel != null && userModel.api_token?.isNotEmpty()!!) {
                         lottieAnimation?.visibility = View.VISIBLE
                         introScreenLayout?.visibility = View.GONE
-                        showHomeScreen()
+
+                        //Check if deep-linking is available
+                        uriDeepLinking = intent.data
+
+                        // checking if the uri is null or not.
+                        if (uriDeepLinking != null) {
+                            // if the uri is not null then we are getting the path segments and storing it in list.
+                            val parameters = uriDeepLinking!!.pathSegments
+
+                            // after that we are extracting string
+                            // from that parameters.
+                            val dropOffID = parameters[parameters.size - 1]
+                            val mainParam = parameters[parameters.size - 2]
+
+//                            Log.d("DeepLink",""+mainParam)
+//                            Log.d("DeepLink",""+dropOffID)
+
+                            showHomeScreen("deeplink",dropOffID)
+
+                        }else{
+                            showHomeScreen("normal","")
+                        }
+
                         /*update.postDelayed(
                             {
                                 callLogs()
@@ -105,7 +131,6 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
                 }
             }, 1000
         )
-
         //updateApp()
     }
 
@@ -117,7 +142,10 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
         try {
             val versionName: String = this.getPackageManager()
                 .getPackageInfo(this.getPackageName(), 0).versionName
-            Log.e("App Update ", "Version Name=$versionName")
+            Log.e(
+                "App Update ",
+                "Version Name=$versionName"
+            )
           /*  val versionCode: Int = this.packageManager
                 .getPackageInfo(this.getPackageName(), 0).versionCode*/
             val versionCode: Int = this.packageManager
@@ -142,8 +170,8 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                 // This example applies an immediate update. To apply a flexible update
                 // instead, pass in AppUpdateType.FLEXIBLE
-                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                Log.e("App Update ", "inside if")
+                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+            ) {
                 updateAvilable = true
                 Log.e("App Update ", "Available")
                 try {
@@ -162,7 +190,6 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
                 }
 
             } else {
-                Log.e("App Update ", "inside else")
                 Log.e("App Update ", "Not Available")
             }
         }
@@ -183,6 +210,7 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
     private fun setListeners() {
         next?.setOnClickListener(this)
         start?.setOnClickListener(this)
+
     }
 
     private fun initViews() {
@@ -252,7 +280,6 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
             } else if (position == 2) {
                 next?.visibility = View.GONE
                 start?.visibility = View.VISIBLE
-
             }
 
             /* // changing the next button text 'NEXT' / 'GOT IT'
@@ -281,11 +308,23 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
         finish()
     }
 
-    private fun showHomeScreen() {
+    private fun showHomeScreen(isDeepLink: String,dropOffId: String) {
 
-        val intent = Intent(this, HomeActivity::class.java)
-        startActivity(intent)
-        finish()
+        if(isDeepLink.equals("deeplink")){
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtra("openDropOff",true)
+            intent.putExtra("dropOffId",dropOffId)
+            startActivity(intent)
+            finish()
+        }else{
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtra("openDropOff",false)
+            intent.putExtra("dropOffId",dropOffId)
+            startActivity(intent)
+            finish()
+        }
+
+
         //LogFileSyncTask.getInstance(this@SplashActivity).executeTask()
     }
 

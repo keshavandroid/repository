@@ -16,32 +16,55 @@
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:id="@+id/row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/row"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp">
 
             <TextView
+                android:id="@+id/addressLabel"
                 style="@style/TSPoppinsMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/address_"
-                android:id="@+id/addressLabel"
-                android:textColor="@color/color_edit_profile_heading"
+                android:text="@string/address"
+                android:textColor="@color/quantum_grey700"
+                android:textSize="@dimen/_11sdp" />
+
+            <TextView
+                android:id="@+id/addressStar"
+                style="@style/TSPoppinsMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/addressLabel"
+                android:text="*"
+                android:textColor="@color/red"
                 android:textSize="@dimen/_14sdp" />
 
             <ImageButton
+                android:id="@+id/delete"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@android:color/transparent"
-                android:id="@+id/delete"
                 android:scaleType="fitCenter"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:src="@drawable/icon_delete" />
+                android:src="@drawable/icon_delete"
+                android:visibility="gone" />
 
+            <TextView
+                android:id="@+id/defaultLable"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:text="Default"
+                android:textColor="@color/quantum_grey"
+                android:textSize="@dimen/_10sdp"
+                android:visibility="gone" />
 
         </RelativeLayout>
 

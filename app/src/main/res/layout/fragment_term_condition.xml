@@ -39,6 +39,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:scrollbars = "vertical"
                 android:text=""
+                android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_12sdp" />
 
             <Button

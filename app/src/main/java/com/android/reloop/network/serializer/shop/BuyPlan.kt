@@ -16,6 +16,9 @@ class BuyPlan {
     @SerializedName("cvv")
     @Expose
     var cvv: String? = ""
+    @SerializedName("card_holder")
+    @Expose
+    var card_holder: String? = ""
     @SerializedName("plan_id")
     @Expose
     var plan_id: String? = ""
@@ -32,6 +35,18 @@ class BuyPlan {
     @Expose
     var coupon_id: Int? = 0
     var changePrice: Int? = 0
+    var is_new_card: String = "1"
 
+    //new added
+    var user_card_id:String?= null
+    var transaction_id:String?= null
+//    var payment_type:String?= "stripe"
+
+    var payment_method:String?= null
+
+
+    var is_monthly:Int?=0
+    var stripe_subscription_id:String?=null
+    var hh_discount_id:String?=null
 
 }

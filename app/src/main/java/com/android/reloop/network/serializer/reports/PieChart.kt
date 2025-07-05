@@ -9,4 +9,6 @@ class PieChart {
     var pieChartValues: ArrayList<Double> = ArrayList()
     @SerializedName("units")
     var pieChartUnits: ArrayList<Int> = ArrayList()
+    @SerializedName("icons")
+    var pieChartIcons: ArrayList<String> = ArrayList()
 }

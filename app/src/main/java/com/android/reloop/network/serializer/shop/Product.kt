@@ -4,3 +4,4 @@ class Product {
     var id:Int?=0
     var qty:Int?=0
 }
+

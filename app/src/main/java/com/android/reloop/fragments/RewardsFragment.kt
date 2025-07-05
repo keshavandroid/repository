@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -81,6 +82,8 @@ class RewardsFragment : BaseFragment(), RecyclerViewItemClick, OnNetworkResponse
 
     private fun initViews(view: View?) {
         recyclerView = view?.findViewById(R.id.donations)
+        ViewCompat.setNestedScrollingEnabled(recyclerView!!, false);
+
         totalPoints = view?.findViewById(R.id.totalUserPoints)
         gotoStore = view?.findViewById(R.id.gotoStore)
         setClickSpan(requireActivity().getString(R.string.reloop_store))
@@ -132,7 +135,7 @@ class RewardsFragment : BaseFragment(), RecyclerViewItemClick, OnNetworkResponse
             NetworkCall.make()
                 ?.setCallback(this)
                 ?.setTag(RequestCodes.API.DONATION_CATEGORIES)
-                ?.autoLoading(activity!!)
+                ?.autoLoading(requireActivity())
                 ?.enque(Network().apis()?.donationCategories())
                 ?.execute()
         }
@@ -143,7 +146,7 @@ class RewardsFragment : BaseFragment(), RecyclerViewItemClick, OnNetworkResponse
         NetworkCall.make()
             ?.setCallback(this)
             ?.setTag(RequestCodes.API.DONATION_PRODUCTS)
-            ?.autoLoading(activity!!)
+            ?.autoLoading(requireActivity())
             ?.enque(Network().apis()?.donationProducts(dataList[position].id))
             ?.execute()
     }
@@ -155,48 +158,35 @@ class RewardsFragment : BaseFragment(), RecyclerViewItemClick, OnNetworkResponse
             RequestCodes.API.DONATION_CATEGORIES -> {
 
                 val gson = Gson()
-                val listType: Type =
-                    object : TypeToken<List<DonationCategories?>?>() {}.type
-                dataList = gson.fromJson(
-                    Utils.jsonConverterArray(baseResponse?.data as? ArrayList<*>),
-                    listType
-                )
+                val listType: Type = object : TypeToken<List<DonationCategories?>?>() {}.type
+                dataList = gson.fromJson(Utils.jsonConverterArray(baseResponse?.data as? ArrayList<*>), listType)
                 if (dataList.size <= 0) {
                     dataList = ArrayList()
                 }
-                linearLayoutManager =
-                    GridLayoutManager(context, Constants.RecyclerViewSpan.twoColumns)
+
+                linearLayoutManager = GridLayoutManager(context, Constants.RecyclerViewSpan.twoColumns)
                 recyclerView?.layoutManager = linearLayoutManager
                 recyclerView?.adapter = activity?.let { AdapterDonations(dataList, this, it) }
             }
             RequestCodes.API.DONATION_PRODUCTS -> {
 
                 val gson = Gson()
-                val listType: Type =
-                    object : TypeToken<ArrayList<DonationProducts>>() {}.type
-                val apiList: ArrayList<DonationProducts?> =
-                    gson.fromJson(
-                        Utils.jsonConverterArray(baseResponse?.data as? ArrayList<*>),
-                        listType
-                    )
-                AlertDialogs.donateRedeemPointsPopup(
-                    activity!!,
-                    apiList,
-                    this,
-                    dataList[itemPosition].name
-                )
+                val listType: Type = object : TypeToken<ArrayList<DonationProducts>>() {}.type
+                val apiList: ArrayList<DonationProducts?> = gson.fromJson(Utils.jsonConverterArray(baseResponse?.data as? ArrayList<*>), listType)
+                AlertDialogs.donateRedeemPointsPopup(requireActivity(), apiList, this, dataList[itemPosition].name)
             }
             RequestCodes.API.DONATIONS -> {
-                val donationsRemainingPoints = Gson().fromJson(
-                    Utils.jsonConverterObject(baseResponse?.data as? LinkedTreeMap<*, *>),
-                    DonationsRemainingPoints::class.java
-                )
+                val donationsRemainingPoints = Gson().fromJson(Utils.jsonConverterObject(baseResponse?.data as? LinkedTreeMap<*, *>),
+                    DonationsRemainingPoints::class.java)
+
                 val userModel = User.retrieveUser()
                 userModel?.reward_points = donationsRemainingPoints.remainingPoints
-                userModel?.save(userModel, context)
-                totalPoints?.text =
-                    User.retrieveUser()?.reward_points?.let { Utils.commaConversion(it) }
-                Notify.alerterGreen(activity, baseResponse?.message)
+                userModel?.save(userModel, context,false)
+                totalPoints?.text = User.retrieveUser()?.reward_points?.let { Utils.commaConversion(it) }
+//              Notify.alerterGreen(activity, baseResponse?.message)
+//              AlertDialogs.dismissDialog()
+
+                AlertDialogs.alertDialogRewards(activity, baseResponse?.message) //new
                 AlertDialogs.dismissDialog()
             }
         }
@@ -212,10 +202,8 @@ class RewardsFragment : BaseFragment(), RecyclerViewItemClick, OnNetworkResponse
         NetworkCall.make()
             ?.setCallback(this)
             ?.setTag(RequestCodes.API.DONATIONS)
-            ?.autoLoading(activity!!)
+            ?.autoLoading(requireActivity())
             ?.enque(Network().apis()?.donations(position))
             ?.execute()
     }
-
-
 }

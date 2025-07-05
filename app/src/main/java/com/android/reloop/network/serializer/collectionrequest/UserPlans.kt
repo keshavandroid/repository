@@ -8,8 +8,16 @@ class UserPlans {
     val id: Int? = null
     @SerializedName("subscription_number")
     val subscription_number: String? = null
+
+    //OLD
+    /*@SerializedName("status")
+    val status: Int? = null*/
+
     @SerializedName("status")
-    val status: Int? = null
+    val status: String? = ""
+
+
+
     @SerializedName("trips")
     val trips: Int? = null
     @SerializedName("start_date")

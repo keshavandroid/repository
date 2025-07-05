@@ -31,8 +31,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
+                android:gravity="center"
                 android:text="@string/collection_submitted"
-                android:textSize="@dimen/_14sdp" />
+                android:textSize="@dimen/_12sdp" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -48,7 +49,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/order_number_is"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_14sdp" />
+                android:textSize="@dimen/_12sdp" />
 
             <TextView
                 style="@style/TSPoppinsMedium"
@@ -57,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:text="CE562147"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_30sdp" />
+                android:textSize="@dimen/_20sdp" />
 
         </LinearLayout>
 

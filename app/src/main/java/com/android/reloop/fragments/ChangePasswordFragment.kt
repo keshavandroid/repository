@@ -76,11 +76,10 @@ class ChangePasswordFragment : BaseFragment(), View.OnClickListener, OnNetworkRe
                     oldPassword?.text.toString(),
                     newPassword?.text.toString(),
                     confirmNewPassword?.text.toString(),
-                    activity!!
+                    requireActivity()
                 )
                 if (authSuccessful) {
-                    val changePassword: ChangePassword? =
-                        ChangePassword()
+                    val changePassword: ChangePassword = ChangePassword()
                     changePassword?.old_password = oldPassword?.text.toString()
                     changePassword?.new_password = newPassword?.text.toString()
                     changePassword?.new_password_confirmation = confirmNewPassword?.text.toString()
@@ -89,12 +88,8 @@ class ChangePasswordFragment : BaseFragment(), View.OnClickListener, OnNetworkRe
                     NetworkCall.make()
                         ?.setCallback(this)
                         ?.setTag(RequestCodes.API.CHANGE_PASSWORD)
-                        ?.autoLoading(activity!!)
-                        ?.enque(
-                            Network().apis()?.changePassword(
-                                changePassword
-                            )
-                        )
+                        ?.autoLoading(requireActivity())
+                        ?.enque(Network().apis()?.changePassword(changePassword))
                         ?.execute()
                 }
             }
@@ -111,9 +106,8 @@ class ChangePasswordFragment : BaseFragment(), View.OnClickListener, OnNetworkRe
                 val baseResponse = Utils.getBaseResponse(response)
 
                 Notify.alerterGreen(
-                    activity!!,
-                    baseResponse?.message
-                )
+                    requireActivity(),
+                    baseResponse?.message)
                 val handler = Handler()
                 handler.postDelayed(
                     {
@@ -128,8 +122,5 @@ class ChangePasswordFragment : BaseFragment(), View.OnClickListener, OnNetworkRe
     override fun onFailure(call: Call<Any?>?, response: BaseResponse?, tag: Any?) {
         submit?.isClickable = true
         Notify.alerterRed(activity, response?.message)
-
     }
-
-
 }

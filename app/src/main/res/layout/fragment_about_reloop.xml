@@ -20,8 +20,8 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/TSPoppinsMedium"
                 android:id="@+id/heading"
+                style="@style/TSPoppinsMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -39,6 +39,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:text=""
+                android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_12sdp" />
 
             <Button

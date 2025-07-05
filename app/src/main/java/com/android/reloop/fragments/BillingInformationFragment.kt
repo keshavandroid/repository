@@ -11,10 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.reloop.reloop.R
 import com.reloop.reloop.auth.BillingInformationAuth
@@ -31,7 +28,12 @@ import com.reloop.reloop.network.serializer.couponverification.CouponCategory
 import com.reloop.reloop.network.serializer.couponverification.CouponSendData
 import com.reloop.reloop.utils.*
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.internal.LinkedTreeMap
+import com.reloop.reloop.network.serializer.PaymentIntentModel
+import com.stripe.android.PaymentConfiguration
+import com.stripe.android.googlepaylauncher.GooglePayEnvironment
+import com.stripe.android.googlepaylauncher.GooglePayLauncher
 import retrofit2.Call
 import retrofit2.Response
 import kotlin.math.roundToInt
@@ -52,8 +54,6 @@ class BillingInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
     var applyCoupon: Button? = null
     var rememberMe: CheckBox? = null
     var message: TextView? = null
-
-
 
     companion object {
         var buyPlan: BuyPlan? = null
@@ -91,10 +91,10 @@ class BillingInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
         populateData()
         return view
 
-
     }
 
     private fun initViews(view: View?) {
+
         cardNumber = view?.findViewById(R.id.card_number)
         cardExpiry = view?.findViewById(R.id.card_expiry)
         cardCVV = view?.findViewById(R.id.card_cvv)
@@ -132,9 +132,9 @@ class BillingInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
             }
         })
         //--------------For Testing------------
-//            cardNumber?.setText("4111111111111111")
-//            cardExpiry?.setText("05/21")
-//            cardCVV?.setText("123")
+        //            cardNumber?.setText("4111111111111111")
+        //            cardExpiry?.setText("05/21")
+        //            cardCVV?.setText("123")
 
         if (buyPlan == null) {
             headingDiscountCoupon?.visibility = View.GONE
@@ -180,7 +180,6 @@ class BillingInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
                 }
             }
         }
-
     }
 
     override fun onClick(v: View?) {
@@ -193,11 +192,11 @@ class BillingInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
                         Notify.alerterRed(activity, "Coupon Code is Not Valid")
                     }
                 } else {
-                    val category: ArrayList<CouponCategory>? = ArrayList()
+                    val category: ArrayList<CouponCategory> = ArrayList()
                     val categoryCoupon = CouponCategory()
                     categoryCoupon.id = buyPlan?.subscription_type
                     categoryCoupon.type = Constants.serviceType
-                    category?.add(categoryCoupon)
+                    category.add(categoryCoupon)
                     val couponVerification = CouponSendData()
                     couponVerification.coupon = pinView?.text.toString()
                     couponVerification.category = category
@@ -221,24 +220,16 @@ class BillingInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
                     CouponVerification::class.java
                 )
                 if (couponVerification?.validForCategory == null) {
-                    Notify.alerterRed(
-                        activity,
-                        getString(R.string.caoupon_not_valid_for_this)
-                    )
+                    Notify.alerterRed(activity, getString(R.string.caoupon_not_valid_for_this))
                     return
                 } else {
                     if (!couponVerification?.validForCategory?.type.isNullOrEmpty()
                         && couponVerification?.validForCategory?.id.isNullOrEmpty()
                     ) {
-                        val serviceType: Int? =
-                            couponVerification?.validForCategory?.type?.find { it == Constants.serviceType }
-                        val allTypes: Int? =
-                            couponVerification?.validForCategory?.type?.find { it == Constants.all }
+                        val serviceType: Int? = couponVerification?.validForCategory?.type?.find { it == Constants.serviceType }
+                        val allTypes: Int? = couponVerification?.validForCategory?.type?.find { it == Constants.all }
                         if (serviceType != null || allTypes != null) {
-                            Notify.alerterGreen(
-                                activity,
-                                baseResponse?.message
-                            )
+                            Notify.alerterGreen(activity, baseResponse?.message)
                             setData(couponVerification)
                             disableApplyAndSendCallback()
 
@@ -251,10 +242,7 @@ class BillingInformationFragment : BaseFragment(), ParentToChild, View.OnClickLi
                             disableApplyAndSendCallback()
                         } else {
                             if (couponVerification?.validForCategory == null) {
-                                Notify.alerterRed(
-                                    activity,
-                                    getString(R.string.caoupon_not_valid_for_this)
-                                )
+                                Notify.alerterRed(activity, getString(R.string.caoupon_not_valid_for_this))
                             }
                         }
                     } else {

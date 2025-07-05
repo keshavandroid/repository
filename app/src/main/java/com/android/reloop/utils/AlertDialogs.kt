@@ -3,7 +3,12 @@ package com.reloop.reloop.utils
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
+import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
+import android.text.Html
 import android.text.TextWatcher
 import android.text.method.ScrollingMovementMethod
 import android.view.View
@@ -12,10 +17,12 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import com.android.reloop.activities.ContinueAsActivity
 import com.android.reloop.adapters.AdapterFullScreenImage
 import com.android.reloop.adapters.AdapterSlidingImageViewPager
 import com.android.reloop.customviews.CustomViewPager2
 import com.reloop.reloop.R
+import com.reloop.reloop.activities.LoginActivity
 import com.reloop.reloop.adapters.AdapterDonationProducts
 import com.reloop.reloop.app.MainApplication
 import com.reloop.reloop.customviews.CustomEditText
@@ -51,11 +58,38 @@ object AlertDialogs {
         val textHeading = dialog.findViewById(R.id.tv_heading_category) as TextView
         val description = dialog.findViewById(R.id.description) as TextView
         description.movementMethod = ScrollingMovementMethod()
-        description.text = descriptionText
+        //description.text = descriptionText
+
+        if(descriptionText != null) {
+            description.text = Html.fromHtml(descriptionText)
+        }
         textHeading.text = heading
         Utils.glideImageLoaderServer(iconSet, icon, placeholder)
         closeButton.setOnClickListener { dialog.dismiss() }
         crossImage.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+    }
+
+    fun alertDialogRewards(activity: Activity?, messageString: String?) {
+        val dialog = Dialog(activity!!)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.row_rewards_message)
+        dialog.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.setCancelable(false)
+        val message = dialog.findViewById(R.id.tv_heading_category) as TextView
+        val cancel = dialog.findViewById(R.id.cancel) as Button
+        val crossImage = dialog.findViewById(R.id.cross) as ImageButton
+        message.text = messageString
+        cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        crossImage.setOnClickListener {
+            dialog.dismiss()
+        }
+
         dialog.show()
     }
 
@@ -91,7 +125,8 @@ object AlertDialogs {
         val viewpagerAdapter = AdapterSlidingImageViewPager(activity, avatars)
         slider.adapter = viewpagerAdapter
         description.movementMethod = ScrollingMovementMethod()
-        description.text = descriptionText
+        //description.text = descriptionText
+        description.text = Html.fromHtml(descriptionText)
         textHeading.text = heading
 //        Utils.glideImageLoaderServer(iconSet, icon, placeholder)
         closeButton.setOnClickListener { dialog.dismiss() }
@@ -133,7 +168,8 @@ object AlertDialogs {
         val bodyText = dialog.findViewById(R.id.body_text) as TextView
         val agreementCheck = dialog.findViewById(R.id.agreementCheck) as CheckBox
         val crossImage = dialog.findViewById(R.id.cross) as ImageButton
-        bodyText.text = termAndConditions
+        //bodyText.text = termAndConditions
+        bodyText.text = Html.fromHtml(termAndConditions)
         bodyText.movementMethod = ScrollingMovementMethod()
         next.setOnClickListener {
             if (agreementCheck.isChecked) {
@@ -234,7 +270,13 @@ object AlertDialogs {
                     val mapPrices = HashMap<String, Double>()
                     mapPrices["discount_price"] = price
                     mapPrices["reward_points"] = points_to_redeem.text.toString().toDouble()
-                    callback.callDialog(mapPrices)
+                    Notify.alerterGreen(activity, activity.resources.getString(R.string.successfully_redeem_points))
+                    val update = Handler(Looper.getMainLooper())
+                    update.postDelayed(
+                        {
+                            callback.callDialog(mapPrices)
+                        },2000)
+
                     dialog?.dismiss()
 
                 }
@@ -293,6 +335,67 @@ object AlertDialogs {
         }
         confirm.setOnClickListener {
             callback.callDialog(null)
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    fun alertDialogGuestAccount(activity: Activity?, callback: AlertDialogCallback, messageString: String?) {
+        val dialog = Dialog(activity!!)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.row_guest_account)
+        dialog.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.setCancelable(false)
+        val message = dialog.findViewById(R.id.tv_heading_category) as TextView
+        val cancel = dialog.findViewById(R.id.cancel) as Button
+        val confirm = dialog.findViewById(R.id.confirm) as Button
+        val crossImage = dialog.findViewById(R.id.cross) as ImageButton
+        message.text = messageString
+        cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        crossImage.setOnClickListener {
+            dialog.dismiss()
+        }
+        confirm.setOnClickListener {
+//            callback.callDialog(null)
+            try {
+                val intent = Intent(activity, ContinueAsActivity::class.java)
+                activity.startActivity(intent)
+                activity.finish()
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    fun alertDialogFragment(activity: Context?, callback: AlertDialogCallback, messageString: String?) {
+        val dialog = Dialog(activity!!)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.row_logout)
+        dialog.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.setCancelable(false)
+        val message = dialog.findViewById(R.id.tv_heading_category) as TextView
+        val cancel = dialog.findViewById(R.id.cancel) as Button
+        val confirm = dialog.findViewById(R.id.confirm) as Button
+        val crossImage = dialog.findViewById(R.id.cross) as ImageButton
+        message.text = messageString
+        cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        crossImage.setOnClickListener {
+            dialog.dismiss()
+        }
+        confirm.setOnClickListener {
+            callback.callDialog(1)
             dialog.dismiss()
         }
         dialog.show()
@@ -389,7 +492,8 @@ object AlertDialogs {
         confirm.text = "Unsubscribe"
         cancel.text = "Back"
         message.text = "Are you sure you want to unsubscribe?"
-        subHeading.text = "Please Note that you will lose any remaining trips"
+//        subHeading.text = "Please Note that you will lose any remaining trips"
+        subHeading.text = "Please note that any remaining trips cannot be used. You may use them before unsubscribing."
         subHeading.visibility = View.VISIBLE
         cancel.setOnClickListener {
             dialog.dismiss()

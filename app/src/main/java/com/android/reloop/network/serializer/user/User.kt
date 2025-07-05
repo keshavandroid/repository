@@ -3,6 +3,7 @@ package com.reloop.reloop.network.serializer.user
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.reloop.reloop.app.MainApplication
 import com.reloop.reloop.network.serializer.Addresses
 import com.reloop.reloop.network.serializer.organization.Organization
@@ -19,10 +20,20 @@ class User : Serializable {
     val organization_id: Int? = 0
     @SerializedName("stripe_customer_id")
     val stripe_customer_id: String? = ""
+
+    @SerializedName("stripe_id")
+    val stripe_id: String? = ""
+
+    @SerializedName("driver_photo_visibility")
+    var driver_photo_visibility: String? = ""
+
+    @SerializedName("supervisor_photo_visibility")
+    var supervisor_photo_visibility: String? = ""
+
     @SerializedName("first_name")
-    val first_name: String? = ""
+    var first_name: String? = ""
     @SerializedName("last_name")
-    val last_name: String? = ""
+    var last_name: String? = ""
     @SerializedName("email")
     val email: String? = ""
     @SerializedName("phone_number")
@@ -33,6 +44,11 @@ class User : Serializable {
     val birth_date: String? = ""
     @SerializedName("avatar")
     val avatar: String? = ""
+
+    //Organization logo
+    @SerializedName("reloop_client_logo")
+    val reloop_client_logo: String? = ""
+
     @SerializedName("user_type")
     var user_type: Int? = 0
     @SerializedName("login_type")
@@ -58,8 +74,7 @@ class User : Serializable {
     @SerializedName("addresses")
     var addresses: ArrayList<Addresses>? = ArrayList()
     @SerializedName("organization")
-    var organization: Organization? =
-        Organization()
+    var organization: Organization? = Organization()
     @SerializedName("gender")
     val gender: String? = ""
 
@@ -114,14 +129,25 @@ class User : Serializable {
         api_token
         created_at
         updated_at
+        addresses
+        organization
+
     }
 
-    fun save(user: User, context: Context?) {
+    fun save(user: User, context: Context?,fromLogin : Boolean) {
         val sharedPref: SharedPreferences? =
             context?.getSharedPreferences(
                 Constants.PREF_NAME,
                 Constants.PRIVATE_MODE
             )
+        Log.d(User::class.java.simpleName, "save: FROM LOGIN ? $fromLogin")
+
+        //NEW CODE to use api token from login api only and do not replace if in other apis FOR STAGING PURPOSE
+        if (!fromLogin) {
+            if (retrieveUser() != null && retrieveUser()?.api_token?.isNotEmpty()!!){
+                user.api_token = retrieveUser()!!.api_token
+            }
+        }
         val prefsEditor: SharedPreferences.Editor? = sharedPref?.edit()
         val gson = Gson()
         val json = gson.toJson(user)

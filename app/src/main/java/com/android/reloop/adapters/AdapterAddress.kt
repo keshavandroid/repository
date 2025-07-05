@@ -37,17 +37,38 @@ open class AdapterAddress(
     override fun onBindViewHolder(holder: ViewHolder, position_: Int) {
 //        list?.add("Villa No. 7851, 04 Bedrooms, 06 Occupants,  Street 14-A, Floor 02, Dummy District, New York.")
         val position = holder.adapterPosition
-        if (position == 0) {
-            holder.addressLabel?.text =
-                MainApplication.applicationContext().getString(R.string.address_)
-            holder.addressLabel?.text = Utils.colorMyText(
-                holder.addressLabel?.text.toString(), 7, 8,
-                Color.RED
-            )
-        } else {
-            holder.addressLabel?.text =
-                MainApplication.applicationContext().getString(R.string.address)
+        try {
+            if(MainApplication.userType() == Constants.UserType.household){
+                //default address 1
+                if(dataList?.get(position)?.default ==1){ //default address
+                    holder.addressStar?.visibility = View.VISIBLE
+                    holder.delete?.visibility = View.GONE
+                    holder.defaultLable?.visibility = View.GONE //ORIGINAL VISIBLE
+                    holder.addressLabel?.text = MainApplication.applicationContext().getString(R.string.address) +" "+ (position+1)
+                }else{
+                    holder.addressStar?.visibility = View.GONE
+                    holder.defaultLable?.visibility = View.GONE
+                    holder.delete?.visibility = View.VISIBLE
+                    holder.addressLabel?.text = MainApplication.applicationContext().getString(R.string.address) + " "+ (position+1)
+                }
+            }else{
+                if(dataList?.get(position)?.default ==1){ //default address
+                    holder.addressStar?.visibility = View.VISIBLE
+                    holder.delete?.visibility = View.GONE
+                    holder.defaultLable?.visibility = View.VISIBLE
+                    holder.addressLabel?.text = dataList!!.get(position).title
+                }else{
+                    holder.addressStar?.visibility = View.GONE
+                    holder.defaultLable?.visibility = View.GONE
+                    holder.delete?.visibility = View.VISIBLE
+                    holder.addressLabel?.text = dataList!!.get(position).title
+                }
+            }
+        }catch (e: Exception){
+            e.printStackTrace()
         }
+
+
         if (dataList?.get(position)?.street.isNullOrEmpty()) {
             holder.address?.text = "Update Your Address"
         }
@@ -64,16 +85,10 @@ open class AdapterAddress(
             if (!dataList?.get(position)?.unit_number.isNullOrEmpty()) {
                 unitNumberValue = "${dataList?.get(position)?.unit_number}"
             }
-            holder.address?.text =
-                "$unitNumberValue, $buildingName, $street, ${
-                    Utils.getStringBasedOnID(
-                        dataList?.get(position)?.district_id, dependenciesListing?.districts
-                    )
+            holder.address?.text = "$unitNumberValue, $buildingName, $street, ${
+                    Utils.getStringBasedOnID(dataList?.get(position)?.district_id, dependenciesListing?.districts)
                 }, ${
-                    Utils.getStringBasedOnID(
-                        dataList?.get(position)?.city_id,
-                        dependenciesListing?.cities
-                    )
+                    Utils.getStringBasedOnID(dataList?.get(position)?.city_id, dependenciesListing?.cities)
                 }"
         }
         holder.itemView.setOnClickListener {
@@ -91,6 +106,8 @@ open class AdapterAddress(
         var address: TextView? = itemView.findViewById(R.id.address)
         var delete: ImageButton? = itemView.findViewById(R.id.delete)
         var addressLabel: TextView? = itemView.findViewById(R.id.addressLabel)
+        var defaultLable: TextView? = itemView.findViewById(R.id.defaultLable)
+        var addressStar: TextView? = itemView.findViewById(R.id.addressStar)
     }
 
     open fun notify(dataList: ArrayList<Addresses>?, dependenciesListing: Dependencies?) {

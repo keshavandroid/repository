@@ -19,4 +19,21 @@ class CollectionRequestProduct:Serializable {
     @SerializedName("material_category")
     val materialCategory:MaterialCategory?= MaterialCategory()
 
+    //NEW added for Edit Collection request
+    @SerializedName("material_category_id")
+    val materialCategoryId: Int?=0
+
+    @SerializedName("user_stats")
+    var user_stats: ArrayList<UserStats>? = ArrayList()
+
+    @SerializedName("collection_bins")
+    var collection_bins: ArrayList<CollectionBinsList>? = ArrayList()
+
+}
+
+class CollectionBin {
+    @SerializedName("id")
+    val id: Int?=0
+    @SerializedName("request_collection_id")
+    val request_collection_id: Int?=0
 }

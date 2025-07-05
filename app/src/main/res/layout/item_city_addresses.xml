@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imgRadio"
+        android:paddingLeft="@dimen/_10sdp"
+        android:paddingRight="@dimen/_10sdp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_radio_un_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/txtCity"
+        android:text="WWWWWW"
+        android:layout_toRightOf="@+id/imgRadio"
+        android:padding="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </TextView>
+
+    <RadioGroup
+        android:id="@+id/rgCity"
+        android:layout_below="@+id/txtCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <View
+        android:layout_below="@+id/rgCity"
+        android:background="#969696"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+
+</RelativeLayout>

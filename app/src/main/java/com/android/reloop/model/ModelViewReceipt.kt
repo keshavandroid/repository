@@ -6,7 +6,7 @@ class ModelViewReceipt(
     orderTitle: String?,
     orderDateTime: String?,
     address: String?,
-    status: Int?,
+    status: String?,
     orderID: String?,
     orderList: ArrayList<OrderItems>?,
     trackList: ArrayList<ModelTrackOrder>?,orderId:Int
@@ -15,7 +15,7 @@ class ModelViewReceipt(
     var orderTitle: String? = ""
     var orderDateTime: String? = ""
     var address: String? = ""
-    var status: Int?
+    var status: String?
     var orderID: String? = ""
     var orderList: ArrayList<OrderItems>?
     var trackList:ArrayList<ModelTrackOrder>?

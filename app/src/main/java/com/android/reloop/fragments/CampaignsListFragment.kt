@@ -126,7 +126,7 @@ class CampaignsListFragment : BaseFragment(),View.OnClickListener, CampainListAd
             ?.setCallback(this)
             ?.setTag(RequestCodes.API.EXIT_CAMPAIGNS)
             ?.autoLoading(requireActivity())
-//            ?.enque(Network().apis()?.getCampaignDetails(exitId))
+//            ?.enque(Ne twork().apis()?.getCampaignDetails(exitId))
             ?.enque(Network().apis()?.exitCampaign(exitId))
             ?.execute()
     }

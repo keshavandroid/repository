@@ -39,6 +39,14 @@
           }
         },
         {
+          "client_id": "290412357838-k5d4c919avud9kvbqqmfl1irtd3hlu8c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reloop.reloop",
+            "certificate_hash": "73566fd6653aca5fc4de84f717723406e0f0a494"
+          }
+        },
+        {
           "client_id": "290412357838-8acn0i11g84hmtshjudd7pp8h1kbib07.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -54,6 +62,13 @@
             {
               "client_id": "290412357838-8acn0i11g84hmtshjudd7pp8h1kbib07.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "290412357838-bimgm8t53kb5fm1b7fu9rh9bjti2j134.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.reloop.live"
+              }
             }
           ]
         }

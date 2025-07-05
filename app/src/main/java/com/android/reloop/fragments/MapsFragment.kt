@@ -26,8 +26,6 @@ import java.util.*
  */
 class MapsFragment : BaseFragment(), OnMapReadyCallback,View.OnClickListener,GoogleMap.OnCameraChangeListener {
 
-
-
     companion object {
         fun newInstance(): MapsFragment {
             return MapsFragment()
@@ -83,7 +81,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback,View.OnClickListener,Goo
 
     @SuppressLint("SetTextI18n")
     private fun getAddress(lat: Double?, lng: Double?) {
-        val geoCoder = Geocoder(activity, Locale.getDefault())
+        val geoCoder = Geocoder(requireActivity(), Locale.getDefault())
         try {
             val addresses = lat?.let { lng?.let { it1 -> geoCoder.getFromLocation(it, it1, 1) } }
             try {

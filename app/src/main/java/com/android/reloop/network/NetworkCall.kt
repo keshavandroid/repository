@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Handler
+import android.util.Log
 import android.view.Window
 import com.reloop.reloop.R
 import com.reloop.reloop.app.BaseClass
@@ -56,9 +57,12 @@ object NetworkCall : BaseClass() {
             progressDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
             progressDialog?.setCancelable(false)
             progressDialog?.setContentView(R.layout.progress_dialog_layout)
+
             progressDialogShown = progressDialogShown.plus(1)
-            if (progressDialogShown == totalRequestCount)
+            if (progressDialogShown == totalRequestCount){
                 progressDialog?.show()
+            }
+
         }
         return this
     }
@@ -138,6 +142,7 @@ object NetworkCall : BaseClass() {
                 }
                 catch (e :NullPointerException)
                 {
+
                     e.printStackTrace()
                 }
             }

@@ -33,6 +33,17 @@ class EnvironmentalStats {
     @SerializedName("cigarette_butts_saved")
     var cigarette_butts_saved: Double = null ?: 0.0
 
+    @SerializedName("farming_land")
+    var farming_land: Double = null ?: 0.0
+
+    @SerializedName("coffee_capsule")
+    var coffee_capsule: Double = null ?: 0.0
+
+    @SerializedName("soap_bars")
+    var soap_bars: Double = null ?: 0.0
+
+
+
     @SerializedName("biodiesel_produced")
     var biodiesel_produced: Double = null ?: 0.0
 

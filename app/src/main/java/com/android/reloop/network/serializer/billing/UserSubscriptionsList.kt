@@ -7,8 +7,12 @@ class UserSubscriptionsList {
     var subscription_number: String? = ""
     @SerializedName("subscription_type")
     var subscription_type: Int? = 0
+    /*@SerializedName("status")
+    var status: Int? = 0*/
+
     @SerializedName("status")
-    var status: Int? = 0
+    var status: String? = ""
+
     @SerializedName("created_at")
     var created_at: String? = ""
     @SerializedName("name")

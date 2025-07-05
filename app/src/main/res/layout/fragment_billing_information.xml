@@ -145,10 +145,18 @@
                 android:layout_marginTop="@dimen/_5sdp">
 
                 <com.reloop.reloop.customviews.CustomEditText
+                    android:id="@+id/pin_view"
                     style="@style/TSPoppinsRegular"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginEnd="@dimen/_30sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:layout_toStartOf="@+id/applyCoupon"
                     android:background="@drawable/edittextbackgroundsimple"
+                    android:elevation="@dimen/_3sdp"
                     android:gravity="center|start"
                     android:hint="@string/enter_coupon_code"
                     android:inputType="text"
@@ -162,16 +170,7 @@
                     app:focusedDrawable="@null"
                     app:unFocusedBackground="@drawable/edittextbackgroundsimple"
                     app:unFocusedDrawable="@null"
-                    tools:ignore="Autofill,LabelFor,RelativeOverlap"
-                    android:elevation="@dimen/_3sdp"
-                    android:id="@+id/pin_view"
-                    android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@+id/applyCoupon"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginEnd="@dimen/_30sdp"
-                    android:layout_marginTop="@dimen/_3sdp"
-                    />
+                    tools:ignore="Autofill,LabelFor,RelativeOverlap" />
                 <Button
                     android:layout_width="@dimen/_80sdp"
                     android:layout_height="@dimen/_30sdp"

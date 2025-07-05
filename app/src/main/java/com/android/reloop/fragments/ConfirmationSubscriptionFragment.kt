@@ -48,13 +48,16 @@ class ConfirmationSubscriptionFragment : BaseFragment() {
         purchaseID = arguments?.getString(Constants.DataConstants.purchaseID)
 
         rewardPoint = arguments?.getInt(Constants.DataConstants.rewardPoints)
-        val view: View? =
-            inflater.inflate(R.layout.fragment_confirmation_subscription, container, false)
-        initViews(view)
-        setListeners()
-        populateData()
-        return view
 
+        val view: View? = inflater.inflate(R.layout.fragment_confirmation_subscription, container, false)
+
+        initViews(view)
+
+        setListeners()
+
+        populateData()
+
+        return view
     }
 
     private fun initViews(view: View?) {
@@ -62,7 +65,6 @@ class ConfirmationSubscriptionFragment : BaseFragment() {
         message = view?.findViewById(R.id.message)
         idMessage = view?.findViewById(R.id.idMessage)
         idNumber = view?.findViewById(R.id.idNumber)
-
     }
 
     private fun setListeners() {
@@ -78,7 +80,7 @@ class ConfirmationSubscriptionFragment : BaseFragment() {
             {
                 val user= User.retrieveUser()
                 user?.reward_points = user?.reward_points?.minus(rewardPoint!!)
-                user?.save(user,activity)
+                user?.save(user,activity,false)
             }
         } else if (subscriptionCycle == Constants.subscriptionCycleTwo) {
             image?.setImageResource(R.drawable.icon_confirm_subscription_cycle_two)

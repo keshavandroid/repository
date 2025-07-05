@@ -1,15 +1,25 @@
 package com.reloop.reloop.utils
 
 import android.content.SharedPreferences
+import com.android.reloop.fragments.PaymentMethodsFragment
 import com.android.reloop.utils.Configuration.baseUrl
+import com.android.reloop.utils.Configuration.pkStripe
+import com.android.reloop.utils.Configuration.skStripe
 import com.reloop.reloop.R
 import com.reloop.reloop.app.MainApplication
+import com.reloop.reloop.fragments.CollectionBinsFragment
 
 
 object Constants {
     var PRIVATE_MODE = 0
     val PREF_NAME = "reloop"
     var BASE_URL = baseUrl[0]
+
+    var PK_STRIPE = pkStripe[0]
+    var SK_STRIPE = skStripe[0]
+
+
+
     var BasePathForImage = baseUrl[1]
     var BasePathForDeepLink = baseUrl[2]
     var token: String? = "Token"
@@ -39,6 +49,8 @@ object Constants {
     var all = 3
     var currencySign = "AED"
 
+    var orgname = ""
+
     var thresholdTime = "00:01-21:00"
 
     object RecyclerViewSpan {
@@ -46,6 +58,8 @@ object Constants {
         var twoColumns = 2
 
     }
+
+
 
     object Containers {
         //-------Parent Container-----------
@@ -56,12 +70,31 @@ object Constants {
         var homeActivityContainer = R.id.home_activity_container
         var recycleRequestParent = R.id.recycle_request_parent
         var campaignListContainer = R.id.container_campainList
+        var reportsFragmentContainer = R.id.reports_fragment_container
+
+
+        var paymentMethodListContainer = R.id.container_paymentMethodList
+
+
+        //drop-off screens
+        var dropOffPinContainer = R.id.container_drop_off_pin
+        var materialSelectFragment = R.id.container_material_select
+        var verifyDropOffContainer= R.id.container_verify_drop_off
+        var confirmSelectionsContainer = R.id.container_confirm_selections
+        var requestSuccessContainer = R.id.container_req_success
+
+
 
         //---------------Child Container-----------
         var recycleFragmentContainer = R.id.container_recycle
         var containerSubscriptionCycle = R.id.container_subscription_cycle
         var containerMonthlySubscriptionFragment = R.id.container_monthly_subscription_fragment
         var containerOrderHistory = R.id.container_order_history_fragment
+        var containerRewardHistory = R.id.container_reward_history_fragment
+
+        var containerNewBilling = R.id.container_new_billing
+
+
         var containerBillingFragment = R.id.container_billing_fragment
         var containerEditProfile = R.id.container_edit_profile
         var containerForgotPassword = R.id.container_forgot_password
@@ -72,6 +105,7 @@ object Constants {
         var productDetailFragmentContainer = R.id.container_productDetail
         var containercartInformation = R.id.containerCartInformation
         var subscrptionFragmentContainer = R.id.container_subscriptions
+        var collectionBinsFragment = R.id.container_collection_bin
     }
 
     object DataConstants {
@@ -87,6 +121,7 @@ object Constants {
         var longitude = "longitude"
         var latitude = "latitude"
         var rewardPoints = "rewardPoints"
+        var isGuest = "isGuest"
 
         object Api {
             var productID = "productID"
@@ -94,6 +129,13 @@ object Constants {
             var planID = "planID"
             var planPrice = "planPrice"
             var serviceType = "serviceType"
+
+            //new added
+            var planImage = "planImage"
+            var planTripValue = "planTripValue"
+            var planDescription = "planDescription"
+            var planIcon = "planIcon"
+
 
         }
 
@@ -112,6 +154,7 @@ object Constants {
         var AddressInformationFragment = "Address Information Fragment"
         var BillingFragment = "Billing Fragment"
         var BillingInformationFragment = "Billing Information Fragment"
+        var NewBillingInformationFragment = "New Billing Information Fragment"
 
         var ChangePasswordFragment = "Change Password Fragment"
         var ConfirmationSubscriptionFragment = "Confirm Subscription Fragment"
@@ -148,6 +191,23 @@ object Constants {
         var ProductDetailFragment = "Product Detail Fragment"
         var NewsDetailsFragment = "News Detail Fragment"
         var CampaignsListFragment = "Campaigns List Fragment"
+
+        var PaymentMethodsFragment = "Payment Method List Fragment"
+
+        var NewPaymentMethodsFragment = "New Payment Method List Fragment"
+
+        var PdfDownloadFragment = "Pdf Download Fragment"
+
+
+        //drop off screens
+        var DropOffPinFragment = "Drop Off Pin Fragment"
+        var MaterialSelectFragment = "Material Select Fragment"
+        var VerifyDropOffFragment = "Verify Drop Off Fragment"
+        var ConfirmSelectionsFragment = "Confirm Selections Fragment"
+        var RequestSuccessFragment = "Request Success Fragment"
+        var CollectionBinsFragment = "Collection Bins Fragment"
+
+
     }
 
     object RecycleCategoryType {
@@ -171,6 +231,7 @@ object Constants {
                 PRIVATE_MODE
             )
         val prefsEditor: SharedPreferences.Editor? = sharedPref?.edit()
+
         fun save(email: String?, password: String?) {
             prefsEditor?.putString(PREFS_USER_EMAIL, email)
                 ?.putString(PREFS_PASS, password)
@@ -260,11 +321,16 @@ object Constants {
         employeesList.add("Others")
         return employeesList
     }
+
     object FilterOption {
         const val HOUSEHOLD = 1
         const val ORGANIZATION = 2
         const val ALL = 3
         const val ADDRESS = 4
+        const val CONNECTED_ORGS = 5
+        const val TOTAL_BRANCHES = 6
+
+
     }
 
 }

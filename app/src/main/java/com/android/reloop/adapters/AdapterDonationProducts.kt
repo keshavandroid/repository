@@ -28,13 +28,9 @@ class AdapterDonationProducts(
     override fun getItemCount() = dataList.size
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolderDonationPopup, position: Int) {
-        holder.heading?.text =
-            "${dataList[position]?.name}: ${com.reloop.reloop.utils.Utils.commaConversion(
-                dataList[position]?.points
-            )} Points"
+        holder.heading?.text = "${dataList[position]?.name}: ${com.reloop.reloop.utils.Utils.commaConversion(dataList[position]?.points)} Points"
         holder.redeemButton?.setOnClickListener {
             itemClick.callDialog(dataList[position]?.id!!)
-
         }
     }
 }

@@ -45,15 +45,12 @@ open class AdapterSpinnerCustom(
         parent: ViewGroup
     ): View {
         val label = super.getView(position, convertView, parent) as TextView
-        label.setCompoundDrawablesRelativeWithIntrinsicBounds(
-            icon,
-            null,
-            MainApplication.applicationContext().getDrawable(R.drawable.icon_spinner_dropdown_arrow),
-            null
-        )
+        label.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, MainApplication.applicationContext().getDrawable(R.drawable.icon_spinner_dropdown_arrow), null)
         label.text = list?.get(position)?.name.toString()
         if (isSignup) {
-            Utils.markRequired(label)
+            if(position==0){
+                Utils.markRequired(label)
+            }
         }
         return label
     }
@@ -62,8 +59,7 @@ open class AdapterSpinnerCustom(
         position: Int, convertView: View?,
         parent: ViewGroup?
     ): View? {
-        val inflater =
-            MainApplication.applicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater = MainApplication.applicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.spinner_dropdown_normal, null) as LinearLayout
         val label = view.getChildAt(0) as TextView
         label.text = list?.get(position)?.name

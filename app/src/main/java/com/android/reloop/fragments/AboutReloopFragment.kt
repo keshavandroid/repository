@@ -2,6 +2,7 @@ package com.reloop.reloop.fragments
 
 
 import android.os.Bundle
+import android.text.Html
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -55,10 +56,8 @@ class AboutReloopFragment : BaseFragment(), OnNetworkResponse, View.OnClickListe
         NetworkCall.make()
             ?.setCallback(this)
             ?.setTag(RequestCodes.API.ABOUT_US)
-            ?.autoLoading(activity!!)
-            ?.enque(
-                Network().apis()?.aboutUs()
-            )
+            ?.autoLoading(requireActivity())
+            ?.enque(Network().apis()?.aboutUs())
             ?.execute()
     }
 
@@ -74,11 +73,12 @@ class AboutReloopFragment : BaseFragment(), OnNetworkResponse, View.OnClickListe
                         AboutAppData::class.java
                     )
                     if (aboutApp != null)
-                        view_?.about_reloop?.text = aboutApp.body
+                        //view_?.about_reloop?.text = aboutApp.body
+                        view_?.about_reloop?.text = Html.fromHtml(aboutApp.body)
                     view_?.about_reloop?.movementMethod = ScrollingMovementMethod()
                 }
 
-//                Notify.alerterGreen(activity, baseResponse?.message)
+//              Notify.alerterGreen(activity, baseResponse?.message)
             }
         }
     }

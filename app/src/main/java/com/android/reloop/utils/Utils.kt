@@ -16,10 +16,13 @@ import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
+import android.util.Log
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
+import com.android.reloop.model.CommanBase
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.facebook.AccessToken
@@ -51,6 +54,7 @@ import retrofit2.Response
 import java.io.File
 import java.text.DateFormat
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -276,6 +280,27 @@ object Utils {
         return TinyDB(MainApplication.applicationContext()).getDouble("lng", 55.2708)
     }
 
+    //===============NEW for performance improvement==============
+    // Optimized jsonConverterObject function
+    fun jsonConverterObjectReloop(data: LinkedTreeMap<*, *>?): String {
+        return data?.let {
+            JSONObject(it).toString()
+        } ?: ""
+    }
+
+    // Optimized getBaseResponse function
+    fun getBaseResponseReloop(response: Response<Any?>): BaseResponse? {
+        val responseBody = response.body() as? LinkedTreeMap<*, *>
+        return responseBody?.let {
+            val json = jsonConverterObject(it)
+            Gson().fromJson(json, BaseResponse::class.java)
+        }
+    }
+    //===============================================================
+
+
+
+
     fun getBaseResponse(response: Response<Any?>): BaseResponse? {
         return Gson().fromJson(
             jsonConverterObject(response.body() as? LinkedTreeMap<*, *>),
@@ -283,9 +308,16 @@ object Utils {
         )
     }
 
+    fun getBaseResponseComman(response: Response<Any?>): CommanBase? {
+        return Gson().fromJson(
+            jsonConverterObject(response.body() as? LinkedTreeMap<*, *>),
+            CommanBase::class.java
+        )
+    }
+
     fun commaConversion(number: Int?): String {
         return try {
-            val myFormatter = DecimalFormat("#,###")
+            val myFormatter = DecimalFormat("#,###", DecimalFormatSymbols(Locale.US))
             val output: String = myFormatter.format(number)
             output
         } catch (e: Exception) {
@@ -296,7 +328,7 @@ object Utils {
 
     fun commaConversion(number: Double?): String {
         return try {
-            val myFormatter = DecimalFormat("###,##0.00")
+            val myFormatter = DecimalFormat("###,##0.00", DecimalFormatSymbols(Locale.US))
             val output: String = myFormatter.format(number)
             output
         } catch (e: Exception) {
@@ -307,6 +339,11 @@ object Utils {
 
     fun logOut(activity: Activity?) {
         User.clearUser()
+        val prefs = activity?.getSharedPreferences(Constants.PREF_NAME, AppCompatActivity.MODE_PRIVATE)
+        prefs?.edit()?.putString("orgname", "")?.apply()
+        prefs?.edit()?.putString("address_arr", "")?.apply()
+
+
         activity?.finish()
         try {
             TinyDB(activity).clear()
@@ -323,9 +360,7 @@ object Utils {
             lateinit var googleSignInClient: GoogleSignInClient
             //--------------------------------Google Sign In Auth-------------------
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(
-                    MainApplication.applicationContext().getString(R.string.default_web_client_id)
-                )
+                .requestIdToken(MainApplication.applicationContext().getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build()
             googleSignInClient = GoogleSignIn.getClient(activity!!, gso)
@@ -402,7 +437,11 @@ object Utils {
             val date: Date = serverFormat.parse(serverDate)
             val newFormat: DateFormat = SimpleDateFormat(dateFormat);
             val finalString = newFormat.format(date)
+
             finalString
+
+
+
         } catch (e: Exception) {
             e.printStackTrace()
             ""

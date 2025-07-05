@@ -9,9 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.reloop.model.CommanDays
+import com.android.reloop.model.CommanDaysData
+import com.android.reloop.model.DataSettings
 import com.android.reloop.network.serializer.collectionrequest.MaximumCategoriesSelection
+import com.android.reloop.network.serializer.dashboard.SettingsModel
 import com.android.reloop.utils.LogManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -27,14 +32,18 @@ import com.reloop.reloop.network.NetworkCall
 import com.reloop.reloop.network.OnNetworkResponse
 import com.reloop.reloop.network.serializer.BaseResponse
 import com.reloop.reloop.network.serializer.collectionrequest.CollectionRequest
+import com.reloop.reloop.network.serializer.collectionrequest.GetPlans
 import com.reloop.reloop.network.serializer.collectionrequest.MaterialCategories
 import com.reloop.reloop.network.serializer.collectionrequest.MaterialCategoryID
+import com.reloop.reloop.network.serializer.collectionrequest.RecyclingFamilies
+import com.reloop.reloop.network.serializer.orderhistory.CollectionRequests
 import com.reloop.reloop.tinydb.TinyDB
 import com.reloop.reloop.utils.Constants
 import com.reloop.reloop.utils.Notify
 import com.reloop.reloop.utils.RequestCodes
 import com.reloop.reloop.utils.Utils
 import okhttp3.MultipartBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 import java.lang.reflect.Type
@@ -50,6 +59,10 @@ class SelectCategoriesFragment : BaseFragment(), ParentToChild, OnNetworkRespons
     lateinit var adapter: AdapterProductList
     var oderDays: ArrayList<String>? = ArrayList()
     var selectedIdList : ArrayList<Int>?= ArrayList()
+    var sortedMaterialCategories: ArrayList<MaterialCategories>? = null
+    private var recycling_visibility: String =""
+
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (parentFragment is ChildToParent) {
@@ -65,12 +78,21 @@ class SelectCategoriesFragment : BaseFragment(), ParentToChild, OnNetworkRespons
     companion object {
         var materialCategories: ArrayList<MaterialCategories>? = null
         var collectionRequest: CollectionRequest? = null
+        var editCollectionRequest: CollectionRequests? = null
+        var recyclingFamiliesList: ArrayList<RecyclingFamilies>? = null
+
         fun newInstance(
             materialCategories: ArrayList<MaterialCategories>?,
-            collectionRequest: CollectionRequest?
+            collectionRequest: CollectionRequest?,
+            editCollectionRequest: CollectionRequests?,
+            recyclingFamiliesList: ArrayList<RecyclingFamilies>?
+
         ): SelectCategoriesFragment {
             this.collectionRequest = collectionRequest
             this.materialCategories = materialCategories
+            this.editCollectionRequest = editCollectionRequest
+            this.recyclingFamiliesList = recyclingFamiliesList
+
             return SelectCategoriesFragment()
         }
     }
@@ -98,9 +120,20 @@ class SelectCategoriesFragment : BaseFragment(), ParentToChild, OnNetworkRespons
 
     private fun setListeners() {
 
+        try{
+            // Sorting the ArrayList based on quantity
+            materialCategories!!.sortWith(compareBy { it.recycling_family_id })
+        }
+        catch (e : NullPointerException)
+        {
+            e.printStackTrace()
+        }
+
+
     }
 
     private fun populateData() {
+
         try {
             for (i in collectionRequest?.material_categories!!.indices) {
                 for (j in materialCategories!!.indices) {
@@ -127,12 +160,112 @@ class SelectCategoriesFragment : BaseFragment(), ParentToChild, OnNetworkRespons
                 ?.enque(Network().apis()?.getMaximumCategories())
                 ?.execute()
         }
-        adapter = AdapterProductList(materialCategories, requireActivity(), maxLimitModel.value)
-        // Set CustomAdapter as the adapter for RecyclerView.
-        linearLayoutManager = GridLayoutManager(context, Constants.RecyclerViewSpan.twoColumns)
+
+
+
+        val tinyDB: TinyDB?
+        tinyDB = TinyDB(MainApplication.applicationContext())
+        recycling_visibility = tinyDB.getString("recycling_visibility").toString()
+
+        if(recycling_visibility.equals("VISIBLE")) { //VISIBLE
+            //To display categories with family names
+
+            adapter = AdapterProductList(materialCategories, requireActivity(), maxLimitModel.value, recyclingFamiliesList,
+                generateCombinedList(recyclingFamiliesList!!, materialCategories!!)
+            )
+
+            linearLayoutManager = GridLayoutManager(context, 3)
+            (linearLayoutManager as GridLayoutManager).spanSizeLookup = object : SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    return adapter.getSpanSize(position,3)
+                }
+            }
+        }else{
+            adapter = AdapterProductList(materialCategories, requireActivity(), maxLimitModel.value, recyclingFamiliesList,
+                generateSimpleList( materialCategories!!))
+            linearLayoutManager = GridLayoutManager(context, 3) //three column
+        }
+
         recyclerView?.layoutManager = linearLayoutManager
         recyclerView?.adapter = adapter
+
+        //EDIT ORDER DATA
+        markSelectedCategories()
     }
+
+    data class ListItem(val type: Int, val category: RecyclingFamilies?, val item: MaterialCategories?)
+    private val VIEW_TYPE_CATEGORY = 1
+    private val VIEW_TYPE_ITEM = 2
+
+    fun generateCombinedList(categories: ArrayList<RecyclingFamilies>, items: ArrayList<MaterialCategories>)
+            : ArrayList<ListItem> {
+        val combinedList = ArrayList<ListItem>()
+
+        for (category in categories) {
+//            val categoryId = category.id ?: 4 // Use a placeholder ID for null category
+
+
+            //OLD
+//            combinedList.add(ListItem(VIEW_TYPE_CATEGORY, category, null))
+
+            //NEW CHANGE
+            val isIDFound = items.any { it.recycling_family_id == category.id  || it.recycling_family_id.toString() == "null"}
+
+            if (isIDFound){
+                combinedList.add(ListItem(VIEW_TYPE_CATEGORY, category, null))
+            }
+
+
+
+            val itemsInCategory = items.filter { it.recycling_family_id == category.id }
+            combinedList.addAll(itemsInCategory.map { ListItem(VIEW_TYPE_ITEM, null, it) })
+
+        }
+
+        val nullRecyling_family_id = items.filter { it.recycling_family_id.toString() == "null" }
+        combinedList.addAll(nullRecyling_family_id.map { ListItem(VIEW_TYPE_ITEM, null, it) })
+
+
+        return combinedList
+    }
+
+    fun generateSimpleList( items: ArrayList<MaterialCategories>): ArrayList<ListItem> {
+        val combinedList = ArrayList<ListItem>()
+
+        for (item in items) {
+            combinedList.add(ListItem(VIEW_TYPE_ITEM, null, item))
+        }
+
+        return combinedList
+    }
+
+
+    private fun isLastItemInCategory(position: Int): Boolean {
+        if (position < materialCategories!!.size - 1) {
+            val currentItem = materialCategories!![position]
+            val nextItem = materialCategories!![position + 1]
+
+            return currentItem.recycling_family_id != nextItem.recycling_family_id
+        }
+
+        return false
+    }
+
+    private fun markSelectedCategories(){
+
+        if(editCollectionRequest!=null && !editCollectionRequest!!.request_collection.isNullOrEmpty()){
+            for (i in editCollectionRequest!!.request_collection!!.indices) {
+                for (j in materialCategories!!.indices) {
+                    if (materialCategories?.get(j)?.id == editCollectionRequest!!.request_collection!!.get(i).materialCategoryId) {
+                        materialCategories?.get(j)?.selected = true
+                    }
+                }
+            }
+            adapter.notifyDataSetChanged()
+        }
+    }
+
+
 
     override fun callChild() {
         var selected = false
@@ -141,12 +274,12 @@ class SelectCategoriesFragment : BaseFragment(), ParentToChild, OnNetworkRespons
         if (materialCategories != null && materialCategories?.size!! > 0) {
             for (i in materialCategories!!.indices) {
                 if (materialCategories!![i].selected!!) {
-                   /* val data =  materialCategories!![i].collection_acceptance_days
-                    for(j in data!!.indices)
-                    {
-                        oderDays?.add(data[j])
-                    }
-                    Log.e("TAG","====collection acceptance days1===" + oderDays)*/
+                    /* val data =  materialCategories!![i].collection_acceptance_days
+                     for(j in data!!.indices)
+                     {
+                         oderDays?.add(data[j])
+                     }
+                     Log.e("TAG","====collection acceptance days1===" + oderDays)*/
                     selected = true
                     break
                 }
@@ -198,10 +331,7 @@ class SelectCategoriesFragment : BaseFragment(), ParentToChild, OnNetworkRespons
                     val gson = Gson()
                     val listType: Type = object : TypeToken<MaximumCategoriesSelection>() {}.type
 
-                    maxLimitModel = gson.fromJson(
-                        Utils.jsonConverterObject(baseResponse?.data as LinkedTreeMap<*, *>),
-                        listType
-                    )
+                    maxLimitModel = gson.fromJson(Utils.jsonConverterObject(baseResponse?.data as LinkedTreeMap<*, *>), listType)
 
                     LogManager.getLogManager().writeLog("$EVENTTAG : Maximum Category Result : ${gson.toJson(maxLimitModel)}")
                     adapter.setMaxLimit(maxLimitModel.value)
@@ -216,6 +346,21 @@ class SelectCategoriesFragment : BaseFragment(), ParentToChild, OnNetworkRespons
             RequestCodes.API.GET_MATERIAL_CATEGORIES_COMMAN_DAYS ->
             {
                 try {
+
+                    val responsedata = Utils.getBaseResponseComman(response)
+                    //Log.e("TAG", "Comman Days Result cdays ====" + responsedata)
+                    Log.d("TAG", "Comman Days Result responsedata:- " + GsonBuilder().setPrettyPrinting().create().toJson(responsedata))
+                    //Log.e("TAG", "Comman Days Result cdays ====" + {Gson().toJson(responsedata?.data?.dataSettings?.settings?.collection_time?.get(0)?.value)})
+
+                    val collectiontime = responsedata?.data?.dataSettings?.settings?.collection_time?.get(0)?.value
+                    Log.e("TAG", "Comman Days Result cdays time====" + collectiontime)
+
+
+                    oderDays = responsedata?.data?.days
+                    //Log.e("TAG", "Comman Days Result base ====" + baseResponse)
+                    //Log.d("TAG", "Comman Days Result base:- " + GsonBuilder().setPrettyPrinting().create().toJson(baseResponse))
+                    //Log.e("TAG", "Comman Days Result cdays days====" + responsedata?.data?.days)
+
                     val gson = GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
                     Log.e("TAG", "Comman Days Result ====" + {gson.toJson(baseResponse)})
                     LogManager.getLogManager().writeLog("$EVENTTAG : Comman Days Result : ${gson.toJson(baseResponse)}")
@@ -225,24 +370,29 @@ class SelectCategoriesFragment : BaseFragment(), ParentToChild, OnNetworkRespons
                         val str = baseResponse.data.toString().replace("[", "")
                         val strnew = str.replace("]", "")
                         val stringArray = strnew.split(",").map { it -> it.trim() }
-                        Log.e("TAG", "array====" + stringArray)
+                        Log.e("TAG", "array main ====" + stringArray)
 
-                        for (i in stringArray.indices) {
-                            Log.e("TAG", "array====" + stringArray.get(i))
+
+                       /* for (i in stringArray.indices) {
+                            Log.e("TAG", "array ====" + stringArray.get(i))
                             oderDays?.add(stringArray.get(i).toString())
-                        }
+                        }*/
+
 
                         if (oderDays != null) {
+
                             val tinyDB: TinyDB?
                             tinyDB = TinyDB(MainApplication.applicationContext())
                             tinyDB.putString("msg", baseResponse?.message)
                             tinyDB.putListString("OrderDays", oderDays!!)
+                            tinyDB.putString("cTime", collectiontime)
 
                         } else {
                             val tinyDB: TinyDB?
                             tinyDB = TinyDB(MainApplication.applicationContext())
                             tinyDB.putString("msg", baseResponse?.message)
                             tinyDB.putListString("OrderDays", oderDays!!)
+                            tinyDB.putString("cTime", collectiontime)
                         }
                     }
                     else{
@@ -250,6 +400,7 @@ class SelectCategoriesFragment : BaseFragment(), ParentToChild, OnNetworkRespons
                         tinyDB = TinyDB(MainApplication.applicationContext())
                         tinyDB.putString("msg", baseResponse?.message)
                         tinyDB.putListString("OrderDays", oderDays!!)
+                        tinyDB.putString("cTime", collectiontime)
                     }
                     childToParent?.callParent(collectionRequest)
                 } catch (e: Exception) {

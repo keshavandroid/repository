@@ -227,7 +227,7 @@
                         android:layout_height="@dimen/_12sdp"
                         app:unFocusedDrawable="@drawable/icon_phone_un"
                         app:focusedDrawable="@drawable/icon_phone_en"
-                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginStart="@dimen/_3sdp"
                         android:background="@drawable/icon_phone_un"/>
 
                     <TextView
@@ -300,12 +300,14 @@
                     tools:ignore="Autofill,LabelFor"
                     android:visibility="gone"/>
 
+                <!--AKSHAY17-->
                 <com.reloop.reloop.customviews.CustomEditText
                     android:id="@+id/location"
                     style="@style/TSPoppinsRegular"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginStart="@dimen/_3sdp"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:layout_marginEnd="@dimen/_3sdp"
                     android:layout_marginBottom="@dimen/_3sdp"
@@ -331,7 +333,7 @@
 
 
 
-
+                <!--AKSHAY17-->
                 <Spinner
                     android:id="@+id/city"
                     android:layout_width="match_parent"
@@ -345,13 +347,16 @@
                     android:paddingStart="@dimen/_10sdp"
                     android:paddingEnd="@dimen/_10sdp"
                     android:spinnerMode="dropdown"
+                    android:visibility="gone"
                     android:textSize="@dimen/_10sdp"
                     tools:ignore="Autofill,LabelFor,RtlSymmetry" />
 
-                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                <!--AKSHAY17-->
+                <com.android.reloop.searchablespinner.SearchableSpinner
                     android:id="@+id/district"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
+                    android:visibility="gone"
                     android:layout_marginStart="@dimen/_3sdp"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:layout_marginEnd="@dimen/_3sdp"
@@ -394,7 +399,7 @@
                     tools:ignore="Autofill,LabelFor"
 
                     />
-                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                <com.android.reloop.searchablespinner.SearchableSpinner
                     android:id="@+id/sector"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
@@ -409,10 +414,10 @@
                     android:spinnerMode="dropdown"
                     android:textSize="@dimen/_10sdp"
                     android:visibility="gone"
-                    style="@style/AlertDialogTheme"
                     tools:ignore="Autofill,LabelFor,RtlSymmetry"  />
 
 
+                <!--AKSHAY17-->
                 <Spinner
                     android:id="@+id/no_of_employees"
                     android:layout_width="match_parent"
@@ -422,6 +427,7 @@
                     android:layout_marginEnd="@dimen/_3sdp"
                     android:layout_marginBottom="@dimen/_3sdp"
                     android:background="@drawable/edittextbackgroundsimple"
+                    android:visibility="gone"
                     android:elevation="@dimen/_4sdp"
                     android:paddingStart="@dimen/_10sdp"
                     android:paddingEnd="@dimen/_10sdp"
@@ -429,11 +435,13 @@
                     android:textSize="@dimen/_10sdp"
                     tools:ignore="Autofill,LabelFor,RtlSymmetry" />
 
+                <!--AKSHAY17-->
                 <Spinner
                     android:id="@+id/no_of_branches"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginStart="@dimen/_3sdp"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:layout_marginEnd="@dimen/_3sdp"
                     android:layout_marginBottom="@dimen/_3sdp"

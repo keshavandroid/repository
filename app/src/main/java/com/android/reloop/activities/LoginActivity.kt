@@ -7,20 +7,31 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.*
-import com.android.reloop.activities.ContinueAsActivity
+import androidx.annotation.Nullable
+import com.android.reloop.network.serializer.Campain.Campaigns.GetCampaigns
 import com.android.reloop.network.serializer.FacebookLoginModel
 import com.android.reloop.utils.Configuration
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
+import com.facebook.FacebookSdk
 import com.facebook.GraphRequest
 import com.facebook.login.LoginBehavior
 import com.facebook.login.LoginManager
@@ -35,26 +46,27 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.gson.Gson
 import com.google.gson.internal.LinkedTreeMap
+import com.google.gson.reflect.TypeToken
 import com.onesignal.OneSignal
-import com.reloop.reloop.BuildConfig
 import com.reloop.reloop.R
 import com.reloop.reloop.app.MainApplication
 import com.reloop.reloop.auth.LoginAuth
-import com.reloop.reloop.fragments.HomeFragment
 import com.reloop.reloop.network.Network
 import com.reloop.reloop.network.NetworkCall
 import com.reloop.reloop.network.OnNetworkResponse
+import com.reloop.reloop.network.serializer.Addresses
 import com.reloop.reloop.network.serializer.BaseResponse
 import com.reloop.reloop.network.serializer.Dependencies
-import com.reloop.reloop.network.serializer.DependencyDetail
 import com.reloop.reloop.network.serializer.Login
 import com.reloop.reloop.network.serializer.user.User
 import com.reloop.reloop.utils.*
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
+import java.lang.reflect.Type
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.util.*
 
 
 class LoginActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
@@ -66,8 +78,14 @@ class LoginActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
     private lateinit var whatsAppNumber: String
     private var isOrganization: Boolean = false
     private var email: EditText? = null
+
     private var password: EditText? = null
+
+    private var show_pass_btn: ImageView?=null
+
     private var login: Button? = null
+    private var continueAsGuest: Button? = null
+
     private var signup: TextView? = null
     private var contactus: TextView? = null
     private var tvSignInAsHousehold: TextView? = null
@@ -81,6 +99,13 @@ class LoginActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
     var fb_icon: ImageView? = null
     private lateinit var progressDialog: Dialog
     private var oneSignalPlayerId = ""
+
+    //Pre-Cache images
+    private var campaignList = ArrayList<GetCampaigns?>()
+    var campainListNew: ArrayList<String>? = ArrayList()
+
+    private var imagesLoaded = 0
+    private var totalImagesCount = 0
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,7 +132,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
         NetworkCall.make()
             ?.setCallback(this)
             ?.setTag(RequestCodes.API.DEPENDENCIES)
-            ?.autoLoading(this)
+            //?.autoLoading(this)
             ?.enque(Network().apis()?.dependencies())
             ?.execute()
 
@@ -115,16 +140,21 @@ class LoginActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
             fb_icon?.visibility = View.GONE
             googleSignIn?.visibility = View.GONE
             tvSignInAsHousehold?.visibility = View.GONE
+            continueAsGuest?.visibility = View.GONE
+
         } else {
             fb_icon?.visibility = View.VISIBLE
             googleSignIn?.visibility = View.VISIBLE
+            continueAsGuest?.visibility = View.VISIBLE
         }
     }
 
     private fun initialization() {
         email = findViewById(R.id.email)
         password = findViewById(R.id.password)
+        show_pass_btn = findViewById(R.id.show_pass_btn)
         login = findViewById(R.id.login)
+        continueAsGuest = findViewById(R.id.continueAsGuest)
         signup = findViewById(R.id.signup)
         contactus = findViewById(R.id.contactus)
         forgot_password = findViewById(R.id.forgot_password)
@@ -135,8 +165,11 @@ class LoginActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
         tvSignInAsHousehold = findViewById(R.id.tvSignInAsHousehold)
     }
 
+
+
     private fun setOnclickListeners() {
         login?.setOnClickListener(this)
+        continueAsGuest?.setOnClickListener(this)
         signup?.setOnClickListener(this)
         forgot_password?.setOnClickListener(this)
         contactus?.setOnClickListener(this)
@@ -145,57 +178,65 @@ class LoginActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
         fb_icon?.setOnClickListener(this)
 
         //if(BuildConfig.DEBUG) {
-            setFacebookLoginClickListener()
+//            setFacebookLoginClickListener()
        // }
     }
 
+    fun showHidePass(view: View) {
+        if (view.id == R.id.show_pass_btn) {
+            if (password!!.transformationMethod == PasswordTransformationMethod.getInstance()) {
+                (view as ImageView).setImageResource(R.drawable.eye_hide)
+
+                // Show Password
+                password!!.transformationMethod = HideReturnsTransformationMethod.getInstance()
+            } else {
+                (view as ImageView).setImageResource(R.drawable.eye_normal)
+
+                // Hide Password
+                password!!.transformationMethod = PasswordTransformationMethod.getInstance()
+            }
+        }
+    }
+
+
+    // facebook Graph api v14
     private fun setFacebookLoginClickListener() {
-//        val EMAIL = "email"
         facebookLogin.setLoginBehavior(LoginBehavior.NATIVE_WITH_FALLBACK);
-       // facebookLogin.setReadPermissions(listOf("public_profile", "email", "user_friends"));
-        facebookLogin.setReadPermissions(listOf("public_profile", "email"));
-        LoginManager.getInstance()
-            .registerCallback(facebookCallbackManager, object : FacebookCallback<LoginResult?> {
-                override fun onSuccess(loginResult: LoginResult?) {
-                    val mGraphRequest = GraphRequest.newMeRequest(
-                        loginResult?.accessToken
-                    ) { me, response ->
-                        if (response.error != null) {
-                            Notify.alerterRed(this@LoginActivity, "Unable To Get User Facebook Data")
-                        } else {
-                            val email = me.optString("email")
-                            val firstName = me.optString("first_name")
-                            val lastName = me.optString("last_name")
+        LoginManager.getInstance().logInWithReadPermissions(
+            this@LoginActivity,
+            facebookCallbackManager!!,
+            Arrays.asList("public_profile","email"))//NEW AD
 
-//                            if (email.isNullOrEmpty()) {
-//                                Notify.alerterRed(
-//                                    this@LoginActivity,
-//                                    "Unable To Get Email, Cannot Allow For Login"
-//                                )
-//                                if (LoginManager.getInstance() != null)
-//                                    LoginManager.getInstance().logOut()
-//                            } else {
+        Log.e(TAG,"Facebook Graph API version : "+FacebookSdk.getGraphApiVersion().toString())
 
-                            val model = Gson().fromJson(Utils.jsonConverterObject(me as JSONObject), FacebookLoginModel::class.java)
-                            socialLogin(Constants.LoginTypes.FACEBOOK, model)
-//                        }
-                        }
+        LoginManager.getInstance().registerCallback(facebookCallbackManager, object : FacebookCallback<LoginResult> {
+            override fun onSuccess(loginResult: LoginResult) {
+                val mGraphRequest = GraphRequest.newMeRequest(loginResult.accessToken) { me, response ->
+                    if (response!!.error != null) {
+                        Notify.alerterRed(this@LoginActivity, "Unable To Get User Facebook Data")
+                    } else {
+                        val email = me?.optString("email")
+                        val firstName = me?.optString("first_name")
+                        val lastName = me?.optString("last_name")
+
+                        val model = Gson().fromJson(Utils.jsonConverterObject(me as JSONObject), FacebookLoginModel::class.java)
+                        socialLogin(Constants.LoginTypes.FACEBOOK, model)
                     }
-                    val parameters = Bundle()
-                    parameters.putString("fields","id, first_name, last_name, email,gender, birthday, location")
-                    mGraphRequest.parameters = parameters
-                    mGraphRequest.executeAsync()
                 }
-
-                override fun onCancel() { // App code
-//                    Notify.Toast("Login Manager Facebook Login Cancel")
+                val parameters = Bundle()
+                parameters.putString("fields","id, first_name, last_name, email,gender, birthday, location")
+                mGraphRequest.parameters = parameters
+                mGraphRequest.executeAsync()
+            }
+            override fun onCancel() { // App code
                     Log.e(TAG,"==on cancel==")
-                }
+            }
 
-                override fun onError(exception: FacebookException) { // App code
+            override fun onError(exception: FacebookException) {
                     Notify.Toast(exception.localizedMessage)
-                }
-            })
+            }
+
+        })
     }
 
     private fun populateValues() {
@@ -268,6 +309,23 @@ class LoginActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
                         ?.execute()
                 }
             }
+            R.id.continueAsGuest -> {
+                val handler = Handler()
+                handler.postDelayed(
+                    {
+
+//                        val bundle = Bundle()
+//                        bundle.putBoolean(Constants.DataConstants.isGuest, true)
+
+                        val intent = Intent(this, HomeActivityGuest::class.java)
+//                        intent.putExtra(Constants.DataConstants.bundle, bundle)
+                        startActivity(intent)
+                        val newIntent = Intent()
+                        setResult(Constants.resultCode, newIntent)
+                        finish()
+                    }, 1000
+                )
+            }
             R.id.signup -> {
 //                val intent = Intent(this, SignUpActivity::class.java)
 //                startActivityForResult(intent, Constants.resultCode)
@@ -280,10 +338,24 @@ class LoginActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
                 startActivity(intent)
             }
             R.id.google_sign_in_button -> {
-                signInGoogle()
+
+                //signout before another login
+                LoginManager.getInstance().logOut()
+                googleSignInClient.signOut()
+
+                signInGoogle() // original
+
+                //static data
+                /*socialLogin("sarah.alkhatib96@gmail.com",
+                    Constants.LoginTypes.GOOGLE,
+                    "sarah", "alkhatib")*/
             }
             R.id.fb_icon -> {
-                facebookLogin.performClick()
+
+                setFacebookLoginClickListener()
+
+
+//                facebookLogin.performClick()
             }
             R.id.contactus -> {
 
@@ -337,19 +409,33 @@ class LoginActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
 
                 val baseResponse = Utils.getBaseResponse(response)
 
-                Notify.alerterGreen(
-                    this,
-                    baseResponse?.message
-                )
+                //val token = baseResponse?.token //open when new staging
+
+                Notify.alerterGreen(this, baseResponse?.message)
+
                 // your json value here
-                val userModel = Gson().fromJson(
-                    Utils.jsonConverterObject(baseResponse?.data as LinkedTreeMap<*, *>),
-                    User::class.java
-                )
+                val userModel = Gson().fromJson(Utils.jsonConverterObject(baseResponse?.data as LinkedTreeMap<*, *>),
+                    User::class.java)
+
+                //userModel.api_token = token.toString() //open when new staging
+                Log.e(TAG, "==Login : ${Gson().toJson(userModel)}")
+                Log.e(TAG, "==Login addresss: ${Gson().toJson(userModel.addresses)}")
+                //Log.e(TAG, "==Login subaddresss: ${Gson().toJson(userModel.addresses?.get(0)?.addressLocations)}")
+                Log.e(TAG,"====org name ====" + userModel.organization?.name)
+
+                val orgname = userModel.organization?.name
+                val prefs = getSharedPreferences(Constants.PREF_NAME, MODE_PRIVATE)
+                prefs.edit().putString("orgname", orgname).apply()
+
+                if(!userModel.addresses.isNullOrEmpty() && userModel.addresses!!.size > 0) {
+                    prefs.edit().putString("address_arr", Gson().toJson(userModel.addresses)).apply()
+                    //Log.d(TAG, "onSuccess: Address Arr saved in pref == " + prefs.getString("address_arr", "testNoData"))
+                }
+
                 if (userModel.user_type == 0 || userModel.user_type == null) {
                     userModel?.user_type = Constants.UserType.household
                 }
-                userModel.save(userModel, this)
+                userModel.save(userModel, this,true)
                 if (rememberMe?.isChecked!!) {
                     val rememberMe = Constants.RememberMe
                     rememberMe.save(email?.text.toString(), password?.text.toString())
@@ -358,6 +444,84 @@ class LoginActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
                     rememberMe.clear()
                 }
 
+                //New Added
+                callListingApi()
+
+                //Original HERE
+                /*val handler = Handler()
+                handler.postDelayed(
+                    {
+                        val intent = Intent(this, HomeActivity::class.java)
+                        startActivity(intent)
+                        val newIntent = Intent()
+                        setResult(Constants.resultCode, newIntent)
+                        finish()
+                    }, 1000
+                )*/
+            }
+            RequestCodes.API.DEPENDENCIES -> {
+                dependenciesListing = Dependencies()
+
+                val baseResponse = Utils.getBaseResponse(response)
+                val apiDependenciesListing = Gson().fromJson(
+                    Utils.jsonConverterObject(baseResponse?.data as? LinkedTreeMap<*, *>),
+                    Dependencies::class.java)
+
+                if (apiDependenciesListing?.whatsapp_Number != null) {
+                    whatsAppNumber = apiDependenciesListing.whatsapp_Number.get(0).value
+                }
+            }
+
+            //New Added
+            RequestCodes.API.CAMPAIGNS_LISTING -> {
+
+                val baseResponse = Utils.getBaseResponse(response)
+
+                val gson = Gson()
+                val listType: Type = object : TypeToken<List<GetCampaigns?>?>() {}.type
+                campaignList = gson.fromJson(Utils.jsonConverterArray(baseResponse?.data as? ArrayList<*>), listType)
+
+                campainListNew?.clear()
+
+                try {
+                    for (i in campaignList.indices) {
+
+                        //Main Image
+                        campainListNew?.add(campaignList[i]?.getImage().toString())
+
+                        Glide.with(this)
+                            .downloadOnly()
+                            .load(campaignList[i]?.getImage().toString())
+                            .submit(500, 500)
+
+                        //For Campaign Detail images
+//                        for (j in 0 until campaignList.get(i)!!.getCampaignImages()!!.size){
+//                            campainListNew?.add(campaignList.get(i)!!.getCampaignImages()!!.get(j).getImage().toString())
+//                        }
+
+                        //For News Image
+//                        if(!campaignList.get(i)!!.getNews().isNullOrEmpty()){
+//                            for (k in 0 until campaignList.get(i)!!.getNews()!!.size){
+//                                //Log.d("CAMPAIGNS_111"," news " + campaignList.get(i)!!.getNews()!!.get(k)!!.getImage())
+//                                campainListNew?.add(campaignList.get(i)!!.getNews()!!.get(k)!!.getImage().toString())
+//                                if(!campaignList.get(i)!!.getNews()?.get(k)?.getNewsImages().isNullOrEmpty()){
+//                                    for (l in 0 until campaignList.get(i)!!.getNews()?.get(k)!!.getNewsImages()!!.size){
+//                                        //Log.d("CAMPAIGNS_111"," news_images " + campaignList.get(i)!!.getNews()!!.get(k)!!.getNewsImages()!!.get(l)!!.getImage())
+//                                        campainListNew?.add(campaignList.get(i)!!.getNews()!!.get(k)!!.getNewsImages()!!.get(l)!!.getImage().toString())
+//                                    }
+//                                }
+//                            }
+//                        }
+
+                    }
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    Log.d("LoginActivity","Image downloading failed in login screen")
+                }finally {
+                    //preloadAllImages(campainListNew)
+                }
+
+                //NEW HERE
                 val handler = Handler()
                 handler.postDelayed(
                     {
@@ -368,21 +532,100 @@ class LoginActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
                         finish()
                     }, 1000
                 )
-            }
-            RequestCodes.API.DEPENDENCIES -> {
-                dependenciesListing = Dependencies()
 
-                val baseResponse = Utils.getBaseResponse(response)
-                val apiDependenciesListing = Gson().fromJson(
-                    Utils.jsonConverterObject(baseResponse?.data as? LinkedTreeMap<*, *>),
-                    Dependencies::class.java
-                )
-                if (apiDependenciesListing?.whatsapp_Number != null) {
-                    whatsAppNumber = apiDependenciesListing.whatsapp_Number.get(0).value
-                }
             }
         }
     }
+
+
+    private fun preloadAllImages(imagesUrls: ArrayList<String>?) {
+        totalImagesCount = imagesUrls!!.size
+        for (url in imagesUrls) {
+            preloadImage(url)
+        }
+
+    }
+
+    private fun preloadImage(url: String) {
+        Glide.with(this)
+            .load(url)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .listener(object : RequestListener<Drawable?> {
+                override fun onLoadFailed(
+                    @Nullable e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable?>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    // Handle exceptions differently if you want
+                    imagesLoaded++
+                    if (imagesLoaded == totalImagesCount) {
+
+                        val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                        startActivity(intent)
+                        val newIntent = Intent()
+                        setResult(Constants.resultCode, newIntent)
+                        finish()
+
+                        /*val handler = Handler()
+                        handler.postDelayed(
+                            {
+                                val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                                startActivity(intent)
+                                val newIntent = Intent()
+                                setResult(Constants.resultCode, newIntent)
+                                finish()
+                            }, 1000
+                        )*/
+                    }
+                    return true
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable?>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    imagesLoaded++
+                    if(imagesLoaded == totalImagesCount) {
+
+                        val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                        startActivity(intent)
+                        val newIntent = Intent()
+                        setResult(Constants.resultCode, newIntent)
+                        finish()
+
+                        /*val handler = Handler()
+                        handler.postDelayed(
+                            {
+                                val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                                startActivity(intent)
+                                val newIntent = Intent()
+                                setResult(Constants.resultCode, newIntent)
+                                finish()
+                            }, 1000
+                        )*/
+                    }
+                    return true
+                }
+            }).preload()
+
+    }
+
+
+
+
+    private fun callListingApi() {
+        NetworkCall.make()
+            ?.setCallback(this)
+            ?.setTag(RequestCodes.API.CAMPAIGNS_LISTING)
+            //?.autoLoading(this)
+            ?.enque(Network().apis()?.getCampaigns())
+            ?.execute()
+    }
+
 
     override fun onFailure(call: Call<Any?>?, response: BaseResponse?, tag: Any?) {
         login?.isClickable = true
@@ -486,8 +729,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
                     ?.login(Login(email!!, "", type, oneSignalPlayerId, firstName, lastName))
             )
             ?.execute()
-
     }
+
+
+
 
     private fun socialLogin(type: Int, model: FacebookLoginModel) {
 
@@ -521,4 +766,5 @@ class LoginActivity : BaseActivity(), View.OnClickListener, OnNetworkResponse {
             progressDialog.hide()
         }
     }
+
 }

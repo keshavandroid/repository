@@ -15,6 +15,9 @@ import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.android.reloop.adapters.CustomPagerAdapter
 import com.android.reloop.adapters.SliderAdapter
+import com.android.reloop.customviews.InfiniteCirclePageIndicator
+import com.android.reloop.customviews.InfinitePagerAdapter
+import com.android.reloop.customviews.InfiniteViewPager
 import com.android.reloop.network.serializer.Campain.News.NewsDetails
 import com.android.reloop.utils.ViewPagerDots
 import com.google.gson.Gson
@@ -44,8 +47,15 @@ class NewsDetailsFragment : Fragment(), View.OnClickListener, CustomPagerAdapter
     var tvtitle : TextView ?= null
     var tvdesc : TextView ?= null
     var tvDate : TextView ?= null
-    var layoutDots: LinearLayout? = null
-    var viewpager: ViewPager? = null
+
+//    var layoutDots: LinearLayout? = null
+//    var viewpager: ViewPager? = null
+
+    var viewpager: InfiniteViewPager? = null
+    var mPagerAdapter: InfinitePagerAdapter? = null
+    var layoutDots: InfiniteCirclePageIndicator? = null
+    val imageHandler = Handler()
+
 
     private var mContext: Context? = null
 
@@ -147,7 +157,8 @@ class NewsDetailsFragment : Fragment(), View.OnClickListener, CustomPagerAdapter
                         {
                             newsListNew?.add(aboutApp.getNewsImages()!![i]?.getImage().toString())
                         }
-                        setSliderNew(newsListNew)
+                        //setSliderNew(newsListNew) //old slider
+                        setInfiniteViewpager(newsListNew) //new slider
 /*
                         for(j in NewsList.indices)
                         {
@@ -167,7 +178,8 @@ class NewsDetailsFragment : Fragment(), View.OnClickListener, CustomPagerAdapter
     override fun onFailure(call: Call<Any?>?, response: BaseResponse?, tag: Any?) {
         Notify.alerterRed(activity, response?.message)
     }
-    private fun setSliderNew(listnews: ArrayList<String>?) {
+
+    /*private fun setSliderNew(listnews: ArrayList<String>?) {
 
         val myCustomPagerAdapter = CustomPagerAdapter(requireContext(), listnews!!,1,layoutDots!!)
         viewpager?.setAdapter(myCustomPagerAdapter)
@@ -200,6 +212,46 @@ class NewsDetailsFragment : Fragment(), View.OnClickListener, CustomPagerAdapter
                 }
             }
         }, 3000)
+    }*/
+
+    private fun setInfiniteViewpager(list: ArrayList<String>?) {
+        Log.e("TAG","====home list size===" + list?.size)
+        viewpager?.setOffscreenPageLimit(3)
+        val myCustomPagerAdapter = CustomPagerAdapter(requireContext(), list!!,1)
+
+        mPagerAdapter = InfinitePagerAdapter(
+            myCustomPagerAdapter
+        )
+        mPagerAdapter!!.setOneItemMode()
+        viewpager?.setAdapter(mPagerAdapter)
+        myCustomPagerAdapter.setClicklistner(this)
+
+        layoutDots!!.isSnap = true
+        layoutDots!!.setViewPager(viewpager)
+
+        //hide dots when there is one image
+        if(list.size==1){
+            layoutDots!!.visibility = View.GONE
+        }else{
+            imageHandler.postDelayed(object : Runnable {
+                override fun run() {
+                    imageHandler.postDelayed(this, 3000)
+
+                    val currentPage: Int = viewpager!!.getCurrentItem()
+                    val size: Int = viewpager!!.getAdapter()!!.getCount()
+                    if (currentPage < (size - 1)) {
+                        viewpager!!.setCurrentItem(currentPage + 1, true)
+                    } else {
+                        viewpager!!.setCurrentItem(0, true)
+                    }
+                }
+            }, 3000)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        imageHandler.removeCallbacksAndMessages(null)
     }
 
     override fun itemclickSlide(position: Int) {

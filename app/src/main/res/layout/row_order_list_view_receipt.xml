@@ -41,12 +41,38 @@
         android:textColor="@color/color_detail_text"
         android:textSize="@dimen/_12sdp" />
 
+    <TextView
+        android:id="@+id/details"
+        style="@style/TSPoppinsRegular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/order_price"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:gravity="center"
+        android:paddingEnd="1dp"
+        android:text="@string/txt_detail_"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/_10sdp"
+        android:visibility="gone" />
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/order_description">
 
-        <include layout="@layout/line_divider" />
+        <!--<include layout="@layout/line_divider" />-->
+
+        <View xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:alpha="0.3"
+            android:background="@color/text_color_heading" />
+
     </RelativeLayout>
 
 

@@ -1,14 +1,17 @@
 package com.android.reloop.fragments
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.hardware.Camera
 import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Bundle
 import android.os.Handler
+import android.text.Html
 import android.util.Log
 import android.view.*
 import android.widget.*
@@ -20,6 +23,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.android.reloop.adapters.CampainNewsAdapter
 import com.android.reloop.adapters.CustomPagerAdapter
+import com.android.reloop.customviews.InfiniteCirclePageIndicator
+import com.android.reloop.customviews.InfinitePagerAdapter
+import com.android.reloop.customviews.InfiniteViewPager
 import com.android.reloop.network.serializer.Campain.CampaignDetails.Data
 import com.android.reloop.network.serializer.Campain.CampaignDetails.NewsDetails
 import com.android.reloop.utils.ViewPagerDots
@@ -30,6 +36,7 @@ import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.gson.Gson
 import com.google.gson.internal.LinkedTreeMap
+import com.google.gson.reflect.TypeToken
 import com.google.zxing.ResultPoint
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
@@ -38,15 +45,21 @@ import com.journeyapps.barcodescanner.camera.CameraSettings
 import com.reloop.reloop.BuildConfig
 import com.reloop.reloop.R
 import com.reloop.reloop.activities.BaseActivity
+import com.reloop.reloop.activities.HomeActivity
+import com.reloop.reloop.fragments.NewBillingInformationFragment
+import com.reloop.reloop.fragments.SubscriptionFragment
 import com.reloop.reloop.interfaces.AlertDialogCallback
+import com.reloop.reloop.model.ModelShopCategories
 import com.reloop.reloop.network.Network
 import com.reloop.reloop.network.NetworkCall
 import com.reloop.reloop.network.OnNetworkResponse
 import com.reloop.reloop.network.serializer.BaseResponse
+import com.reloop.reloop.network.serializer.shop.Category
 import com.reloop.reloop.utils.Constants
 import com.reloop.reloop.utils.Notify
 import com.reloop.reloop.utils.RequestCodes
 import com.reloop.reloop.utils.Utils
+import kotlinx.android.synthetic.main.fragment_subscription_cycle_two_step.*
 import retrofit2.Call
 import retrofit2.Response
 import java.io.IOException
@@ -86,8 +99,15 @@ class CampainDetailFragment : Fragment(), View.OnClickListener, AlertDialogCallb
     var rlmain: RelativeLayout? = null
     var rlbarcode: RelativeLayout? = null
     var ivclose: ImageView? = null
-    var layoutDots: LinearLayout ? = null
-    var viewpager: ViewPager? = null
+
+//    var layoutDots: LinearLayout ? = null
+//    var viewpager: ViewPager? = null
+
+    var viewpager: InfiniteViewPager? = null
+    var mPagerAdapter: InfinitePagerAdapter? = null
+    var layoutDots: InfiniteCirclePageIndicator? = null
+    val imageHandler = Handler()
+
 
     companion object {
         private var campaignId: String? = null
@@ -301,7 +321,8 @@ class CampainDetailFragment : Fragment(), View.OnClickListener, AlertDialogCallb
                         for (i in aboutApp.getCampaignImages()!!.indices) {
                             campainListNew?.add(aboutApp.getCampaignImages()!![i]?.getImage().toString())
                         }
-                        setSliderNew(campainListNew)
+                        //setSliderNew(campainListNew) //old slider
+                        setInfiniteViewpager(campainListNew)// new slider
 
                         hasjoined = aboutApp.gethasJoined()!!
                         Log.e("TAG", "====has joined===" + hasjoined)
@@ -351,15 +372,41 @@ class CampainDetailFragment : Fragment(), View.OnClickListener, AlertDialogCallb
                 Notify.alerterGreen(activity, message)
                 hasjoined = true
                 btnJoin?.visibility = View.GONE
+
+                showSuccessDialog()
+
             }
         }
+    }
+
+    private fun showSuccessDialog() {
+        val dialog = Dialog(requireContext())
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.row_campaign_joined)
+        dialog.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.setCancelable(true)
+
+        val btnInitDontaion = dialog.findViewById(R.id.btnInitDontaion) as Button
+
+
+        btnInitDontaion.setOnClickListener {
+            dialog.dismiss()
+
+            activity?.onBackPressed()
+            viewpager?.beginFakeDrag()
+        }
+
+        dialog.show()
     }
 
     override fun onFailure(call: Call<Any?>?, response: BaseResponse?, tag: Any?) {
         Notify.alerterRed(activity, response?.message)
     }
 
-    private fun setSliderNew(list: ArrayList<String>?) {
+    /*private fun setSliderNew(list: ArrayList<String>?) {
         val myCustomPagerAdapter = CustomPagerAdapter(requireContext(), list!!,1,layoutDots!!)
         viewpager?.setAdapter(myCustomPagerAdapter)
         myCustomPagerAdapter.setClicklistner(this)
@@ -390,6 +437,49 @@ class CampainDetailFragment : Fragment(), View.OnClickListener, AlertDialogCallb
                 }
             }
         }, 3000)
+    }*/
+
+    private fun setInfiniteViewpager(list: ArrayList<String>?) {
+        Log.e("TAG","====home list size===" + list?.size)
+        viewpager?.setOffscreenPageLimit(3)
+        val myCustomPagerAdapter = CustomPagerAdapter(requireContext(), list!!,1)
+
+        mPagerAdapter = InfinitePagerAdapter(
+            myCustomPagerAdapter
+        )
+        mPagerAdapter!!.setOneItemMode()
+        viewpager?.setAdapter(mPagerAdapter)
+        myCustomPagerAdapter.setClicklistner(this)
+
+        layoutDots!!.isSnap = true
+        layoutDots!!.setViewPager(viewpager)
+
+        //hide dots when there is one image
+        if(list.size==1){
+            layoutDots!!.visibility = View.GONE
+        }else{
+            imageHandler.postDelayed(object : Runnable {
+                override fun run() {
+                    imageHandler.postDelayed(this, 3000)
+
+                    val currentPage: Int = viewpager!!.getCurrentItem()
+                    val size: Int = viewpager!!.getAdapter()!!.getCount()
+                    if (currentPage < (size - 1)) {
+                        viewpager!!.setCurrentItem(currentPage + 1, true)
+                    } else {
+                        viewpager!!.setCurrentItem(0, true)
+                    }
+                }
+            }, 3000)
+        }
+
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        imageHandler.removeCallbacksAndMessages(null)
+
     }
 
     override fun itemclickSlide(position: Int) {
@@ -531,11 +621,21 @@ class CampainDetailFragment : Fragment(), View.OnClickListener, AlertDialogCallb
         Log.v("Barcode result:", result!!.text) // Prints scan results
 
 
+
+
+
         Log.v("Barcode result:",
             result.barcodeFormat.toString()) // Prints the scan format (qrcode, pdf417 etc.)
 
         if (result!= null && !code.equals(result.text)) {
             playSound()
+
+            try {
+                Notify.alerterGreen(activity, result!!.text)
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
+
             Log.d(TAG, "barcodeResult: called " + result.text)
             code = result.text.toString()
 

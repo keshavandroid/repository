@@ -5,9 +5,11 @@ import com.reloop.reloop.app.MainApplication
 import java.util.*
 
 object Configuration {
+
     const val DB_VERSION: Long = 2
-    private val environment = Environments.Production
-    //private val environment = Environments.StagingNEW
+    //private val environment = Environments.Production // for production
+    private val environment = Environments.StagingNEW // for dev
+
 
     @JvmStatic
     val baseUrl: ArrayList<String>
@@ -56,6 +58,7 @@ object Configuration {
                     )
                     links
                 }*/
+
                 Environments.StagingNEW -> {
                     links.add(
                         MainApplication.applicationContext().getString(R.string.staging_reloop_new)
@@ -70,9 +73,66 @@ object Configuration {
                     )
                     links
                 }
+
+
                 else -> {
                     links.add("Dummy Link")
                     links.add("Dummy Link")
+                    links.add("Dummy Link")
+                    links
+                }
+            }
+        }
+
+    //NEW
+    @JvmStatic
+    val pkStripe: ArrayList<String>
+        get() {
+            val links = ArrayList<String>()
+            return when (environment) {
+                Environments.Production -> {
+                    links.add(
+                        MainApplication.applicationContext().getString(R.string.pk_live_stripe)
+                    )
+                    links
+                }
+
+                Environments.StagingNEW -> {
+                    links.add(
+                        MainApplication.applicationContext().getString(R.string.pk_test_stripe)
+                    )
+                    links
+                }
+
+
+                else -> {
+                    links.add("Dummy Link")
+                    links
+                }
+            }
+        }
+
+    //NEW
+    @JvmStatic
+    val skStripe: ArrayList<String>
+        get() {
+            val links = ArrayList<String>()
+            return when (environment) {
+                Environments.Production -> {
+                    links.add(
+                        MainApplication.applicationContext().getString(R.string.sk_live_stripe)
+                    )
+                    links
+                }
+
+                Environments.StagingNEW -> {
+                    links.add(
+                        MainApplication.applicationContext().getString(R.string.sk_test_stripe)
+                    )
+                    links
+                }
+
+                else -> {
                     links.add("Dummy Link")
                     links
                 }

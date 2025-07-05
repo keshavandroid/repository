@@ -29,6 +29,9 @@ import androidx.viewpager.widget.ViewPager
 import com.android.reloop.adapters.CustomPagerAdapter
 import com.android.reloop.adapters.ProductRecyclableAdapter
 import com.android.reloop.adapters.SliderAdapter
+import com.android.reloop.customviews.InfiniteCirclePageIndicator
+import com.android.reloop.customviews.InfinitePagerAdapter
+import com.android.reloop.customviews.InfiniteViewPager
 import com.android.reloop.model.ModelProductRecyclable
 import com.android.reloop.model.ModelSliderData
 import com.android.reloop.network.serializer.Campain.ProductDetail
@@ -87,8 +90,14 @@ class ProductDetailFragment : Fragment() ,CustomPagerAdapter.ItemClickListener,P
     var userContainSingleCollectionRequest: Boolean = false
     private var scannedValue = ""
     private var code: String = ""
-    var layoutDots: LinearLayout? = null
-    var viewpager: ViewPager? = null
+
+//    var layoutDots: LinearLayout? = null
+//    var viewpager: ViewPager? = null
+
+    var viewpager: InfiniteViewPager? = null
+    var mPagerAdapter: InfinitePagerAdapter? = null
+    var layoutDots: InfiniteCirclePageIndicator? = null
+    val imageHandler = Handler()
 
     private var mContext: Context? = null
 
@@ -139,13 +148,13 @@ class ProductDetailFragment : Fragment() ,CustomPagerAdapter.ItemClickListener,P
         sliderDataArrayList.add(ModelSliderData(url2))
         sliderDataArrayList.add(ModelSliderData(url3))
 
-      /*  val adapter = SliderAdapter(requireContext(), sliderDataArrayList,2)
-        sliderView.autoCycleDirection = SliderView.LAYOUT_DIRECTION_LTR
-        sliderView.setSliderAdapter(adapter)
-        adapter.setClicklistner(this)
-        sliderView.scrollTimeInSec = 3
-        sliderView.isAutoCycle = true
-        sliderView.startAutoCycle()*/
+      /* val adapter = SliderAdapter(requireContext(), sliderDataArrayList,2)
+         sliderView.autoCycleDirection = SliderView.LAYOUT_DIRECTION_LTR
+         sliderView.setSliderAdapter(adapter)
+         adapter.setClicklistner(this)
+         sliderView.scrollTimeInSec = 3
+         sliderView.isAutoCycle = true
+         sliderView.startAutoCycle()*/
     }
 
     private fun initRecycleView() {
@@ -330,7 +339,6 @@ class ProductDetailFragment : Fragment() ,CustomPagerAdapter.ItemClickListener,P
         barcodeScanner!!.getBarcodeView().setCameraSettings(settings)
     }
 
-
     private fun askForCameraPermission() {
         ActivityCompat.requestPermissions(
             requireActivity(),
@@ -391,7 +399,8 @@ class ProductDetailFragment : Fragment() ,CustomPagerAdapter.ItemClickListener,P
                             productImgList?.add(aboutApp.getProductImages()!![i]?.image
                                 .toString())
                         }
-                        setSliderNew(productImgList)
+                        //setSliderNew(productImgList) //old slider
+                        setInfiniteViewpager(productImgList)//new slider
 
                         tv.setText(aboutApp.getRecyclablePercentage().toString() + "%")
                         circularProgressbar.setProgress(aboutApp.getRecyclablePercentage()!!,true)
@@ -440,8 +449,8 @@ class ProductDetailFragment : Fragment() ,CustomPagerAdapter.ItemClickListener,P
                     || User.retrieveUser()?.addresses?.get(0)?.street.isNullOrEmpty()
                     || User.retrieveUser()?.addresses?.get(0)?.building_name.isNullOrEmpty()
                     || User.retrieveUser()?.phone_number.isNullOrEmpty()
-                    || User.retrieveUser()?.gender.isNullOrEmpty()
-                    || User.retrieveUser()?.birth_date.isNullOrEmpty()
+//                    || User.retrieveUser()?.gender.isNullOrEmpty()
+//                        || User.retrieveUser()?.birth_date.isNullOrEmpty() //Earlier mandatory, now optional
                 ) {
                     Notify.hyperlinkAlert(
                         activity,
@@ -525,12 +534,12 @@ class ProductDetailFragment : Fragment() ,CustomPagerAdapter.ItemClickListener,P
         BaseActivity.replaceFragment(
             childFragmentManager,
             Constants.Containers.productDetailFragmentContainer,
-            RecycleFragment.newInstance(getPlans, userContainSingleCollectionRequest),
+            RecycleFragment.newInstance(getPlans, userContainSingleCollectionRequest,null),
             Constants.TAGS.RecycleFragment
         )
     }
 
-    private fun setSliderNew(list: ArrayList<String>?) {
+    /*private fun setSliderNew(list: ArrayList<String>?) {
 
         val myCustomPagerAdapter = CustomPagerAdapter(requireContext(), list!!,2,layoutDots!!)
         viewpager?.setAdapter(myCustomPagerAdapter)
@@ -563,6 +572,48 @@ class ProductDetailFragment : Fragment() ,CustomPagerAdapter.ItemClickListener,P
                 }
             }
         }, 3000)
+    }*/
+
+    private fun setInfiniteViewpager(list: ArrayList<String>?) {
+        Log.e("TAG","====home list size===" + list?.size)
+
+        viewpager?.setOffscreenPageLimit(3)
+        val myCustomPagerAdapter = CustomPagerAdapter(requireContext(), list!!,2)
+
+        mPagerAdapter = InfinitePagerAdapter(
+            myCustomPagerAdapter
+        )
+        mPagerAdapter!!.setOneItemMode()
+        viewpager?.setAdapter(mPagerAdapter)
+        myCustomPagerAdapter.setClicklistner(this)
+
+        layoutDots!!.isSnap = true
+        layoutDots!!.setViewPager(viewpager)
+
+        //hide dots when there is one image
+        if(list.size==1){
+            layoutDots!!.visibility = View.GONE
+        }else{
+            imageHandler.postDelayed(object : Runnable {
+                override fun run() {
+                    imageHandler.postDelayed(this, 3000)
+
+                    val currentPage: Int = viewpager!!.getCurrentItem()
+                    val size: Int = viewpager!!.getAdapter()!!.getCount()
+                    if (currentPage < (size - 1)) {
+                        viewpager!!.setCurrentItem(currentPage + 1, true)
+                    } else {
+                        viewpager!!.setCurrentItem(0, true)
+                    }
+                }
+            }, 3000)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        imageHandler.removeCallbacksAndMessages(null)
+
     }
 
     override fun onAttach(context: Context) {
@@ -578,6 +629,13 @@ class ProductDetailFragment : Fragment() ,CustomPagerAdapter.ItemClickListener,P
 
         if (result!= null && !code.equals(result.text)) {
             playSound()
+
+            try {
+                Notify.alerterGreen(activity, result!!.text)
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
+
             Log.d(TAG, "barcodeResult: called " + result.text)
             code = result.text
 

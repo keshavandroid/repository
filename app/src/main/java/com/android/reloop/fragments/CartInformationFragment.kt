@@ -15,7 +15,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.reloop.model.CartModel
 import com.android.reloop.network.serializer.cart.SubscriberDiscount
+import com.android.reloop.network.serializer.dashboard.Dashboard
 import com.android.reloop.network.serializer.shop.DeliveryFeeModel
 import com.google.gson.Gson
 import com.google.gson.internal.LinkedTreeMap
@@ -64,6 +66,9 @@ class CartInformationFragment : BaseFragment(), View.OnClickListener, ParentToCh
 //        private const val DISCOUNTED_AMOUNT = "DISCOUNTED_AMOUNT"
 //        private const val SUBTOTAL_AMOUNT = "SUBTOTAL_AMOUNT"
 //        private const val CARTLIST = "SUBTOTAL_AMOUNT"
+        var billingDiscountAmount: Double? = 0.0
+        var billingSubTotal: Double? = 0.0
+
     }
 
     private var coupondiscountvalue: Double? = 0.0
@@ -106,7 +111,8 @@ class CartInformationFragment : BaseFragment(), View.OnClickListener, ParentToCh
         }
     }
 
-/*
+
+    /*
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(TOTAL_AMOUNT, totalAmount!!)
@@ -164,7 +170,7 @@ class CartInformationFragment : BaseFragment(), View.OnClickListener, ParentToCh
         message = view?.findViewById(R.id.message)
 
         //call api to get subscriber order
-        if (!NetworkCall.inProgress()) {
+       /* if (!NetworkCall.inProgress()) {
             NetworkCall.make()
                 ?.setCallback(this)
                 ?.setTag(RequestCodes.API.GET_SUBSCRIBER_ORDER)
@@ -177,22 +183,24 @@ class CartInformationFragment : BaseFragment(), View.OnClickListener, ParentToCh
                 ?.setTag(RequestCodes.API.GET_SUBSCRIBER_ORDER)
                 ?.enque(Network().apis()?.getSubscriberOrder())
                 ?.execute()
+        }*/
+
+        //call comman api to get subscriber order and delivery fee instead of above
+        if (!NetworkCall.inProgress()) {
+            NetworkCall.make()
+                ?.setCallback(this)
+                ?.setTag(RequestCodes.API.GET_CART)
+                ?.autoLoading(requireActivity())
+                ?.enque(Network().apis()?.getCart())
+                ?.execute()
+        } else {
+            NetworkCall.make()
+                ?.setCallback(this)
+                ?.setTag(RequestCodes.API.GET_CART)
+                ?.enque(Network().apis()?.getCart())
+                ?.execute()
         }
 
-        /* if (!NetworkCall.inProgress()) {
-             NetworkCall.make()
-                 ?.setCallback(this)
-                 ?.setTag(RequestCodes.API.GET_DELIVERY_FEE)
-                 ?.autoLoading(requireActivity())
-                 ?.enque(Network().apis()?.getDeliveryFee())
-                 ?.execute()
-         } else {
-             NetworkCall.make()
-                 ?.setCallback(this)
-                 ?.setTag(RequestCodes.API.GET_DELIVERY_FEE)
-                 ?.enque(Network().apis()?.getDeliveryFee())
-                 ?.execute()
-         }*/
     }
 
     private fun setListeners() {
@@ -320,13 +328,26 @@ class CartInformationFragment : BaseFragment(), View.OnClickListener, ParentToCh
     }
 
     override fun callChild() {
+
         //---------------Setting Total Item And Subtotal And Sending To Parent Fragment----------------
         if (couponVerification != null) {
             buyProduct?.cartListUpdated = cartListSafe
             couponVerification = null
         }
-        buyProduct?.total = totalAmount
+
         buyProduct?.subtotal = subtotalAmount
+
+
+        //Original AD
+        //buyProduct?.total = totalAmount
+
+        //New added AD
+        if(totalAmount!! < 2){
+            buyProduct?.total = 2.0
+        }else{
+            buyProduct?.total = totalAmount
+        }
+
         if (childToParent != null) {
             childToParent?.callParent(buyProduct)
         }
@@ -342,13 +363,10 @@ class CartInformationFragment : BaseFragment(), View.OnClickListener, ParentToCh
             RequestCodes.API.COUPON_VERIFICATION -> {
                 couponVerification = Gson().fromJson(
                     Utils.jsonConverterObject(baseResponse?.data as LinkedTreeMap<*, *>),
-                    CouponVerification::class.java
-                )
+                    CouponVerification::class.java)
+
                 if (couponVerification?.validForCategory == null) {
-                    Notify.alerterRed(
-                        activity,
-                        getString(R.string.caoupon_not_valid_for_this)
-                    )
+                    Notify.alerterRed(activity, getString(R.string.caoupon_not_valid_for_this))
                     return
                 } else {
                     if (!couponVerification?.validForCategory?.type.isNullOrEmpty()
@@ -391,15 +409,44 @@ class CartInformationFragment : BaseFragment(), View.OnClickListener, ParentToCh
                     this
                 )
             }
+            RequestCodes.API.GET_CART ->{
+                val cart = Gson().fromJson(
+                    Utils.jsonConverterObject(baseResponse?.data as? LinkedTreeMap<*, *>),
+                    CartModel::class.java)
+                Log.e("TAG","===response2===" + cart)
+
+                val data = cart.subscriberDiscount
+                deliveryFeeList = cart.deliveryFee
+
+                if(data != null) {
+                    deliveryDiscount = data.getOrderDeliveryDiscount()?.toInt()
+                    productOrderDiscount = data.getProductsOrderDiscount()?.toInt()
+                    Log.e("TAG", "===data1====" + deliveryDiscount + "====data2====" + productOrderDiscount)
+
+                    populateData(deliveryFeeValue)
+                }
+
+                if (deliveryFeeList.isNullOrEmpty()) {
+                    //Do Nothing
+                } else if (deliveryFeeList.size >= 2) {
+                    deliveryFeeValue = deliveryFeeList[0].value
+                    deliverFeeKey = deliveryFeeList[0].key
+                    Log.e("TAG","====delivery fee=====" + deliveryFeeValue)
+                    deliveryFee?.text = "${Utils.commaConversion(deliveryFeeValue)} ${Constants.currencySign}"
+                    deliveryFeeOrderLimit = deliveryFeeList[1].value
+
+                    populateData(deliveryFeeValue)
+                    //getSubTotalPrice()
+                    //setDeliveryData()
+                }
+            }
+
             RequestCodes.API.GET_DELIVERY_FEE -> {
                 try {
                     val gson = Gson()
-                    val listType: Type =
-                        object : TypeToken<ArrayList<DeliveryFeeModel>>() {}.type
-                    deliveryFeeList = gson.fromJson(
-                        Utils.jsonConverterArray(baseResponse?.data as? ArrayList<*>),
-                        listType
-                    )
+                    val listType: Type = object : TypeToken<ArrayList<DeliveryFeeModel>>() {}.type
+                    deliveryFeeList = gson.fromJson(Utils.jsonConverterArray(baseResponse?.data as? ArrayList<*>), listType
+                     )
                     if (deliveryFeeList.isNullOrEmpty()) {
                         //Do Nothing
                     } else if (deliveryFeeList.size >= 2) {
@@ -896,8 +943,26 @@ class CartInformationFragment : BaseFragment(), View.OnClickListener, ParentToCh
         Log.e("TAG","===discounted totalAmount ===" + discountedPriceAmount)
         deliveryFee?.text = "${Utils.commaConversion(finaldeliverdiscount)} ${Constants.currencySign}"
         subTotal?.text = "${Utils.commaConversion(finalsubtotal)} ${Constants.currencySign}"
+
+
+        billingDiscountAmount = discountedPriceAmount
+        billingSubTotal = finalsubtotal
         discountedPrice?.text = "${Utils.commaConversion(discountedPriceAmount)} ${Constants.currencySign}"
-        total?.text = "${Utils.commaConversion(totalAmount)} ${Constants.currencySign}"
+
+
+
+        //original AD
+        //total?.text = "${Utils.commaConversion(totalAmount)} ${Constants.currencySign}"
+
+        //New added AD
+        if(totalAmount!! < 2){
+            Notify.alerterRed(activity, getString(R.string.value_must_be_minimum_two))
+            total?.text = "2.0 ${Constants.currencySign}"
+        }else{
+            total?.text = "${Utils.commaConversion(totalAmount)} ${Constants.currencySign}"
+        }
+
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -971,7 +1036,10 @@ class CartInformationFragment : BaseFragment(), View.OnClickListener, ParentToCh
         buyProduct?.discountRedeem = mapPrices?.get("discount_price") as Double
         discountedPriceAmount = discountedPriceAmount?.plus(mapPrices.get("discount_price") as Double)
 
-        total?.text = "${Utils.commaConversion(totalAmount)} ${Constants.currencySign}"
+        //Original AD
+        //total?.text = "${Utils.commaConversion(totalAmount)} ${Constants.currencySign}"
+
+
         totalUserPointsToRedeem -= mapPrices.get("reward_points") as Double
         buyProduct?.points_discount = buyProduct?.points_discount?.plus(mapPrices["reward_points"] as Double)
         totalUserPoints?.text = "${Utils.commaConversion(totalUserPointsToRedeem)} ReLoop Points"
@@ -990,12 +1058,29 @@ class CartInformationFragment : BaseFragment(), View.OnClickListener, ParentToCh
         }
 
         totalAmount = discountedPriceAmount?.let { subtotalAmount?.minus(it) }
+
+        Log.e("TAG","===reedem point===" +discountedPriceAmount)
+        reedempointdiscount = buyProduct?.discountRedeem
+
+        billingDiscountAmount = discountedPriceAmount
+        discountedPrice?.text = "${Utils.commaConversion(discountedPriceAmount)} ${Constants.currencySign}"
+        //getSubTotalPrice()
+
+        val finaltotal = subtotalAmount!!.minus(discountedPriceAmount!!) + finaldeliverdiscount
+        total?.text = "${Utils.commaConversion(finaltotal)} ${Constants.currencySign}"
+        totalAmount = finaltotal
+
         if (totalAmount!! <= 0) {
             totalAmount = 1.0
         }
-        Log.e("TAG","===reedem point===" +discountedPriceAmount)
-        reedempointdiscount = buyProduct?.discountRedeem
-        discountedPrice?.text = "${Utils.commaConversion(discountedPriceAmount)} ${Constants.currencySign}"
-        //getSubTotalPrice()
+
+        //new added AD
+        if(totalAmount!! < 2){
+            Notify.alerterRed(activity, getString(R.string.value_must_be_minimum_two))
+            total?.text = "2.0 ${Constants.currencySign}"
+        }else{
+            total?.text = "${Utils.commaConversion(totalAmount)} ${Constants.currencySign}"
+        }
+        buyProduct?.total = totalAmount
     }
 }

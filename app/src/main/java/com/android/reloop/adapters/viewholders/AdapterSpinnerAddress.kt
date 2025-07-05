@@ -3,6 +3,7 @@ package com.reloop.reloop.adapters.viewholders
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.reloop.reloop.R
 import com.reloop.reloop.app.MainApplication
+import com.reloop.reloop.fragments.AddressInformationFragment
 import com.reloop.reloop.network.serializer.Addresses
 
 class AdapterSpinnerAddress(
@@ -58,10 +60,12 @@ class AdapterSpinnerAddress(
                 null
             )
         }
-        label.text =
-            list?.get(position)?.unit_number + ", " + list?.get(position)?.building_name + ", " + list?.get(
-                position
-            )?.street + ", " + list?.get(position)?.district?.name + ", " + list?.get(position)?.city?.name
+
+        Log.e("TAG","=====district name===" + list?.get(position)?.district?.name)
+        Log.e("TAG","=====city name===" + list?.get(position)?.city?.name)
+
+        label.text = list?.get(position)?.unit_number + ", " + list?.get(position)?.building_name + ", " + list?.get(position)?.street +
+                ", " + list?.get(position)?.district?.name + ", " + list?.get(position)?.city?.name
 
         return label
     }

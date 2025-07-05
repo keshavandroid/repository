@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:clickable="true"
     android:focusable="true"
+    android:id="@+id/container_reward_history_fragment"
     android:background="@drawable/shape_layout_curve_background"
     tools:context=".fragments.RewardsHistoryFragment">
     <LinearLayout

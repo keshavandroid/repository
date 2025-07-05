@@ -42,32 +42,44 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/info_button"
                 >
+
                 <ImageView
                     android:id="@+id/imageView_category_icon"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_30sdp"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/icon_tree"
                     tools:ignore="ContentDescription" />
 
+                <TextView
+                    android:id="@+id/tv_status"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:text="Saving"
+                    android:textColor="#949494"
+                    android:textSize="@dimen/_11sdp" />
 
                 <TextView
                     android:id="@+id/points"
                     style="@style/TSSHPoppinsMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textStyle="bold"
                     android:layout_alignParentTop="true"
+                    android:layout_centerInParent="true"
 
                     android:layout_toEndOf="@+id/imageView_category_icon"
                     android:gravity="center"
                     android:text="1,000"
                     android:textAlignment="gravity"
-                    android:textSize="@dimen/_14sdp" />
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold" />
                 <TextView
                     android:id="@+id/tv_unit"
                     style="@style/TSPoppinsRegular"

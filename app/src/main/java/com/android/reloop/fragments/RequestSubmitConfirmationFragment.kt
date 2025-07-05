@@ -16,17 +16,17 @@ class RequestSubmitConfirmationFragment : BaseFragment() {
             return RequestSubmitConfirmationFragment()
         }
     }
+
     var purchaseID:String?=""
     var idNumber:TextView?=null
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view: View? = inflater.inflate(R.layout.fragment_request_submitted_confirmation, container, false)
         if (RecycleFragment.stepView != null) {
             RecycleFragment.stepView!!.StepNumber(Constants.recycleStep4)
         }
+
         HomeActivity.clearAllFragments(true)
         purchaseID = arguments?.getString(Constants.DataConstants.purchaseID)
         initViews(view)
@@ -40,7 +40,6 @@ class RequestSubmitConfirmationFragment : BaseFragment() {
     }
 
     private fun setListeners() {
-
     }
 
     private fun populateData() {

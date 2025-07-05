@@ -22,14 +22,24 @@ class SubscriptionData {
     @SerializedName("subscription_type")
     var subscription_type: Int? = null
 
+    //OLD
+    /*@SerializedName("status")
+    var status: Int? = null*/
+
+    //NEW
     @SerializedName("status")
-    var status: Int? = null
+    var status: String? = ""
 
     @SerializedName("start_date")
     var start_date: String? = ""
 
     @SerializedName("end_date")
     var end_date: String? = ""
+
+    @SerializedName("yearly_renew")
+    var yearly_renew: String? = ""
+
+
 
     @SerializedName("trips")
     var trips: Int? = 0

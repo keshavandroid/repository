@@ -46,7 +46,7 @@
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_15sdp"
-                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_3sdp"
                     android:background="@drawable/edittextbackgroundsimple"
                     android:elevation="@dimen/_3sdp"
@@ -71,7 +71,7 @@
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_15sdp"
-                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_3sdp"
                     android:background="@drawable/edittextbackgroundsimple"
                     android:elevation="@dimen/_4sdp"
@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_15sdp"
-                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_15sdp"
                     android:background="@drawable/edittextbackgroundsimple"
                     android:elevation="@dimen/_3sdp"
@@ -144,6 +144,44 @@
                     android:textSize="@dimen/_10sdp"
                     app:focusedBackground="@drawable/edittextbackgroundselected"
                     app:unFocusedBackground="@drawable/edittextbackgroundsimple" />
+
+
+                <RelativeLayout
+                    android:background="@drawable/dotted_bg"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <ImageView
+                        android:id="@+id/img_contact_us"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_centerHorizontal="true"
+                        android:contentDescription="@string/selectImage"
+                        android:padding="@dimen/_2sdp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/upload_image" />
+
+                    <TextView
+                        style="@style/TSPoppinsRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/img_contact_us"
+                        android:text="Upload image"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:textSize="@dimen/_11sdp" />
+
+                </RelativeLayout>
+
+
+
+
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -242,35 +280,137 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/back"
-            style="@style/TSPoppinsRegular"
-            android:layout_width="@dimen/_120sdp"
-            android:layout_height="@dimen/_35sdp"
+        <RelativeLayout
+            android:gravity="center"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:background="@drawable/button_shape_hollow"
-            android:text="@string/back"
-            android:textAllCaps="false"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_12sdp"
-            tools:ignore="ButtonStyle" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/submit"
-            style="@style/TSPoppinsRegular"
-            android:layout_width="@dimen/_120sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:background="@drawable/button_shape"
-            android:text="@string/submit"
-            android:textAllCaps="false"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_12sdp" />
+            <!--<Button
+                android:id="@+id/btn_verify"
+                android:textAllCaps="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Verify reCAPTCHA" />-->
+
+            <LinearLayout
+                android:id="@+id/llTop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <com.android.reloop.utils.CaptchaImageView
+                    android:id="@+id/image"
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp" />
+
+                <ImageView
+                    android:id="@+id/regen"
+                    android:layout_gravity="center"
+                    android:layout_width="@dimen/_32sdp"
+                    android:layout_height="@dimen/_32sdp"
+                    android:src="@drawable/ic_refresh" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llBottom"
+                android:layout_below="@+id/llTop"
+                android:gravity="center"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <com.reloop.reloop.customviews.CustomEditText
+                    android:id="@+id/captchaInput"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginVertical="@dimen/_3sdp"
+                    android:background="@drawable/edittextbackgroundsimple"
+                    android:elevation="@dimen/_3sdp"
+                    android:gravity="center|start"
+                    android:hint="Enter captcha code"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textColor="@color/text_color_heading"
+                    android:textColorHint="@color/text_color_heading"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/_10sdp"
+                    app:focusedBackground="@drawable/edittextbackgroundselected"
+                    app:focusedPaddingEnd="@dimen/_10sdp"
+                    app:focusedPaddingStart="@dimen/_20sdp"
+                    app:unFocusedBackground="@drawable/edittextbackgroundsimple"
+                    tools:ignore="Autofill,LabelFor" />
+
+                <Button
+                    android:id="@+id/submitButton"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_22sdp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginVertical="@dimen/_3sdp"
+                    android:background="@drawable/button_shape"
+                    android:text="@string/verify"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/_12sdp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_below="@+id/llBottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/back"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/button_shape_hollow"
+                    android:text="@string/back"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_12sdp"
+                    tools:ignore="ButtonStyle" />
+
+                <Button
+                    android:id="@+id/submit"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/button_shape"
+                    android:text="@string/submit"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/_12sdp" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+
+
     </LinearLayout>
 
     </RelativeLayout>

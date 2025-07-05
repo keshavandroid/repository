@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_15sdp"
+    android:layout_marginTop="@dimen/_15sdp"
+    android:layout_marginEnd="@dimen/_15sdp"
+    android:background="@color/colorWhite"
+    android:clickable="false"
+    android:focusable="false"
+    app:cardCornerRadius="@dimen/_10sdp"
+    app:cardElevation="@dimen/_8sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:id="@+id/cross"
+            android:visibility="gone"
+            android:background="@android:color/transparent"
+            android:src="@drawable/icon_cancel_cross_blue"
+            android:padding="@dimen/_10sdp"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:layout_width="@dimen/_75sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:src="@drawable/reloop_nav"
+            android:visibility="visible"
+            android:id="@+id/imageView_category_icon"
+            android:layout_marginTop="@dimen/_15sdp"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_heading_category"
+            style="@style/TSPoppinsSemiBold"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="You are successfully \n Registered !"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:textSize="@dimen/_13sdp"
+            android:paddingStart="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_5sdp"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="@dimen/_25sdp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="You can now initiate a donation by returning to the home screen to request for a pickup or drop off devices you wish to donate,"
+            android:id="@+id/tv_sub_heading_category"
+            style="@style/TSPoppinsRegular"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:textSize="@dimen/_13sdp"
+            android:paddingHorizontal="@dimen/_15sdp"
+            android:visibility="gone"
+            android:textColor="#B8B8B8"
+            android:layout_marginTop="@dimen/_11sdp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <!--<Button
+                android:id="@+id/btnInitDontaion"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_25sdp"
+                android:background="@drawable/button_shape_green"
+                android:text="Initiate a Donation"
+                android:visibility="visible"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_50sdp"
+                android:paddingHorizontal="@dimen/_25sdp"
+                android:textSize="@dimen/_11sdp"
+                android:backgroundTint="#1B9151"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />-->
+
+            <Button
+                android:id="@+id/btnInitDontaion"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:background="@drawable/button_shape_hollow_white"
+                android:text="@string/close"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimary"
+                tools:ignore="ButtonStyle" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

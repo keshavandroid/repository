@@ -16,6 +16,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.android.reloop.searchablespinner.SearchableSpinner
 import com.google.gson.Gson
 import com.google.gson.internal.LinkedTreeMap
 import com.reloop.reloop.R
@@ -31,7 +32,6 @@ import com.reloop.reloop.utils.Constants
 import com.reloop.reloop.utils.Notify
 import com.reloop.reloop.utils.RequestCodes
 import com.reloop.reloop.utils.Utils
-import com.toptoche.searchablespinnerlibrary.SearchableSpinner
 import kotlinx.android.synthetic.main.fragment_add_address.*
 import kotlinx.android.synthetic.main.fragment_edit_profile.view.*
 import retrofit2.Call
@@ -84,7 +84,12 @@ class AddAddressFragment : BaseFragment(), View.OnClickListener, OnNetworkRespon
     var villa: RadioButton? = null
     var apartment: RadioButton? = null
     var location: CustomEditText? = null
+
+    var etTitle: CustomEditText?=null
+    var title_heading: TextView?=null
+
     var switch: Switch? = null
+    var txtDefaultAddress: TextView? = null
     var headingFloors: TextView? = null
     var floors = ""
     var default_address_layout: RelativeLayout? = null
@@ -124,10 +129,8 @@ class AddAddressFragment : BaseFragment(), View.OnClickListener, OnNetworkRespon
             NetworkCall.make()
                 ?.setCallback(this)
                 ?.setTag(RequestCodes.API.DEPENDENCIES)
-                ?.autoLoading(activity!!)
-                ?.enque(
-                    Network().apis()?.dependencies()
-                )
+                ?.autoLoading(requireActivity())
+                ?.enque(Network().apis()?.dependencies())
                 ?.execute()
         }
         initViews(fragmentView)
@@ -152,9 +155,12 @@ class AddAddressFragment : BaseFragment(), View.OnClickListener, OnNetworkRespon
         warehouse = view?.findViewById(R.id.warehouse)
         shop = view?.findViewById(R.id.shop)
         location = view?.findViewById(R.id.location)
+        etTitle = view?.findViewById(R.id.etTitle)
+        title_heading = view?.findViewById(R.id.title_heading)
         radioGroupHousehold = view?.findViewById(R.id.radioGroup_household)
         radioGroupOrganization = view?.findViewById(R.id.radioGroup_organization)
         switch = view?.findViewById(R.id.switch_)
+        txtDefaultAddress = view?.findViewById(R.id.txtDefaultAddress)
         headingFloors = view?.findViewById(R.id.heading_floors)
         headingNoOfBedrooms = view?.findViewById(R.id.no_of_bedrooms_title)
         default_address_layout = view?.findViewById(R.id.default_address_layout)
@@ -172,46 +178,36 @@ class AddAddressFragment : BaseFragment(), View.OnClickListener, OnNetworkRespon
             Constants.UserType.household -> {
                 default_address_layout?.visibility = View.GONE
                 radioGroupHousehold?.visibility = View.VISIBLE
-                radioGroupOrganization?.visibility = View.GONE
+//                radioGroupOrganization?.visibility = View.GONE //AKSHAY17
+                property_type_heading?.visibility = View.VISIBLE
                 address_header?.visibility = View.GONE
+
+                title_heading?.visibility = View.GONE
+                etTitle!!.visibility = View.GONE
+
             }
             Constants.UserType.organization -> {
                 headingNoOfBedrooms?.visibility = View.GONE
                 no_of_bedrooms?.visibility = View.GONE
                 radioGroupHousehold?.visibility = View.GONE
-                radioGroupOrganization?.visibility = View.VISIBLE
+//                radioGroupOrganization?.visibility = View.VISIBLE //AKSHAY17
+                property_type_heading?.visibility = View.GONE
                 address_header?.visibility = View.VISIBLE
+
+                title_heading?.visibility = View.VISIBLE
+                etTitle!!.visibility = View.VISIBLE
+
             }
         }
-        property_type_heading?.text = Utils.colorMyText(
-            property_type_heading?.text.toString(), 13, 14,
-            Color.RED
-        )
-        cityTextView?.text = Utils.colorMyText(
-            cityTextView?.text.toString(), 4, 5,
-            Color.RED
-        )
-        district_heading?.text = Utils.colorMyText(
-            district_heading?.text.toString(), 8, 9,
-            Color.RED
-        )
-        building_text_heading?.text = Utils.colorMyText(
-            building_text_heading?.text.toString(), 13, 14,
-            Color.RED
-        )
-        unit_no_heading?.text = Utils.colorMyText(
-            unit_no_heading?.text.toString(), 8, 9,
-            Color.RED
-        )
-        location_heading?.text = Utils.colorMyText(
-            location_heading?.text.toString(), 7, 8,
-            Color.RED
-        )
-        street_heading?.text = Utils.colorMyText(
-            street_heading?.text.toString(), 14, 15,
-            Color.RED
-        )
 
+        title_heading?.text = Utils.colorMyText(title_heading?.text.toString(), 19, 20, Color.RED)
+        property_type_heading?.text = Utils.colorMyText(property_type_heading?.text.toString(), 13, 14, Color.RED)
+        cityTextView?.text = Utils.colorMyText(cityTextView?.text.toString(), 4, 5, Color.RED)
+        district_heading?.text = Utils.colorMyText(district_heading?.text.toString(), 8, 9, Color.RED)
+        building_text_heading?.text = Utils.colorMyText(building_text_heading?.text.toString(), 8, 9, Color.RED)
+        unit_no_heading?.text = Utils.colorMyText(unit_no_heading?.text.toString(), 8, 9, Color.RED)
+        location_heading?.text = Utils.colorMyText(location_heading?.text.toString(), 7, 8, Color.RED)
+        street_heading?.text = Utils.colorMyText(street_heading?.text.toString(), 14, 15, Color.RED)
     }
 
     private fun setListeners() {
@@ -252,56 +248,53 @@ class AddAddressFragment : BaseFragment(), View.OnClickListener, OnNetworkRespon
 
             }
 
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
             }
         }
         //-------------------City Spinner---------------------
 
-        val cityAdapter = AdapterSpinnerCustom(
-            R.layout.spinner_item_textview_drawable,
-            dependenciesListing?.cities,
-            activity?.getDrawable(R.drawable.icon_address_location_un)!!, false
-        )
-        citySpinner?.adapter = cityAdapter
-        citySpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
+        if(!dependenciesListing?.cities.isNullOrEmpty() && dependenciesListing?.cities!!.size > 0) {
+            val cityAdapter = AdapterSpinnerCustom(
+                R.layout.spinner_item_textview_drawable,
+                dependenciesListing?.cities,
+                activity?.getDrawable(R.drawable.icon_address_location_un)!!, false
+            )
+            citySpinner?.adapter = cityAdapter
+            citySpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
 
-            }
+                }
 
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                if (dependenciesListing?.districts != null) {
-                    districtFilterList.clear()
-                    for (i in dependenciesListing?.districts!!.indices) {
-                        if (dependenciesListing?.districts!![i].city_id == dependenciesListing?.cities?.get(
-                                position
-                            )?.id
-                        ) {
-                            districtFilterList.add(dependenciesListing?.districts!![i])
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    if (dependenciesListing?.districts != null) {
+                        districtFilterList.clear()
+                        for (i in dependenciesListing?.districts!!.indices) {
+                            if (dependenciesListing?.districts!![i].city_id == dependenciesListing?.cities?.get(
+                                    position
+                                )?.id
+                            ) {
+                                districtFilterList.add(dependenciesListing?.districts!![i])
+                            }
                         }
                     }
-                }
-                districtFilterNames.clear()
-                for (i in districtFilterList.indices) {
-                    districtFilterNames.add(districtFilterList[i].name.toString())
-                }
-                districtAdapter.notifyDataSetChanged(districtFilterNames)
-                if (address?.district_id != null) {
-                    Utils.setSpinnerDistrictBasedOnId(
-                        address?.district_id,
-                        districtFilterList,
-                        districtSpinner
-                    )
+                    districtFilterNames.clear()
+                    for (i in districtFilterList.indices) {
+                        districtFilterNames.add(districtFilterList[i].name.toString())
+                    }
+                    districtAdapter.notifyDataSetChanged(districtFilterNames)
+                    if (address?.district_id != null) {
+                        Utils.setSpinnerDistrictBasedOnId(
+                            address?.district_id,
+                            districtFilterList,
+                            districtSpinner
+                        )
+                    }
                 }
             }
         }
@@ -341,6 +334,13 @@ class AddAddressFragment : BaseFragment(), View.OnClickListener, OnNetworkRespon
             }
             if (!address?.location.isNullOrEmpty())
                 location?.setText("${address?.location}")
+
+
+            //new added
+            if (!address?.title.isNullOrEmpty())
+                etTitle?.setText("${address?.title}")
+
+
             if (!address?.building_name.isNullOrEmpty()) {
                 building?.setText("${address?.building_name}")
                 buildingNameValue = address?.building_name
@@ -374,6 +374,16 @@ class AddAddressFragment : BaseFragment(), View.OnClickListener, OnNetworkRespon
                 }
             }
             switch?.isChecked = address?.default == 1
+
+            if(address?.default == 1){
+                txtDefaultAddress?.setText("Default")
+                switch?.isClickable = false
+            }else{
+                txtDefaultAddress?.setText("Set as default")
+                switch?.isClickable = true
+            }
+
+
 //            switch?.isChecked = !(address?.default == null || address?.default == 0)
         }
         /* radioGroupOrganization?.setOnCheckedChangeListener { group, checkedId ->
@@ -460,10 +470,7 @@ class AddAddressFragment : BaseFragment(), View.OnClickListener, OnNetworkRespon
                         Notify.alerterRed(activity, "Enter " + activity?.getString(R.string.street))
                     }
                     building?.text.toString().isEmpty() -> {
-                        Notify.alerterRed(
-                            activity,
-                            "Enter " + activity?.getString(R.string.building_name)
-                        )
+                        Notify.alerterRed(activity, "Enter " + activity?.getString(R.string.building_name))
                     }
 //                    no_of_bedrooms?.text.toString().isEmpty() -> {
 //                        Notify.alerterRed(
@@ -481,11 +488,11 @@ class AddAddressFragment : BaseFragment(), View.OnClickListener, OnNetworkRespon
                         )
                     }
                     location?.text.toString().isEmpty() -> {
-                        Notify.alerterRed(
-                            activity,
-                            "Enter " + activity?.getString(R.string.location)
-                        )
+                        //Notify.alerterRed(activity, "Enter " + activity?.getString(R.string.location))
+                        Notify.alerterRed(activity, "Please select pin location")
                     }
+
+
                     latitude == 0.0 || latitude == null || longitude == 0.0 || longitude == null -> {
                         if (latitude == 0.0 || latitude == null) {
                             Notify.alerterRed(
@@ -515,12 +522,8 @@ class AddAddressFragment : BaseFragment(), View.OnClickListener, OnNetworkRespon
                             floors = no_of_floors?.text.toString()
                         }
                         postAddresses?.id = address?.id
-                        postAddresses?.city_id =
-                            dependenciesListing?.cities?.get(citySpinner?.selectedItemPosition!!)
-                                ?.id
-                        postAddresses?.district_id =
-                            districtFilterList?.get(districtSpinner?.selectedItemPosition!!)
-                                ?.id
+                        postAddresses?.city_id = dependenciesListing?.cities?.get(citySpinner?.selectedItemPosition!!)?.id
+                        postAddresses?.district_id = districtFilterList?.get(districtSpinner?.selectedItemPosition!!)?.id
                         if (!no_of_bedrooms?.text.toString().isNullOrEmpty())
                             postAddresses?.no_of_bedrooms = no_of_bedrooms?.text.toString().toInt()
                         if (!no_of_occupants?.text.toString().isNullOrEmpty())
@@ -529,6 +532,7 @@ class AddAddressFragment : BaseFragment(), View.OnClickListener, OnNetworkRespon
                         postAddresses?.street = street?.text.toString()
                         postAddresses?.floor = floors
                         postAddresses?.location = location?.text.toString()
+
                         postAddresses?.latitude = latitude
                         postAddresses?.longitude = longitude
                         postAddresses?.unit_number = no_of_unit?.text.toString()
@@ -537,10 +541,8 @@ class AddAddressFragment : BaseFragment(), View.OnClickListener, OnNetworkRespon
                         NetworkCall.make()
                             ?.setCallback(this)
                             ?.setTag(RequestCodes.API.UPDATE_ADDRESS)
-                            ?.autoLoading(activity!!)
-                            ?.enque(
-                                Network().apis()?.updateAddress(postAddresses)
-                            )
+                            ?.autoLoading(requireActivity())
+                            ?.enque(Network().apis()?.updateAddress(postAddresses))
                             ?.execute()
 
                     }
@@ -551,12 +553,13 @@ class AddAddressFragment : BaseFragment(), View.OnClickListener, OnNetworkRespon
                 val citySpinnerPosition = citySpinner?.selectedItemPosition
 
                 when {
-                    radioGroupOrganization?.checkedRadioButtonId == -1 -> {
+
+                    /*radioGroupOrganization?.checkedRadioButtonId == -1 -> {
                         Notify.alerterRed(
                             activity,
                             "Select " + activity?.getString(R.string.property_type)
                         )
-                    }
+                    }*/
                     citySpinnerPosition!! < 0 -> {
                         Notify.alerterRed(activity, "Select " + activity?.getString(R.string.city))
                     }
@@ -589,11 +592,18 @@ class AddAddressFragment : BaseFragment(), View.OnClickListener, OnNetworkRespon
                         )
                     }
                     location?.text.toString().isEmpty() -> {
+                        //Notify.alerterRed(activity, "Enter " + activity?.getString(R.string.location))
+                        Notify.alerterRed(activity, "Please select pin location")
+                    }
+
+                    //new added
+                    etTitle?.text.toString().isEmpty() -> {
                         Notify.alerterRed(
                             activity,
-                            "Enter " + activity?.getString(R.string.location)
+                            "Enter Title"
                         )
                     }
+
                     latitude == 0.0 || latitude == null || longitude == 0.0 || longitude == null -> {
                         if (latitude == 0.0 || latitude == null) {
                             Notify.alerterRed(
@@ -624,13 +634,10 @@ class AddAddressFragment : BaseFragment(), View.OnClickListener, OnNetworkRespon
                             postAddresses?.type = "Shop"
                         }
                         floors = no_of_floors?.text.toString()
-                        postAddresses?.id = address?.id
-                        postAddresses?.city_id =
-                            dependenciesListing?.cities?.get(citySpinner?.selectedItemPosition!!)
-                                ?.id
-                        postAddresses?.district_id =
-                            districtFilterList?.get(districtSpinner?.selectedItemPosition!!)
-                                ?.id
+                        postAddresses?.
+                        id = address?.id
+                        postAddresses?.city_id = dependenciesListing?.cities?.get(citySpinner?.selectedItemPosition!!)?.id
+                        postAddresses?.district_id = districtFilterList?.get(districtSpinner?.selectedItemPosition!!)?.id
 //                        postAddresses?.no_of_bedrooms = no_of_bedrooms?.text.toString().toInt()
                         if (!no_of_occupants?.text.toString().isNullOrEmpty())
                             postAddresses?.no_of_occupants =
@@ -638,6 +645,9 @@ class AddAddressFragment : BaseFragment(), View.OnClickListener, OnNetworkRespon
                         postAddresses?.street = street?.text.toString()
                         postAddresses?.floor = floors
                         postAddresses?.location = location?.text.toString()
+
+                        postAddresses?.title = etTitle?.text.toString() // new added
+
                         postAddresses?.latitude = latitude
                         postAddresses?.longitude = longitude
                         postAddresses?.unit_number = no_of_unit?.text.toString()
@@ -650,12 +660,9 @@ class AddAddressFragment : BaseFragment(), View.OnClickListener, OnNetworkRespon
                         NetworkCall.make()
                             ?.setCallback(this)
                             ?.setTag(RequestCodes.API.UPDATE_ADDRESS)
-                            ?.autoLoading(activity!!)
-                            ?.enque(
-                                Network().apis()?.updateAddress(postAddresses)
-                            )
+                            ?.autoLoading(requireActivity())
+                            ?.enque(Network().apis()?.updateAddress(postAddresses))
                             ?.execute()
-
                     }
                 }
             }

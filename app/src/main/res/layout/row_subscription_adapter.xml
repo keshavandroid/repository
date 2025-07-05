@@ -14,177 +14,216 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="@dimen/_10sdp">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/subscription_title"
-            style="@style/TSPoppinsRegular"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_below="@+id/relNextPayment"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/subscription_status"
-            android:alpha="0.5"
-            android:text="Current Subscription"
-            android:textSize="@dimen/_11sdp" />
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/_10sdp"
+            android:paddingHorizontal="@dimen/_10sdp">
 
-        <TextView
-            android:id="@+id/subscription_status"
-            style="@style/TSPoppinsRegular"
-            android:layout_width="@dimen/_68sdp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/_3sdp"
-            android:background="@drawable/shape_order_history_completed"
-            android:maxLines="1"
-            android:padding="@dimen/_5sdp"
-            android:text="Active"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_8sdp" />
+            <TextView
+                android:id="@+id/subscription_title"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/subscription_status"
+                android:layout_alignBaseline="@+id/subscription_status"
+                android:alpha="0.5"
+                android:text="Current Subscription"
+                android:textSize="@dimen/_11sdp" />
 
-        <ImageView
-            android:id="@+id/subscription_icon"
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_below="@+id/subscription_title"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:src="@drawable/icon_subscription_page_en" />
+            <TextView
+                android:id="@+id/subscription_status"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="@dimen/_68sdp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:background="@drawable/shape_order_history_completed"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="@dimen/_5sdp"
+                android:text="Active"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_8sdp" />
 
-        <TextView
-            android:id="@+id/subscription_amount"
-            style="@style/TSPoppinsSemiBold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/subscription_title"
-            android:layout_alignBaseline="@+id/subscription_icon"
+            <ImageView
+                android:id="@+id/subscription_icon"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_below="@+id/subscription_title"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:src="@drawable/icon_subscription_page_en" />
+
+            <TextView
+                android:id="@+id/subscription_amount"
+                style="@style/TSPoppinsSemiBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subscription_title"
+                android:layout_alignBaseline="@+id/subscription_icon"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_toEndOf="@+id/subscription_icon"
+                android:text="$0.5"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_22sdp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/subscription_id"
+                style="@style/TSPoppinsMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subscription_amount"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_toEndOf="@+id/subscription_icon"
+                android:ellipsize="end"
+                android:textColor="@color/quantum_grey"
+                android:maxLines="3"
+                android:text="Subscription Id"
+                android:textSize="@dimen/_11sdp" />
+
+            <TextView
+                android:id="@+id/subscription_remaining_days"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subscription_id"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_toEndOf="@+id/subscription_icon"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:text="Remaining Request: 04"
+                android:textSize="@dimen/_11sdp" />
+
+
+
+            <TextView
+                android:id="@+id/subscription_date_active"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subscription_status"
+                android:layout_alignBaseline="@+id/subscription_amount"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:alpha="0.8"
+                android:letterSpacing="0"
+
+                android:paddingStart="0dp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:text=""
+                android:textAlignment="gravity"
+                android:gravity="center|start"
+                android:drawableStart="@drawable/ic_right_arrow_triangle"
+                android:drawableTint="#009D15"
+                android:drawablePadding="@dimen/_5sdp"
+                android:textColor="#009D15"
+                android:textSize="@dimen/_8sdp"
+                tools:text="10/17/2021" />
+
+            <TextView
+                android:id="@+id/subscription_date"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subscription_date_active"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:alpha="0.8"
+                android:letterSpacing="0"
+                android:paddingStart="0dp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:text=""
+                android:textAlignment="gravity"
+                android:gravity="center|start"
+                android:drawablePadding="@dimen/_2sdp"
+                android:drawableStart="@drawable/ic_refresh"
+                android:drawableTint="@color/colorPrimary"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_8sdp"
+                tools:text="10/17/2021" />
+
+            <TextView
+                android:id="@+id/expiry_date"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subscription_date"
+                android:layout_alignEnd="@+id/subscription_status"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:alpha="0.8"
+                android:paddingStart="0dp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:text=""
+                android:letterSpacing="0"
+                android:textAlignment="gravity"
+                android:gravity="center|start"
+                android:drawableStart="@drawable/ic_square_expiry"
+                android:drawableTint="@color/lighter_orange"
+                android:drawablePadding="@dimen/_2sdp"
+                android:textColor="@color/lighter_orange"
+                android:textSize="@dimen/_8sdp"
+                android:visibility="visible"
+                tools:text="10/17/2021" />
+
+            <TextView
+                android:id="@+id/unsubscribe"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subscription_date"
+                android:layout_alignEnd="@+id/subscription_status"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:paddingStart="3dp"
+                android:paddingEnd="1dp"
+                android:text="@string/unsubscribe"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_8sdp"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relNextPayment"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_toEndOf="@+id/subscription_icon"
-            android:text="$0.5"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_22sdp"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/subscription_id"
-            style="@style/TSPoppinsRegular"
+            android:background="@color/colorPrimary"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/_4sdp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/subscription_amount"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:layout_toEndOf="@+id/subscription_icon"
-            android:ellipsize="end"
-            android:maxLines="3"
-            android:text="Subscription Id"
-            android:textSize="@dimen/_11sdp" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/subscription_remaining_days"
-            style="@style/TSPoppinsRegular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/subscription_id"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_toEndOf="@+id/subscription_icon"
-            android:ellipsize="end"
-            android:maxLines="3"
-            android:text="Remaining Request: 04"
-            android:textSize="@dimen/_11sdp" />
+            <TextView
+                android:id="@+id/txtYearlyRenew"
+                android:text="Next Payment : 00/00/0000"
+                android:textColor="@color/white"
+                android:paddingHorizontal="@dimen/_5sdp"
+                style="@style/TSPoppinsRegular"
+                android:visibility="gone"
+                android:textSize="@dimen/_8sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/subscription_date_active"
-            style="@style/TSPoppinsRegular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/subscription_status"
-            android:layout_alignBaseline="@+id/subscription_amount"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_4sdp"
-            android:alpha="0.8"
-            android:letterSpacing="0"
+            </TextView>
 
-            android:paddingStart="0dp"
-            android:paddingEnd="@dimen/_5sdp"
-            android:text=""
-            android:textAlignment="gravity"
-            android:gravity="center|start"
-            android:drawableStart="@drawable/ic_right_arrow_triangle"
-            android:drawableTint="#009D15"
-            android:drawablePadding="@dimen/_5sdp"
-            android:textColor="#009D15"
-            android:textSize="@dimen/_8sdp"
-            tools:text="10/17/2021" />
-
-        <TextView
-            android:id="@+id/subscription_date"
-            style="@style/TSPoppinsRegular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/subscription_date_active"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="@dimen/_4sdp"
-            android:alpha="0.8"
-            android:letterSpacing="0"
-            android:paddingStart="0dp"
-            android:paddingEnd="@dimen/_5sdp"
-            android:text=""
-            android:textAlignment="gravity"
-            android:gravity="center|start"
-            android:drawablePadding="@dimen/_2sdp"
-            android:drawableStart="@drawable/ic_refresh"
-            android:drawableTint="@color/colorPrimary"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_8sdp"
-            tools:text="10/17/2021" />
-
-        <TextView
-            android:id="@+id/expiry_date"
-            style="@style/TSPoppinsRegular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/subscription_date"
-            android:layout_alignEnd="@+id/subscription_status"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_4sdp"
-            android:alpha="0.8"
-            android:paddingStart="0dp"
-            android:paddingEnd="@dimen/_5sdp"
-            android:text=""
-            android:letterSpacing="0"
-            android:textAlignment="gravity"
-            android:gravity="center|start"
-            android:drawableStart="@drawable/ic_square_expiry"
-            android:drawableTint="@color/lighter_orange"
-            android:drawablePadding="@dimen/_2sdp"
-            android:textColor="@color/lighter_orange"
-            android:textSize="@dimen/_8sdp"
-            android:visibility="visible"
-            tools:text="10/17/2021" />
-
-        <TextView
-            android:id="@+id/unsubscribe"
-            style="@style/TSPoppinsRegular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/subscription_date"
-            android:layout_alignEnd="@+id/subscription_status"
-            android:layout_marginTop="@dimen/_2sdp"
-            android:paddingStart="3dp"
-            android:paddingEnd="1dp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:text="@string/unsubscribe"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_8sdp"
-            android:visibility="invisible" />
+        </RelativeLayout>
 
     </RelativeLayout>
+
+
 </androidx.cardview.widget.CardView>

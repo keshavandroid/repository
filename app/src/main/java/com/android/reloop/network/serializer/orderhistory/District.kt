@@ -1,8 +1,9 @@
 package com.reloop.reloop.network.serializer.orderhistory
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-class District {
+class District: Serializable {
     @SerializedName("id")
     val id: Int? = 0
 

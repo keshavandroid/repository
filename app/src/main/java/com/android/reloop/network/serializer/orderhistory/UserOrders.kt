@@ -13,8 +13,17 @@ class UserOrders : Serializable {
     @SerializedName("total")
     var total: Double? = 0.0
 
+    @SerializedName("user_subscription_id")
+    var user_subscription_id: String? = ""
+
+
+    /*@SerializedName("status")
+    var status: Int? = 0*/
+
     @SerializedName("status")
-    var status: Int? = 0
+    var status: String? = ""
+
+
 
     @SerializedName("created_at")
     var created_at: String? = ""
@@ -43,11 +52,32 @@ class UserOrders : Serializable {
     @SerializedName("map_location")
     var map_location: String? = ""
 
+    @SerializedName("delivery_date")
+    var delivery_date: String? = ""
+
 
     @SerializedName("refunded_amount")
     var refunded_amount: String? = ""
 
     @SerializedName("delivery_fee")
     var delivery_fee: String? = ""
+
+    @SerializedName("user_comments")
+    var user_comments: String? = ""
+
+
+
+    @SerializedName("first_name")
+    var first_name: String? = ""
+
+    @SerializedName("last_name")
+    var last_name: String? = ""
+
+    @SerializedName("email")
+    var email: String? = ""
+
+    @SerializedName("phone_number")
+    var phone_number: String? = ""
+
 
 }

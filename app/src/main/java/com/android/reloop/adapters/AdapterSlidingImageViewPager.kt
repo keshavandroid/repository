@@ -55,10 +55,7 @@ class AdapterSlidingImageViewPager(
         return view == `object`
     }
 
-    override fun restoreState(
-        state: Parcelable?,
-        loader: ClassLoader?
-    ) {
+    override fun restoreState(state: Parcelable?, loader: ClassLoader?) {
     }
 
     override fun saveState(): Parcelable? {

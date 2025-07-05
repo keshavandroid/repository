@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginEnd="@dimen/_10sdp"
+    android:layout_marginBottom="@dimen/_10sdp"
+    app:cardBackgroundColor="@color/color_order_history_row"
+    app:cardCornerRadius="@dimen/_10sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp">
+
+            <TextView
+                android:id="@+id/cat_name"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:textColor="@color/colorBlack"
+                android:text="Rado Watch"
+                android:textSize="@dimen/_12sdp" />
+
+            <TextView
+                android:id="@+id/weight"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cat_name"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:text="Rado Watch"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_10sdp"  />
+
+            <TextView
+                android:id="@+id/order_location"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/weight"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:textColor="@color/colorBlack"
+                android:text="Location"
+                android:textSize="@dimen/_10sdp" />
+
+
+            <TextView
+                android:id="@+id/order_status"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/cat_name"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:background="@drawable/shape_order_status_in_progress"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:gravity="center"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_8sdp"
+                tools:text="Not Collected" />
+
+
+            <TextView
+                android:id="@+id/details"
+                style="@style/TSPoppinsRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/order_status"
+                android:layout_alignStart="@+id/order_status"
+                android:layout_alignEnd="@+id/order_status"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="1dp"
+                android:text="@string/txt_detail_"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_10sdp"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

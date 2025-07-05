@@ -1,6 +1,7 @@
 package com.reloop.reloop.fragments
 
 
+import CouponVerification
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
@@ -31,7 +32,12 @@ import com.reloop.reloop.utils.Notify
 import com.reloop.reloop.utils.RequestCodes
 import com.reloop.reloop.utils.Utils
 import com.google.gson.Gson
+import com.google.gson.internal.LinkedTreeMap
 import com.google.gson.reflect.TypeToken
+import com.reloop.reloop.app.MainApplication
+import com.reloop.reloop.network.serializer.couponverification.CouponCategory
+import com.reloop.reloop.network.serializer.couponverification.CouponSendData
+import com.reloop.reloop.tinydb.TinyDB
 import retrofit2.Call
 import retrofit2.Response
 import java.lang.reflect.Type
@@ -146,7 +152,7 @@ class ShopDetailFragment : BaseFragment(), RecyclerViewItemClick, View.OnClickLi
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun populateRecyclerViewData() {
+    private fun populateRecyclerViewData(couponVerification: CouponVerification,data:String) {
         /*   if (apiList?.indices != null) {
                for (i in apiList?.indices!!) {
                    apiList?.get(i)?.icon = icon
@@ -154,7 +160,7 @@ class ShopDetailFragment : BaseFragment(), RecyclerViewItemClick, View.OnClickLi
            }*/
         linearLayoutManager = GridLayoutManager(context, Constants.RecyclerViewSpan.twoColumns)
         recyclerView?.layoutManager = linearLayoutManager
-        adapter = AdapterSubscriptionDetail(apiList, this, productType,serviceType, icon, activity)
+        adapter = AdapterSubscriptionDetail(apiList, this, productType,serviceType, icon, activity,couponVerification,data)
         recyclerView?.adapter = adapter
     }
 
@@ -177,26 +183,17 @@ class ShopDetailFragment : BaseFragment(), RecyclerViewItemClick, View.OnClickLi
         } else if (productType == Constants.serviceType) {
             val fragment = ServicePurchasingFragment.newInstance()
             val args = Bundle()
-            args.putInt(
-                Constants.DataConstants.Api.productID,
-                apiList?.get(position)?.id!!
-            )
-            args.putInt(
-                Constants.DataConstants.Api.productType,
-                apiList?.get(position)?.category_id!!
-            )
-            args.putString(
-                Constants.DataConstants.Api.planID,
-                apiList?.get(position)?.stripe_product_id
-            )
-            args.putDouble(
-                Constants.DataConstants.Api.planPrice,
-                apiList?.get(position)?.price!!
-            )
-            args.putInt(
-                Constants.DataConstants.Api.serviceType,
-                serviceType!!
-            )
+            args.putInt(Constants.DataConstants.Api.productID, apiList?.get(position)?.id!!)
+            args.putInt(Constants.DataConstants.Api.productType, apiList?.get(position)?.category_id!!)
+            args.putString(Constants.DataConstants.Api.planID, apiList?.get(position)?.stripe_product_id)
+            args.putDouble(Constants.DataConstants.Api.planPrice, apiList?.get(position)?.price!!)
+            args.putInt(Constants.DataConstants.Api.serviceType, serviceType!!)
+            //NEW ADDED
+            args.putString(Constants.DataConstants.Api.planImage, apiList?.get(position)?.avatarToShow.toString())
+            args.putString(Constants.DataConstants.Api.planTripValue, apiList?.get(position)?.name.toString())
+            args.putString(Constants.DataConstants.Api.planDescription, apiList?.get(position)?.description.toString())
+            args.putInt(Constants.DataConstants.Api.planIcon, icon!!)
+
             fragment.arguments = args
             BaseActivity.replaceFragment(
                 childFragmentManager,
@@ -227,20 +224,105 @@ class ShopDetailFragment : BaseFragment(), RecyclerViewItemClick, View.OnClickLi
         }
     }
 
+    //DISCOUNT
+    private var hhDiscount_ID: String =""
+    private var hhDiscount_PR: String =""
+    private var hhDiscount_CODE: String =""
+
     override fun onSuccess(call: Call<Any?>?, response: Response<Any?>, tag: Any?) {
         when (tag) {
             RequestCodes.API.PRODUCT_LIST -> {
                 val baseResponse = Utils.getBaseResponse(response)
                 val gson = Gson()
-                val listType: Type =
-                    object : TypeToken<List<Category?>?>() {}.type
-                apiList = gson.fromJson(
-                    Utils.jsonConverterArray(baseResponse?.data as? ArrayList<*>),
-                    listType
-                )
-                populateRecyclerViewData()
+                val listType: Type = object : TypeToken<List<Category?>?>() {}.type
+                apiList = gson.fromJson(Utils.jsonConverterArray(baseResponse?.data as? ArrayList<*>), listType)
+
+                val tinyDB: TinyDB?
+                tinyDB = TinyDB(MainApplication.applicationContext())
+                hhDiscount_ID = tinyDB.getString("hhDiscount_ID").toString()
+                hhDiscount_PR = tinyDB.getString("hhDiscount_PR").toString()
+                hhDiscount_CODE = tinyDB.getString("hhDiscount_CODE").toString()
+
+                if (hhDiscount_ID.equals("NULL",ignoreCase = true))
+                {
+                    Log.e("TAG","=====id is null=========")
+                    val couponVerification =  CouponVerification()
+                    populateRecyclerViewData(couponVerification,"null")
+                }
+                else
+                {
+                    if(serviceType ==1 || serviceType == 4)
+                    {
+                        applyCouponCodeForHHDiscount(hhDiscount_CODE)
+                    }
+                    else{
+                        val couponVerification =  CouponVerification()
+                        populateRecyclerViewData(couponVerification,"null")
+                    }
+                }
+
+                //populateRecyclerViewData()
+            }
+
+            RequestCodes.API.COUPON_VERIFICATION -> {
+                val baseResponse = Utils.getBaseResponse(response)
+                val couponVerification = Gson().fromJson(Utils.jsonConverterObject(baseResponse?.data as LinkedTreeMap<*, *>), CouponVerification::class.java)
+                if (couponVerification?.validForCategory == null) {
+                    Notify.alerterRed(activity, getString(R.string.caoupon_not_valid_for_this))
+                    return
+                } else {
+                    if (!couponVerification?.validForCategory?.type.isNullOrEmpty()
+                        && couponVerification?.validForCategory?.id.isNullOrEmpty()) {
+                        val serviceType: Int? =
+                            couponVerification?.validForCategory?.type?.find { it == Constants.serviceType }
+                        val allTypes: Int? = couponVerification?.validForCategory?.type?.find { it == Constants.all }
+                        if (serviceType != null || allTypes != null) {
+
+                            if(hhDiscount_ID != null)
+                            {
+                                //Notify.alerterGreen(activity, "Your organization discount is applied successfully!")
+                            }
+                            else {
+                                //Notify.alerterGreen(activity, baseResponse?.message)
+                            }
+                            populateRecyclerViewData(couponVerification,"")
+                        }
+                    }
+                    else if (!couponVerification?.validForCategory?.id.isNullOrEmpty()
+                        && couponVerification?.validForCategory?.type.isNullOrEmpty()) {
+                        if (couponVerification?.validForCategory?.id?.get(0) == NewBillingInformationFragment.buyPlan?.subscription_type) {
+                            populateRecyclerViewData(couponVerification,"")
+                        }
+                        else {
+                            if (couponVerification?.validForCategory == null) {
+                                //Notify.alerterRed(activity, getString(R.string.caoupon_not_valid_for_this))
+                            }
+                        }
+                    } else {
+                        if (couponVerification?.validForCategory == null) {
+                            //Notify.alerterRed(activity, getString(R.string.caoupon_not_valid_for_this))
+                        }
+                    }
+                }
             }
         }
+    }
+
+    private fun applyCouponCodeForHHDiscount(hhDiscount_CODE: String){
+        val category: ArrayList<CouponCategory>? = ArrayList()
+        val categoryCoupon = CouponCategory()
+        categoryCoupon.id = NewBillingInformationFragment.buyPlan?.subscription_type
+        categoryCoupon.type = Constants.serviceType
+        category?.add(categoryCoupon)
+        val couponVerification = CouponSendData()
+        couponVerification.coupon = hhDiscount_CODE
+        couponVerification.category = category
+        NetworkCall.make()
+            ?.setCallback(this)
+            ?.setTag(RequestCodes.API.COUPON_VERIFICATION)
+            ?.autoLoading(requireActivity())
+            ?.enque(Network().apis()?.couponVerification(couponVerification))
+            ?.execute()
     }
 
     override fun onFailure(call: Call<Any?>?, response: BaseResponse?, tag: Any?) {

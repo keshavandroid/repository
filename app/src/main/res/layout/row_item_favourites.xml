@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:layout_marginStart="@dimen/_3sdp"
+    android:layout_marginEnd="@dimen/_3sdp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/viewLine"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginVertical="@dimen/_10sdp"
+            android:background="@color/quantum_grey"></View>
+
+        <RelativeLayout
+            android:id="@+id/row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_10sdp">
+
+            <RelativeLayout
+                android:id="@+id/rlTop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/radioAddress"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_toLeftOf="@+id/imgDelete"
+                    android:text="Ecyclex International Recycling"
+                    android:textSize="@dimen/_12sdp"
+                    app:buttonTint="@color/drop_off_green" />
+
+                <ImageView
+                    android:id="@+id/imgDelete"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/_3sdp"
+                    android:src="@drawable/icon_delete"
+                    app:tint="@color/quantum_grey"></ImageView>
+
+                <LinearLayout
+                    android:id="@+id/llLoc"
+                    android:layout_below="@+id/radioAddress"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/ic_location_pin_white"
+                        android:padding="@dimen/_2sdp"
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        app:tint="#C5C5C5">
+                    </ImageView>
+
+                    <TextView
+                        android:id="@+id/txtLocationName"
+                        style="@style/TSPoppinsRegular"
+                        android:layout_gravity="center"
+                        android:gravity="left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:textColor="@color/text_color_drop_off"
+                        android:text="Dubai"
+                        android:textAlignment="viewStart"
+                        android:textSize="@dimen/_11sdp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/titleAcceptedMaterial"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/llLoc"
+                    android:layout_marginStart="@dimen/_25sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Accepted Material"
+                    android:textAlignment="center"
+                    android:textColor="@color/text_color_drop_off"
+                    android:textSize="@dimen/_11sdp" />
+
+                <LinearLayout
+                    android:id="@+id/llMaterials"
+                    android:layout_below="@+id/titleAcceptedMaterial"
+                    android:layout_marginStart="@dimen/_25sdp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!--<GridLayout
+                        android:id="@+id/gridLayout"
+                        android:columnCount="3"
+                        android:rowCount="4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:drawablePadding="@dimen/_10sdp"
+                            android:drawableLeft="@drawable/ic_phone_small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Electronics"
+                            android:textColor="@color/quantum_grey"
+                            android:textSize="@dimen/_11sdp" />
+
+                        <TextView
+                            style="@style/TSPoppinsRegular"
+                            android:drawablePadding="@dimen/_10sdp"
+                            android:drawableLeft="@drawable/ic_phone_small"
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_height="wrap_content"
+                            android:text="Electronics"
+                            android:textColor="@color/quantum_grey"
+                            android:textSize="@dimen/_11sdp" />
+
+                    </GridLayout>-->
+
+                    <com.android.reloop.utils.MGridView
+                        android:id="@+id/gridLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:horizontalSpacing="6dp"
+                        android:stretchMode="columnWidth"
+                        android:clickable="false"
+                        android:numColumns="2"
+                        android:verticalSpacing="6dp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtCheckDropOffStation"
+                    style="@style/TSPoppinsMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/llMaterials"
+                    android:layout_marginStart="@dimen/_25sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/str_check_drop_off_station"
+                    android:textAlignment="center"
+                    android:textColor="@color/drop_off_green"
+                    android:textSize="@dimen/_11sdp" />
+
+            </RelativeLayout>
+
+
+
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

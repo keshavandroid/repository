@@ -20,6 +20,7 @@ class ViewHolderOrderHistory(itemView: View, itemClick: RecyclerViewItemClick) :
     var name: TextView? = itemView.findViewById(R.id.name)
     var support: TextView? = itemView.findViewById(R.id.support)
     var address: TextView? = itemView.findViewById(R.id.address)
+    var details: TextView? = itemView.findViewById(R.id.details)
 
 
     init {

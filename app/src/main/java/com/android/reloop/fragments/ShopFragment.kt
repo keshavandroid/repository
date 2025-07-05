@@ -1,7 +1,8 @@
 package com.reloop.reloop.fragments
 
 
-import android.Manifest
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,37 +11,34 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.reloop.fragments.EditProfileFragment
 import com.android.reloop.utils.LogManager
+import com.google.gson.Gson
+import com.google.gson.internal.LinkedTreeMap
+import com.google.gson.reflect.TypeToken
 import com.reloop.reloop.R
 import com.reloop.reloop.activities.BaseActivity.Companion.replaceFragment
+import com.reloop.reloop.activities.HomeActivity
 import com.reloop.reloop.adapters.AdapterShopFragment
+import com.reloop.reloop.app.MainApplication
+import com.reloop.reloop.interfaces.AlertDialogCallback
+import com.reloop.reloop.interfaces.ChildToParent
 import com.reloop.reloop.interfaces.ShopFragmentItemClick
 import com.reloop.reloop.model.ModelShopCategories
 import com.reloop.reloop.network.Network
 import com.reloop.reloop.network.NetworkCall
 import com.reloop.reloop.network.OnNetworkResponse
 import com.reloop.reloop.network.serializer.BaseResponse
+import com.reloop.reloop.network.serializer.collectionrequest.GetPlans
+import com.reloop.reloop.network.serializer.collectionrequest.UserPlans
 import com.reloop.reloop.network.serializer.shop.Category
+import com.reloop.reloop.network.serializer.user.User
 import com.reloop.reloop.utils.Constants
 import com.reloop.reloop.utils.Notify
 import com.reloop.reloop.utils.RequestCodes
 import com.reloop.reloop.utils.Utils
-import com.google.gson.Gson
-import com.google.gson.internal.LinkedTreeMap
-import com.google.gson.reflect.TypeToken
-import com.reloop.reloop.activities.HomeActivity
-import com.reloop.reloop.app.MainApplication
-import com.reloop.reloop.interfaces.AlertDialogCallback
-import com.reloop.reloop.interfaces.ChildToParent
-import com.reloop.reloop.network.serializer.collectionrequest.GetPlans
-import com.reloop.reloop.network.serializer.collectionrequest.UserPlans
-import com.reloop.reloop.network.serializer.user.User
-import kotlinx.android.synthetic.main.activity_signup.*
-import pub.devrel.easypermissions.EasyPermissions
 import retrofit2.Call
 import retrofit2.Response
 import java.lang.reflect.Type
@@ -53,11 +51,13 @@ class ShopFragment : BaseFragment(), OnNetworkResponse, ShopFragmentItemClick ,
     AlertDialogCallback {
 
     companion object {
+        private var from: String = ""
         var TAG = "ShopFragment"
-        fun newInstance(): ShopFragment {
+        fun newInstance(s: String): ShopFragment {
+
+            from = s
             return ShopFragment()
         }
-
     }
 
     private var pos: Int ? = null
@@ -94,7 +94,7 @@ class ShopFragment : BaseFragment(), OnNetworkResponse, ShopFragmentItemClick ,
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         val view: View? = inflater.inflate(R.layout.fragment_shop, container, false)
@@ -108,9 +108,28 @@ class ShopFragment : BaseFragment(), OnNetworkResponse, ShopFragmentItemClick ,
         product_listRecyclerView = view?.findViewById(R.id.product_list)
         tvNoDataFound = view?.findViewById(R.id.tvNoDataFound)
         llRoot = view?.findViewById(R.id.ll_root)
+
+      /*  if (!NetworkCall.inProgress()) {
+            NetworkCall.make()
+                ?.setCallback(this)
+                ?.setTag(RequestCodes.API.GET_PROFILE)
+                //?.autoLoading(requireActivity()) //originally added
+                ?.enque(Network().apis()?.getUserProfile())
+                ?.execute()
+        }*/
     }
 
     private fun populateData() {
+
+       /* if (!NetworkCall.inProgress()) {
+            NetworkCall.make()
+                ?.setCallback(this)
+                ?.setTag(RequestCodes.API.GET_PROFILE)
+                //?.autoLoading(requireActivity()) //originally added
+                ?.enque(Network().apis()?.getUserProfile())
+                ?.execute()
+        }*/
+        //original
         if (!NetworkCall.inProgress()) {
             NetworkCall.make()
                 ?.setCallback(this)
@@ -119,6 +138,7 @@ class ShopFragment : BaseFragment(), OnNetworkResponse, ShopFragmentItemClick ,
                 ?.enque(Network().apis()?.categories())
                 ?.execute()
         }
+
     }
 
     private fun populateRecyclerViewData() {
@@ -151,7 +171,9 @@ class ShopFragment : BaseFragment(), OnNetworkResponse, ShopFragmentItemClick ,
                         } else {
                             listIconsServices.add(R.drawable.icon_recycling_boxes)
                         }
+
                     }
+
                 }
             }
             for (i in apiList?.indices!!) {
@@ -173,6 +195,20 @@ class ShopFragment : BaseFragment(), OnNetworkResponse, ShopFragmentItemClick ,
             llRoot?.visibility = View.GONE
             tvNoDataFound?.visibility = View.VISIBLE
         }
+
+        val gson1 = Gson()
+        val jsonCurProduct = gson1.toJson(apiList)
+        val jsonCurProduct1 = gson1.toJson(dataListServices)
+
+
+        val sharedPref: SharedPreferences = requireContext().getSharedPreferences("subscription", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
+        editor.putString("list", jsonCurProduct)
+        editor.putString("list1", jsonCurProduct1)
+        editor.commit()
+
+
 //            }
         // Set CustomAdapter as the adapter for RecyclerView.
         linearLayoutManager = LinearLayoutManager(activity)
@@ -180,16 +216,54 @@ class ShopFragment : BaseFragment(), OnNetworkResponse, ShopFragmentItemClick ,
         product_listRecyclerView?.layoutManager = LinearLayoutManager(activity)
         recyclerView?.adapter = AdapterShopFragment(dataListServices, this)
         product_listRecyclerView?.adapter = AdapterShopFragment(dataListProducts, this)
+
+        if(from.equals("fromPopup"))
+        {
+            typei= 1
+            pos = 1
+
+            checkUserInfo()
+        }
     }
 
     override fun onSuccess(call: Call<Any?>?, response: Response<Any?>, tag: Any?) {
         when (tag) {
+
+            RequestCodes.API.GET_PROFILE-> {
+                val baseResponse = Utils.getBaseResponse(response)
+                val data = Gson().fromJson(
+                    Utils.jsonConverterObject(baseResponse?.data as? LinkedTreeMap<*, *>),
+                    User::class.java
+                )
+                if (data.user_type == 0 || data.user_type == null) {
+                    data?.user_type = Constants.UserType.household
+                }
+                if (!data.api_token.isNullOrEmpty()) {
+
+                    val userModel = User.retrieveUser()
+                    userModel?.first_name = data.first_name
+                    userModel?.last_name = data.last_name
+                    userModel?.organization?.name =  data.organization?.name
+                    userModel?.addresses = data.addresses
+
+                    userModel?.save(userModel, context,false)
+                }
+
+                if (!NetworkCall.inProgress()) {
+                    NetworkCall.make()
+                        ?.setCallback(this)
+                        ?.autoLoading(requireActivity())
+                        ?.setTag(RequestCodes.API.CATEGORIES)
+                        ?.enque(Network().apis()?.categories())
+                        ?.execute()
+                }
+
+            }
             RequestCodes.API.CATEGORIES -> {
                 val baseResponse = Utils.getBaseResponse(response)
 
                 val gson = Gson()
-                val listType: Type =
-                    object : TypeToken<List<Category?>?>() {}.type
+                val listType: Type = object : TypeToken<List<Category?>?>() {}.type
                 apiList = gson.fromJson(Utils.jsonConverterArray(baseResponse?.data as? ArrayList<*>), listType)
 
                 populateRecyclerViewData()
@@ -225,8 +299,9 @@ class ShopFragment : BaseFragment(), OnNetworkResponse, ShopFragmentItemClick ,
             val userContainsFreeTrips: UserPlans? =
                 getPlans?.userPlans?.find { it.subscription_type == Constants.RecycleCategoryType.FREE_SERVICE }
             if (userContainsTripsMonthly != null || userContainsTripsBulky != null || userContainsTripsSingleCollection != null || userContainsFreeTrips != null) {
+                Log.e("TAG", "===handleUserPlansScenario====")
                 if (MainApplication.userType() == Constants.UserType.household) {
-
+                    Log.e("TAG", "if ===household====")
                     Log.e("TAG", "===street====" + User.retrieveUser()?.addresses?.get(0)?.street)
                     if (User.retrieveUser()?.first_name.isNullOrEmpty()
                         || User.retrieveUser()?.last_name.isNullOrEmpty()
@@ -234,47 +309,124 @@ class ShopFragment : BaseFragment(), OnNetworkResponse, ShopFragmentItemClick ,
                         || User.retrieveUser()?.addresses?.get(0)?.street.isNullOrEmpty()
                         || User.retrieveUser()?.addresses?.get(0)?.building_name.isNullOrEmpty()
                         || User.retrieveUser()?.phone_number.isNullOrEmpty()
-                        || User.retrieveUser()?.gender.isNullOrEmpty()
-                        || User.retrieveUser()?.birth_date.isNullOrEmpty()
+//                        || User.retrieveUser()?.gender.isNullOrEmpty()
+//                        || User.retrieveUser()?.birth_date.isNullOrEmpty() //Earlier mandatory, now optional
                     ) {
+
                         Notify.hyperlinkAlert(
                             activity,
                             getString(R.string.update_profile_msg),
                             getString(R.string.update_profile_heading),
                             this, 2
                         )
-                        replaceFragment(
-                            childFragmentManager,
-                            Constants.Containers.shopFragmentContainer,
-                            EditProfileFragment.newInstance(),
-                            Constants.TAGS.EditProfileFragment
-                        )
-                        //activity?.onBackPressed()
-                    } else {
-                        goToNextScreen()
+                        /* replaceFragment(
+                             childFragmentManager,
+                             Constants.Containers.shopFragmentContainer,
+                             EditProfileFragment.newInstance(),
+                             Constants.TAGS.EditProfileFragment
+                         )*/
                     }
-                } else {
+                    else {
+                        if (User.retrieveUser()?.addresses?.isNotEmpty()!! && User.retrieveUser()?.addresses!!.size > 0)
+                        {
+                            val default = User.retrieveUser()?.addresses?.get(0)?.default
+                            if (default == 1) {
+                                if (!User.retrieveUser()?.addresses?.get(0)?.street.isNullOrEmpty()
+                                    || !User.retrieveUser()?.addresses?.get(0)?.building_name.isNullOrEmpty()
+                                ) {
+                                    goToNextScreen()
+                                }
+                                else{
+                                    Notify.hyperlinkAlert(activity, getString(R.string.update_profile_msg), getString(R.string.update_profile_heading), this, 2)
+                                }
+
+                            }
+                            else {
+                                Notify.hyperlinkAlert(activity, getString(R.string.update_profile_msg), getString(R.string.update_profile_heading), this, 2)
+
+                                /* replaceFragment(
+                                     childFragmentManager,
+                                     Constants.Containers.shopFragmentContainer,
+                                     EditProfileFragment.newInstance(),
+                                     Constants.TAGS.EditProfileFragment
+                                 )*/
+                            }
+                            //activity?.onBackPressed()
+                        }
+                        else{
+                            Notify.hyperlinkAlert(activity, getString(R.string.update_profile_msg), getString(R.string.update_profile_heading), this, 2)
+                        }
+                    }
+                }
+                else {
+                    Log.e("TAG", "else ===if orgnaiztion====" + User.retrieveUser()?.organization?.name)
+                    Log.e("TAG", "else ===if orgnaiztion====" + User.retrieveUser()?.addresses)
+                    Log.e("TAG", "else ===if orgnaiztion====" + User.retrieveUser()?.addresses?.get(0)?.street)
+                    Log.e("TAG", "else ===if orgnaiztion====" + User.retrieveUser()?.addresses?.get(0)?.building_name)
+                    Log.e("TAG", "else ===if orgnaiztion====" + User.retrieveUser()?.phone_number)
                     if (User.retrieveUser()?.organization?.name.isNullOrEmpty()
                         || User.retrieveUser()?.addresses.isNullOrEmpty()
                         || User.retrieveUser()?.addresses?.get(0)?.street.isNullOrEmpty()
                         || User.retrieveUser()?.addresses?.get(0)?.building_name.isNullOrEmpty()
-                        || User.retrieveUser()?.phone_number.isNullOrEmpty()
-                    ) {
+                        || User.retrieveUser()?.phone_number.isNullOrEmpty()) {
+
+                        Log.e("TAG", "else ===else orgnaiztion====")
+                        //Perform Function
                         Notify.hyperlinkAlert(activity, getString(R.string.update_profile_msg), getString(R.string.update_profile_heading), this, 2)
                         // activity?.onBackPressed()
-                        replaceFragment(
+                        /*replaceFragment(
                             childFragmentManager,
                             Constants.Containers.shopFragmentContainer,
                             EditProfileFragment.newInstance(),
                             Constants.TAGS.EditProfileFragment
-                        )
-                    } else {
-                        //Perform Function
-                        goToNextScreen()
+                        )*/
+
+                    }
+                    else {
+                        Log.e("TAG", "else if===orgnaiztion====" + User.retrieveUser()?.addresses!!.size)
+                        if (User.retrieveUser()?.addresses?.isNotEmpty()!! && User.retrieveUser()?.addresses!!.size > 0) {
+                            val default = User.retrieveUser()?.addresses?.get(0)?.default
+                            Log.e("TAG", "else if if===orgnaiztion====" + default)
+                            if (default == 1) {
+                                Log.e("TAG", "===orgnaiztion default 1====")
+                                if (!User.retrieveUser()?.addresses?.get(0)?.street.isNullOrEmpty()
+                                    || !User.retrieveUser()?.addresses?.get(0)?.building_name.isNullOrEmpty()) {
+                                    goToNextScreen()
+                                }
+                                else{
+                                    Log.e("TAG", "===orgnaiztion default 0====")
+                                    Notify.hyperlinkAlert(activity, getString(R.string.update_profile_msg), getString(R.string.update_profile_heading), this, 2)
+                                }
+                            }
+                            else {
+                                Log.e("TAG", "else if else===orgnaiztion====")
+
+                                Notify.hyperlinkAlert(activity, getString(R.string.update_profile_msg), getString(R.string.update_profile_heading), this, 2)
+                                // activity?.onBackPressed()
+                                /*replaceFragment(
+                                    childFragmentManager,
+                                    Constants.Containers.shopFragmentContainer,
+                                    EditProfileFragment.newInstance(),
+                                    Constants.TAGS.EditProfileFragment
+                                )*/
+                            }
+                        }
+                        else {
+                            Log.e("TAG", "===orgnaiztion else else====")
+                            Notify.hyperlinkAlert(activity, getString(R.string.update_profile_msg), getString(R.string.update_profile_heading), this, 2)
+                            // activity?.onBackPressed()
+                            /*replaceFragment(
+                                childFragmentManager,
+                                Constants.Containers.shopFragmentContainer,
+                                EditProfileFragment.newInstance(),
+                                Constants.TAGS.EditProfileFragment
+                            )*/
+                        }
                     }
                 }
 
-            } else {
+            }
+            else {
                 //Notify.hyperlinkAlert(activity, "Please Subscribe through the ReLoop Store", "Go to Reloop Store", this, 1)
 
                 goToNextScreen()
@@ -353,13 +505,48 @@ class ShopFragment : BaseFragment(), OnNetworkResponse, ShopFragmentItemClick ,
     }
 
     override fun itemPosition(position: Int, type: Int?) {
-
+       Log.e(TAG,"===itemPosition===" + position + "==="+type)
         typei= type
         pos = position
 
         //check profile updated or not
         LogManager.getLogManager().writeLog("Event Home Page : Recycle Button Pressed")
+
         checkUserInfo()
+
+       /* if (MainApplication.userType() == Constants.UserType.household) {
+            if (User.retrieveUser()?.first_name.isNullOrEmpty()
+                || User.retrieveUser()?.last_name.isNullOrEmpty()
+                || User.retrieveUser()?.addresses.isNullOrEmpty()
+                || User.retrieveUser()?.addresses?.get(0)?.street.isNullOrEmpty()
+                || User.retrieveUser()?.addresses?.get(0)?.building_name.isNullOrEmpty()
+                || User.retrieveUser()?.phone_number.isNullOrEmpty()
+//                || User.retrieveUser()?.gender.isNullOrEmpty()
+//                        || User.retrieveUser()?.birth_date.isNullOrEmpty() //Earlier mandatory, now optional
+            ) {
+                Notify.hyperlinkAlert(activity, getString(R.string.update_profile_msg), getString(R.string.update_profile_heading), this, 2)
+            } else {
+                checkUserInfo()
+            }
+        }
+        else{
+
+            if (User.retrieveUser()?.organization?.name.isNullOrEmpty()
+                || User.retrieveUser()?.addresses.isNullOrEmpty()
+                || User.retrieveUser()?.addresses?.get(0)?.street.isNullOrEmpty()
+                || User.retrieveUser()?.addresses?.get(0)?.building_name.isNullOrEmpty()
+                || User.retrieveUser()?.phone_number.isNullOrEmpty()
+            ) {
+                Notify.hyperlinkAlert(
+                    activity,
+                    getString(R.string.update_profile_msg),
+                    getString(R.string.update_profile_heading),
+                    this, 2
+                )
+            }else{
+                checkUserInfo()
+            }
+        }*/
 
      /*   if(EasyPermissions.hasPermissions(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE))
         {

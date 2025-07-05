@@ -61,6 +61,50 @@ object RequestCodes {
         const val LOG_FILE_UPLOAD = 52
         const val DELETE_ACCOUNT = 53
         const val FIND_ADDRESS = 54
+
+        const val BUY_SERVICE = 55
+        const val PAYMENT_METHOD_LISTING = 56
+        const val UPDATE_PAYMENT_METHOD = 57
+        const val DELETE_PAYMENT_METHOD = 58
+        const val ADD_NEW_CARD = 59
+
+        const val DROP_OFF_PINS = 60
+        const val PIE_CHART = 61
+
+        const val CITIES_MATERIALS = 62
+        const val ADD_TO_FAV_DROP_OFF = 63
+        const val GET_FAV_DROP_OFF = 64
+        const val DELETE_FAV_DROP_OFF = 65
+        const val DROP_OFF_REQUEST = 66
+
+        const val GET_PLAN_STATUS = 67
+
+        //GOOGLE PAY PAYMENT INTENT STRIPE
+        const val GET_PAYMENT_INTENT = 68
+
+        //EDIT COLLECTION
+        const val GET_EDIT_ORDER = 69
+        const val EDIT_COLLECTION_REQUEST = 70
+
+        const val GET_PAYMENT_INTENT_STRIPE = 71
+
+
+            const val GET_SAVED_CARDS = 72
+        const val DELETE_CARD = 73
+
+        const val MONTHLY_SERVICE_PAYMENT_INTENT = 74
+
+        const val ADD_PAYMENT_METHOD = 75
+
+        const val USER_PROFILE_DEPENDENCIES = 76
+
+        const val GET_CART = 77
+
+        const val COLLECTION_BIN_DETAILS = 78
+
+        const val UPDATE_PAYMENT_INTEND = 79
+
+
     }
 
 }

@@ -25,12 +25,14 @@ class Network() {
         httpClient.writeTimeout(2, TimeUnit.MINUTES)
         httpClient.addInterceptor { chain: Interceptor.Chain ->
             if (User.retrieveUser() != null && User.retrieveUser()?.api_token?.isNotEmpty()!!) {
+
                 val original = chain.request()
                 val request = original.newBuilder()
-                    .header("Authorization", "Bearer ${User.retrieveUser()?.api_token}")
-                    //.header("Authorization", "Bearer KNjGIN6MhBXuD0EUWK75oN2Kag7otBdCPvW0JqjDzfzQsl3atU1661773430")
 
-                    .method(original.method, original.body).build()
+                .header("Authorization", "Bearer ${User.retrieveUser()?.api_token}")
+
+                //.header("Authorization", "Bearer 7|PpUbgXUAKxqvn5ddbcFmRfitEDEPxg801btwVupi9d3a56c3")
+                .method(original.method, original.body).build()
                 return@addInterceptor chain.proceed(request)
             } else {
                 val request = chain.request().newBuilder().build()
@@ -54,13 +56,23 @@ class Network() {
                     longLog(message)
                 }
             })
+
+        //AKSHAY AD PRINT WHOLE RESPONSE BODY ==============================
+        //OLD
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        //NEW
+//        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.NONE
+        //============================================================
+
+
         return httpLoggingInterceptor
     }
 
     fun apis(): ApiServices? {
         return getApiServices()
     }
+
 
     fun getApiServices(): ApiServices? {
         return services

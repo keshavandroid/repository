@@ -93,14 +93,10 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener, OnNetworkRes
                                 ?.setCallback(this)
                                 ?.setTag(RequestCodes.API.RESET_PASSWORD)
                                 ?.autoLoading(this)
-                                ?.enque(
-                                    Network().apis()?.resetPassword(
-                                        token,
+                                ?.enque(Network().apis()?.resetPassword(token,
                                         new_password?.text.toString(),
-                                        confirm_new_password?.text.toString()
-                                    )
-                                )
-                                ?.execute()
+                                        confirm_new_password?.text.toString())
+                                )?.execute()
                             change_password?.isClickable = false
                         }
                     }
@@ -138,6 +134,7 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener, OnNetworkRes
                     }
                 }
         }*/
+
     override fun onSuccess(call: Call<Any?>?, response: Response<Any?>, tag: Any?) {
         when (tag) {
             RequestCodes.API.RESET_PASSWORD -> {

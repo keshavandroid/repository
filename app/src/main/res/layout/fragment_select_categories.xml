@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
+        tools:listitem="@layout/row_product_list_three_column"
         android:layout_marginStart="@dimen/_10sdp"
         android:nestedScrollingEnabled="false" />
 

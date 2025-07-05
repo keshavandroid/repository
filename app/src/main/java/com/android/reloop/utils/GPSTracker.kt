@@ -154,7 +154,7 @@ class GPSTracker(private val mContext: Context) : Service(),
     </Address> */
     fun getGeocoderAddress(context: Context?): List<Address>? {
         if (location != null) {
-            val geocoder = Geocoder(context, Locale.ENGLISH)
+            val geocoder = Geocoder(context!!, Locale.ENGLISH)
             try {
                 return geocoder.getFromLocation(latitude, longitude, geocoderMaxResults)
             } catch (e: IOException) { //e.printStackTrace();

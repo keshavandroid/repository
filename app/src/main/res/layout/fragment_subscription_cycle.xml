@@ -50,7 +50,8 @@
                         style="@style/TSPoppinsMedium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
+                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:lines="2"
                         android:text="@string/cart_information"
                         android:textAlignment="center"
@@ -165,58 +166,91 @@
             android:id="@+id/container_subscription_cycle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/buttons"
+            android:layout_above="@+id/rlBtns"
             android:layout_below="@+id/stepView"
             tools:ignore="NestedWeights">
 
         </FrameLayout>
 
-        <LinearLayout
-            android:id="@+id/buttons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <RelativeLayout
+            android:id="@+id/rlBtns"
             android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:paddingTop="@dimen/_5sdp"
-            android:paddingBottom="@dimen/_5sdp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/back"
-                style="@style/TSPoppinsRegular"
-                android:layout_width="@dimen/_120sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:background="@drawable/button_shape_hollow"
-                android:text="@string/back"
-                android:textAllCaps="false"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_12sdp"
-                tools:ignore="ButtonStyle" />
+         <!--   <com.google.android.gms.wallet.button.PayButton
+                android:id="@+id/googlePayButton"
+                android:layout_alignParentTop="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
 
-            <Button
-                android:id="@+id/next"
-                style="@style/TSPoppinsRegular"
-                android:layout_width="@dimen/_120sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:background="@drawable/button_shape"
-                android:text="@string/next"
-                android:textAllCaps="false"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/_12sdp" />
+            </com.google.android.gms.wallet.button.PayButton>-->
 
-            <Button
-                android:id="@+id/create"
-                style="@style/TSPoppinsRegular"
-                android:layout_width="@dimen/_180sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:background="@drawable/button_shape"
-                android:text="@string/track_order"
-                android:textAllCaps="false"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/_12sdp"
-                android:visibility="gone" />
-        </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp">
+
+                <Button
+                    android:id="@+id/back"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:background="@drawable/button_shape_hollow"
+                    android:text="@string/back"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_12sdp"
+                    tools:ignore="ButtonStyle" />
+
+                <Button
+                    android:id="@+id/next"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:background="@drawable/button_shape"
+                    android:text="@string/next"
+                    android:visibility="visible"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/_12sdp" />
+
+
+                <Button
+                    android:id="@+id/stripePayButton"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_shape"
+                    android:text="PAY"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:visibility="gone"/>
+
+                <Button
+                    android:id="@+id/create"
+                    style="@style/TSPoppinsRegular"
+                    android:layout_width="@dimen/_180sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:background="@drawable/button_shape"
+                    android:text="@string/track_order"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/_12sdp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
 

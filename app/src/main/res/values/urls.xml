@@ -11,9 +11,13 @@
     <string name="staging_reloop_deepLink" translatable="false">http://reloop.teamtechverx.com/api/</string>
 
     <!--Reloop Server Links New Staging-->
-    <string name="staging_reloop_new" translatable="false">https://staging.reloopapp.com/api/</string>
+<!--    <string name="staging_reloop_new" translatable="false">https://staging.reloopapp.com/api/</string>
     <string name="staging_reloop_image_new" translatable="false">https://staging.reloopapp.com/api/</string>
-    <string name="staging_reloop_deepLink_new" translatable="false">https://staging.reloopapp.com/api/</string>
+    <string name="staging_reloop_deepLink_new" translatable="false">https://staging.reloopapp.com/api/</string>-->
+
+    <string name="staging_reloop_new" translatable="false">https://dev.reloopapp.com/api/</string>
+    <string name="staging_reloop_image_new" translatable="false">https://dev.reloopapp.com/api/</string>
+    <string name="staging_reloop_deepLink_new" translatable="false">https://dev.reloopapp.com/api/</string>
 
 
     <!--Reloop Server Links Development-->
